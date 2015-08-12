@@ -1,0 +1,14 @@
+{
+  "name": "platformKeyAgent",
+  "version": "0.0.1",
+  "description": "Provides an SSH agent interface using the platformKey API",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "js/agent.js"
+    ]
+  },
+  "permissions": [
+    "platformKeys"
+  ]
+}
