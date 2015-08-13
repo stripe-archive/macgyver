@@ -9,7 +9,7 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 )
 
-var ErrInvalidMsg = errors.New("Invalid message frame")
+var ErrInvalidMsg = errors.New("invalid message frame")
 
 type AgentPort struct {
 	p         *js.Object
