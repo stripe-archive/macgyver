@@ -35048,7 +35048,7 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 	return $pkg;
 })();
 $packages["main"] = (function() {
-	var $pkg = {}, $init, bytes, rand, x509, asn1, binary, errors, fmt, js, ssh, agent, io, log, big, strings, PKHashAlgorithm, PKKeyAlgorithm, PKMatch, PlatformKeysAgent, AgentPort, PKSigner, ptrType, sliceType, sliceType$1, ptrType$1, ptrType$2, ptrType$3, sliceType$2, ptrType$4, chanType, funcType, ptrType$5, sliceType$3, sliceType$4, chanType$1, sliceType$5, funcType$1, ptrType$6, ptrType$7, funcType$2, funcType$3, sliceType$6, funcType$4, chanType$2, chanType$3, funcType$5, ptrType$8, structType, ptrType$9, ptrType$10, ptrType$11, NewPlatformKeysAgent, algorithm, NewAgentPort, main, NewPKSigner;
+	var $pkg = {}, $init, bytes, rand, x509, asn1, binary, errors, fmt, js, ssh, agent, io, log, big, strings, PlatformKeysAgent, AgentPort, PKHashAlgorithm, PKKeyAlgorithm, PKMatch, PlatformKeys, pkKeyPair, PKSigner, ptrType, ptrType$1, sliceType, sliceType$1, ptrType$2, ptrType$3, ptrType$4, sliceType$2, sliceType$3, ptrType$5, sliceType$4, ptrType$6, ptrType$7, funcType, funcType$1, sliceType$5, ptrType$8, funcType$2, sliceType$6, chanType, funcType$3, chanType$1, funcType$4, chanType$2, chanType$3, funcType$5, ptrType$9, structType, ptrType$10, ptrType$11, ptrType$12, NewPlatformKeysAgent, algorithm, NewAgentPort, main, NewPKSigner;
 	bytes = $packages["bytes"];
 	rand = $packages["crypto/rand"];
 	x509 = $packages["crypto/x509"];
@@ -35063,44 +35063,10 @@ $packages["main"] = (function() {
 	log = $packages["log"];
 	big = $packages["math/big"];
 	strings = $packages["strings"];
-	PKHashAlgorithm = $pkg.PKHashAlgorithm = $newType(0, $kindStruct, "main.PKHashAlgorithm", "PKHashAlgorithm", "main", function(Object_, Name_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.Object = null;
-			this.Name = "";
-			return;
-		}
-		this.Object = Object_;
-		this.Name = Name_;
-	});
-	PKKeyAlgorithm = $pkg.PKKeyAlgorithm = $newType(0, $kindStruct, "main.PKKeyAlgorithm", "PKKeyAlgorithm", "main", function(Object_, Name_, Hash_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.Object = null;
-			this.Name = "";
-			this.Hash = ptrType$2.nil;
-			return;
-		}
-		this.Object = Object_;
-		this.Name = Name_;
-		this.Hash = Hash_;
-	});
-	PKMatch = $pkg.PKMatch = $newType(0, $kindStruct, "main.PKMatch", "PKMatch", "main", function(Object_, Certificate_, KeyAlgorithm_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.Object = null;
-			this.Certificate = sliceType$1.nil;
-			this.KeyAlgorithm = ptrType$3.nil;
-			return;
-		}
-		this.Object = Object_;
-		this.Certificate = Certificate_;
-		this.KeyAlgorithm = KeyAlgorithm_;
-	});
 	PlatformKeysAgent = $pkg.PlatformKeysAgent = $newType(0, $kindStruct, "main.PlatformKeysAgent", "PlatformKeysAgent", "main", function(pk_) {
 		this.$val = this;
 		if (arguments.length === 0) {
-			this.pk = null;
+			this.pk = ptrType.nil;
 			return;
 		}
 		this.pk = pk_;
@@ -35121,12 +35087,64 @@ $packages["main"] = (function() {
 		this.outReader = outReader_;
 		this.outWriter = outWriter_;
 	});
-	PKSigner = $pkg.PKSigner = $newType(0, $kindStruct, "main.PKSigner", "PKSigner", "main", function(pk_, publicKey_, algo_, privateKey_) {
+	PKHashAlgorithm = $pkg.PKHashAlgorithm = $newType(0, $kindStruct, "main.PKHashAlgorithm", "PKHashAlgorithm", "main", function(Object_, Name_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Object = null;
+			this.Name = "";
+			return;
+		}
+		this.Object = Object_;
+		this.Name = Name_;
+	});
+	PKKeyAlgorithm = $pkg.PKKeyAlgorithm = $newType(0, $kindStruct, "main.PKKeyAlgorithm", "PKKeyAlgorithm", "main", function(Object_, Name_, Hash_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Object = null;
+			this.Name = "";
+			this.Hash = ptrType$3.nil;
+			return;
+		}
+		this.Object = Object_;
+		this.Name = Name_;
+		this.Hash = Hash_;
+	});
+	PKMatch = $pkg.PKMatch = $newType(0, $kindStruct, "main.PKMatch", "PKMatch", "main", function(Object_, Certificate_, KeyAlgorithm_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Object = null;
+			this.Certificate = sliceType$1.nil;
+			this.KeyAlgorithm = ptrType$4.nil;
+			return;
+		}
+		this.Object = Object_;
+		this.Certificate = Certificate_;
+		this.KeyAlgorithm = KeyAlgorithm_;
+	});
+	PlatformKeys = $pkg.PlatformKeys = $newType(0, $kindStruct, "main.PlatformKeys", "PlatformKeys", "main", function(pk_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.pk = null;
+			return;
+		}
+		this.pk = pk_;
+	});
+	pkKeyPair = $pkg.pkKeyPair = $newType(0, $kindStruct, "main.pkKeyPair", "pkKeyPair", "main", function(pubkey_, privkey_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.pubkey = null;
+			this.privkey = null;
+			return;
+		}
+		this.pubkey = pubkey_;
+		this.privkey = privkey_;
+	});
+	PKSigner = $pkg.PKSigner = $newType(0, $kindStruct, "main.PKSigner", "PKSigner", "main", function(pk_, publicKey_, algo_, privateKey_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.pk = ptrType.nil;
 			this.publicKey = $ifaceNil;
-			this.algo = ptrType$3.nil;
+			this.algo = ptrType$4.nil;
 			this.privateKey = null;
 			return;
 		}
@@ -35135,40 +35153,41 @@ $packages["main"] = (function() {
 		this.algo = algo_;
 		this.privateKey = privateKey_;
 	});
-	ptrType = $ptrType(agent.Key);
-	sliceType = $sliceType(ptrType);
+	ptrType = $ptrType(PlatformKeys);
+	ptrType$1 = $ptrType(agent.Key);
+	sliceType = $sliceType(ptrType$1);
 	sliceType$1 = $sliceType($Uint8);
-	ptrType$1 = $ptrType(ssh.Signature);
-	ptrType$2 = $ptrType(PKHashAlgorithm);
-	ptrType$3 = $ptrType(PKKeyAlgorithm);
+	ptrType$2 = $ptrType(ssh.Signature);
+	ptrType$3 = $ptrType(PKHashAlgorithm);
+	ptrType$4 = $ptrType(PKKeyAlgorithm);
 	sliceType$2 = $sliceType(ssh.Signer);
-	ptrType$4 = $ptrType(js.Object);
-	chanType = $chanType(ptrType$4, false, false);
-	funcType = $funcType([ptrType$4, ptrType$4], [], false);
+	sliceType$3 = $sliceType($String);
 	ptrType$5 = $ptrType(x509.Certificate);
-	sliceType$3 = $sliceType(ptrType$5);
-	sliceType$4 = $sliceType(PKMatch);
-	chanType$1 = $chanType(sliceType$4, false, false);
-	sliceType$5 = $sliceType($String);
-	funcType$1 = $funcType([sliceType$4], [], false);
+	sliceType$4 = $sliceType(ptrType$5);
 	ptrType$6 = $ptrType(io.PipeReader);
 	ptrType$7 = $ptrType(io.PipeWriter);
-	funcType$2 = $funcType([], [], false);
-	funcType$3 = $funcType([js.M], [], false);
-	sliceType$6 = $sliceType($emptyInterface);
-	funcType$4 = $funcType([ptrType$4], [], false);
+	funcType = $funcType([], [], false);
+	funcType$1 = $funcType([js.M], [], false);
+	sliceType$5 = $sliceType($emptyInterface);
+	ptrType$8 = $ptrType(js.Object);
+	funcType$2 = $funcType([ptrType$8], [], false);
+	sliceType$6 = $sliceType(PKMatch);
+	chanType = $chanType(sliceType$6, false, false);
+	funcType$3 = $funcType([sliceType$6], [], false);
+	chanType$1 = $chanType(pkKeyPair, false, false);
+	funcType$4 = $funcType([ptrType$8, ptrType$8], [], false);
 	chanType$2 = $chanType($error, false, false);
 	chanType$3 = $chanType(sliceType$1, false, false);
 	funcType$5 = $funcType([$emptyInterface], [], false);
-	ptrType$8 = $ptrType(big.Int);
-	structType = $structType([{prop: "R", name: "R", pkg: "", typ: ptrType$8, tag: ""}, {prop: "S", name: "S", pkg: "", typ: ptrType$8, tag: ""}]);
-	ptrType$9 = $ptrType(PlatformKeysAgent);
-	ptrType$10 = $ptrType(AgentPort);
-	ptrType$11 = $ptrType(PKSigner);
+	ptrType$9 = $ptrType(big.Int);
+	structType = $structType([{prop: "R", name: "R", pkg: "", typ: ptrType$9, tag: ""}, {prop: "S", name: "S", pkg: "", typ: ptrType$9, tag: ""}]);
+	ptrType$10 = $ptrType(PlatformKeysAgent);
+	ptrType$11 = $ptrType(AgentPort);
+	ptrType$12 = $ptrType(PKSigner);
 	NewPlatformKeysAgent = function() {
 		var $ptr, pk;
 		pk = $global.chrome.platformKeys;
-		return new PlatformKeysAgent.ptr(pk);
+		return new PlatformKeysAgent.ptr(new PlatformKeys.ptr(pk));
 	};
 	$pkg.NewPlatformKeysAgent = NewPlatformKeysAgent;
 	PlatformKeysAgent.ptr.prototype.List = function() {
@@ -35209,7 +35228,7 @@ $packages["main"] = (function() {
 		_r$1 = a.Signers(); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		_tuple = _r$1; signers = _tuple[0]; err = _tuple[1];
 		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			return [ptrType$1.nil, err];
+			return [ptrType$2.nil, err];
 		}
 		_ref = signers;
 		_i = 0;
@@ -35227,7 +35246,7 @@ $packages["main"] = (function() {
 			/* } */ case 6:
 			_i++;
 		/* } */ $s = 3; continue; case 4:
-		return [ptrType$1.nil, $pkg.ErrNotFound];
+		return [ptrType$2.nil, $pkg.ErrNotFound];
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._ref = _ref; $f._tuple = _tuple; $f.a = a; $f.data = data; $f.err = err; $f.key = key; $f.signer = signer; $f.signers = signers; $f.wanted = wanted; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	PlatformKeysAgent.prototype.Sign = function(key, data) { return this.$val.Sign(key, data); };
@@ -35237,14 +35256,14 @@ $packages["main"] = (function() {
 		if (_ref === 1) {
 			return new PKKeyAlgorithm.ptr(null, "RSASSA-PKCS1-v1_5", new PKHashAlgorithm.ptr(null, "SHA-1"));
 		} else if (_ref === 3) {
-			return new PKKeyAlgorithm.ptr(null, "ECDSA", ptrType$2.nil);
+			return new PKKeyAlgorithm.ptr(null, "ECDSA", ptrType$3.nil);
 		} else {
-			return ptrType$3.nil;
+			return ptrType$4.nil;
 		}
 	};
 	PlatformKeysAgent.ptr.prototype.Signers = function() {
-		var $ptr, _i, _r, _r$1, _r$2, _ref, _tmp, _tmp$1, _tmp$2, _tmp$3, _tuple, _tuple$1, a, algo, cert, certs, err, err$1, privkey, res, signer, signers, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _ref = $f._ref; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; algo = $f.algo; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; privkey = $f.privkey; res = $f.res; signer = $f.signer; signers = $f.signers; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		var $ptr, _i, _r, _r$1, _r$2, _ref, _tmp, _tmp$1, _tmp$2, _tmp$3, _tmp$4, _tmp$5, _tuple, _tuple$1, _tuple$2, a, algo, cert, certs, err, err$1, privkey, signer, signers, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _ref = $f._ref; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tmp$4 = $f._tmp$4; _tmp$5 = $f._tmp$5; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; a = $f.a; algo = $f.algo; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; privkey = $f.privkey; signer = $f.signer; signers = $f.signers; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
 		err = [err];
 		signers = sliceType$2.nil;
 		err[0] = $ifaceNil;
@@ -35266,32 +35285,25 @@ $packages["main"] = (function() {
 		_i = 0;
 		/* while (true) { */ case 2:
 			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
-			res = [res];
 			cert = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
 			algo = algorithm(cert);
-			res[0] = new chanType(1);
-			a.pk.getKeyPair(js.NewArrayBuffer(cert.Raw), $externalize(algo, ptrType$3), $externalize((function(err, res) { return function(pubKey, privKey) {
-				var $ptr, privKey, pubKey;
-				$go((function(err, res) { return function $b() {
-					var $ptr, $s, $r;
-					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-					$r = $send(res[0], privKey); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-					/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-				}; })(err, res), []);
-			}; })(err, res), funcType));
-			_r$1 = $recv(res[0]); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			privkey = _r$1[0];
-			_r$2 = NewPKSigner(a.pk, cert, algo, privkey); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			_tuple$1 = _r$2; signer = _tuple$1[0]; err$1 = _tuple$1[1];
+			_r$1 = a.pk.GetKeyPair(cert.Raw, algo); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple$1 = _r$1; privkey = _tuple$1[1]; err$1 = _tuple$1[2];
 			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
 				_tmp$2 = sliceType$2.nil; _tmp$3 = err$1; signers = _tmp$2; err[0] = _tmp$3;
+				return [signers, err[0]];
+			}
+			_r$2 = NewPKSigner(a.pk, cert, algo, privkey); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_tuple$2 = _r$2; signer = _tuple$2[0]; err$1 = _tuple$2[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				_tmp$4 = sliceType$2.nil; _tmp$5 = err$1; signers = _tmp$4; err[0] = _tmp$5;
 				return [signers, err[0]];
 			}
 			signers = $append(signers, signer);
 			_i++;
 		/* } */ $s = 2; continue; case 3:
 		return [signers, err[0]];
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [signers, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.Signers }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.algo = algo; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.privkey = privkey; $f.res = res; $f.signer = signer; $f.signers = signers; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [signers, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.Signers }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tmp$4 = _tmp$4; $f._tmp$5 = _tmp$5; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.a = a; $f.algo = algo; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.privkey = privkey; $f.signer = signer; $f.signers = signers; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
 	};
 	PlatformKeysAgent.prototype.Signers = function() { return this.$val.Signers(); };
 	PlatformKeysAgent.ptr.prototype.Add = function(key) {
@@ -35326,49 +35338,31 @@ $packages["main"] = (function() {
 	};
 	PlatformKeysAgent.prototype.Unlock = function(passphrase) { return this.$val.Unlock(passphrase); };
 	PlatformKeysAgent.ptr.prototype.listCertificates = function() {
-		var $ptr, _i, _key, _key$1, _map, _map$1, _r, _r$1, _ref, _tmp, _tmp$1, _tuple, a, cert, certs, err, err$1, m, matches, req, results, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key = $f._key; _key$1 = $f._key$1; _map = $f._map; _map$1 = $f._map$1; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tuple = $f._tuple; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; m = $f.m; matches = $f.matches; req = $f.req; results = $f.results; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		err = [err];
-		results = [results];
-		certs = sliceType$3.nil;
-		err[0] = $ifaceNil;
+		var $ptr, _i, _key, _key$1, _map, _map$1, _r, _r$1, _ref, _tuple, _tuple$1, a, cert, certs, err, err$1, m, matches, req, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key = $f._key; _key$1 = $f._key$1; _map = $f._map; _map$1 = $f._map$1; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; m = $f.m; matches = $f.matches; req = $f.req; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
-		$deferred.push([(function(err, results) { return function() {
-			var $ptr, r;
-			r = $recover();
-			if (!($interfaceIsEqual(r, $ifaceNil))) {
-				err[0] = $assertType(r, $error);
-			}
-		}; })(err, results), []]);
-		results[0] = new chanType$1(1);
-		req = (_map = new $Map(), _key = "request", _map[$String.keyFor(_key)] = { k: _key, v: new js.M((_map$1 = new $Map(), _key$1 = "certificateTypes", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new sliceType$5([]) }, _key$1 = "certificateAuthorities", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new js.S([]) }, _map$1)) }, _key = "interactive", _map[$String.keyFor(_key)] = { k: _key, v: new $Bool(false) }, _map);
-		a.pk.selectClientCertificates($externalize(req, js.M), $externalize((function(err, results) { return function(matches) {
-			var $ptr, matches;
-			$go((function(err, results) { return function $b() {
-				var $ptr, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(results[0], matches); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}; })(err, results), []);
-		}; })(err, results), funcType$1));
-		_r = $recv(results[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		matches = _r[0];
+		req = (_map = new $Map(), _key = "request", _map[$String.keyFor(_key)] = { k: _key, v: new js.M((_map$1 = new $Map(), _key$1 = "certificateTypes", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new sliceType$3([]) }, _key$1 = "certificateAuthorities", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new js.S([]) }, _map$1)) }, _key = "interactive", _map[$String.keyFor(_key)] = { k: _key, v: new $Bool(false) }, _map);
+		_r = a.pk.SelectClientCertificates(req); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; matches = _tuple[0]; err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [sliceType$4.nil, err];
+		}
+		certs = $makeSlice(sliceType$4, 0, matches.$length);
 		_ref = matches;
 		_i = 0;
 		/* while (true) { */ case 2:
 			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
 			m = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), PKMatch);
 			_r$1 = x509.ParseCertificate($internalize(m.Object.certificate, sliceType$1)); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_tuple = _r$1; cert = _tuple[0]; err$1 = _tuple[1];
+			_tuple$1 = _r$1; cert = _tuple$1[0]; err$1 = _tuple$1[1];
 			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
-				_tmp = sliceType$3.nil; _tmp$1 = err$1; certs = _tmp; err[0] = _tmp$1;
-				return [certs, err[0]];
+				return [sliceType$4.nil, err$1];
 			}
 			certs = $append(certs, cert);
 			_i++;
 		/* } */ $s = 2; continue; case 3:
-		return [certs, err[0]];
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [certs, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._i = _i; $f._key = _key; $f._key$1 = _key$1; $f._map = _map; $f._map$1 = _map$1; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tuple = _tuple; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.m = m; $f.matches = matches; $f.req = req; $f.results = results; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+		return [certs, $ifaceNil];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._i = _i; $f._key = _key; $f._key$1 = _key$1; $f._map = _map; $f._map$1 = _map$1; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.m = m; $f.matches = matches; $f.req = req; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	PlatformKeysAgent.prototype.listCertificates = function() { return this.$val.listCertificates(); };
 	NewAgentPort = function(p) {
@@ -35379,11 +35373,11 @@ $packages["main"] = (function() {
 		ap.p.onDisconnect.addListener($externalize((function() {
 			var $ptr;
 			$go($methodVal(ap, "OnDisconnect"), []);
-		}), funcType$2));
+		}), funcType));
 		ap.p.onMessage.addListener($externalize((function(msg) {
 			var $ptr, msg;
 			$go($methodVal(ap, "OnMessage"), [msg]);
-		}), funcType$3));
+		}), funcType$1));
 		$go($methodVal(ap, "SendMessages"), []);
 		return ap;
 	};
@@ -35401,11 +35395,11 @@ $packages["main"] = (function() {
 		var $ptr, _entry, _i, _r, _ref, _tuple, _tuple$1, _tuple$2, ap, d, err, framed, i, msg, n, ok, ok$1, raw, x, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _i = $f._i; _r = $f._r; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; ap = $f.ap; d = $f.d; err = $f.err; framed = $f.framed; i = $f.i; msg = $f.msg; n = $f.n; ok = $f.ok; ok$1 = $f.ok$1; raw = $f.raw; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		ap = this;
-		_tuple = $assertType((_entry = msg[$String.keyFor("data")], _entry !== undefined ? _entry.v : $ifaceNil), sliceType$6, true); d = _tuple[0]; ok = _tuple[1];
+		_tuple = $assertType((_entry = msg[$String.keyFor("data")], _entry !== undefined ? _entry.v : $ifaceNil), sliceType$5, true); d = _tuple[0]; ok = _tuple[1];
 		/* */ if (!ok) { $s = 1; continue; }
 		/* */ $s = 2; continue;
 		/* if (!ok) { */ case 1:
-			$r = log.Printf("Message did not contain Array data field: %v", new sliceType$6([new js.M(msg)])); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = log.Printf("Message did not contain Array data field: %v", new sliceType$5([new js.M(msg)])); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			ap.p.disconnect();
 			return;
 		/* } */ case 2:
@@ -35421,7 +35415,7 @@ $packages["main"] = (function() {
 			/* */ if (!ok$1) { $s = 6; continue; }
 			/* */ $s = 7; continue;
 			/* if (!ok$1) { */ case 6:
-				$r = log.Printf("Message contained non-numeric data: %v", new sliceType$6([new js.M(msg)])); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = log.Printf("Message contained non-numeric data: %v", new sliceType$5([new js.M(msg)])); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				ap.p.disconnect();
 				return;
 			/* } */ case 7:
@@ -35433,7 +35427,7 @@ $packages["main"] = (function() {
 		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 10; continue; }
 		/* */ $s = 11; continue;
 		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 10:
-			$r = log.Printf("Error writing to pipe: %v", new sliceType$6([err])); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = log.Printf("Error writing to pipe: %v", new sliceType$5([err])); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			ap.p.disconnect();
 		/* } */ case 11:
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: AgentPort.ptr.prototype.OnMessage }; } $f.$ptr = $ptr; $f._entry = _entry; $f._i = _i; $f._r = _r; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.ap = ap; $f.d = d; $f.err = err; $f.framed = framed; $f.i = i; $f.msg = msg; $f.n = n; $f.ok = ok; $f.ok$1 = ok$1; $f.raw = raw; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
@@ -35462,7 +35456,7 @@ $packages["main"] = (function() {
 			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 4; continue; }
 			/* */ $s = 5; continue;
 			/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 4:
-				$r = log.Printf("Error reading from pipe: %v", new sliceType$6([err])); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = log.Printf("Error reading from pipe: %v", new sliceType$5([err])); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_r$1 = ap.outReader.Close(); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 				_r$1;
 				return;
@@ -35474,7 +35468,7 @@ $packages["main"] = (function() {
 			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 9; continue; }
 			/* */ $s = 10; continue;
 			/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 9:
-				$r = log.Printf("Error reading from pipe: %v", new sliceType$6([err])); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = log.Printf("Error reading from pipe: %v", new sliceType$5([err])); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_r$3 = ap.outReader.Close(); /* */ $s = 12; case 12: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 				_r$3;
 				return;
@@ -35520,8 +35514,125 @@ $packages["main"] = (function() {
 				_r;
 				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.p = p; $f.$s = $s; $f.$r = $r; return $f;
 			}), []);
-		}), funcType$4));
+		}), funcType$2));
 	};
+	PlatformKeys.ptr.prototype.SelectClientCertificates = function(request) {
+		var $ptr, _r, _tmp, _tmp$1, err, matches, pk, request, results, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; err = $f.err; matches = $f.matches; pk = $f.pk; request = $f.request; results = $f.results; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		err = [err];
+		results = [results];
+		matches = sliceType$6.nil;
+		err[0] = $ifaceNil;
+		pk = this;
+		$deferred.push([(function(err, results) { return function() {
+			var $ptr, r;
+			r = $recover();
+			if (!($interfaceIsEqual(r, $ifaceNil))) {
+				err[0] = $assertType(r, $error);
+			}
+		}; })(err, results), []]);
+		results[0] = new chanType(1);
+		pk.pk.selectClientCertificates($externalize(request, js.M), $externalize((function(err, results) { return function(matches$1) {
+			var $ptr, matches$1;
+			$go((function(err, results) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(results[0], matches$1); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(err, results), []);
+		}; })(err, results), funcType$3));
+		_r = $recv(results[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tmp = _r[0]; _tmp$1 = $ifaceNil; matches = _tmp; err[0] = _tmp$1;
+		return [matches, err[0]];
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [matches, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeys.ptr.prototype.SelectClientCertificates }; } $f.$ptr = $ptr; $f._r = _r; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f.err = err; $f.matches = matches; $f.pk = pk; $f.request = request; $f.results = results; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+	};
+	PlatformKeys.prototype.SelectClientCertificates = function(request) { return this.$val.SelectClientCertificates(request); };
+	PlatformKeys.ptr.prototype.GetKeyPair = function(rawCert, algorithm$1) {
+		var $ptr, _r, _tmp, _tmp$1, _tmp$2, algorithm$1, err, pair, pk, privkey, pubkey, rawCert, results, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; algorithm$1 = $f.algorithm$1; err = $f.err; pair = $f.pair; pk = $f.pk; privkey = $f.privkey; pubkey = $f.pubkey; rawCert = $f.rawCert; results = $f.results; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		err = [err];
+		results = [results];
+		pubkey = null;
+		privkey = null;
+		err[0] = $ifaceNil;
+		pk = this;
+		$deferred.push([(function(err, results) { return function() {
+			var $ptr, r;
+			r = $recover();
+			if (!($interfaceIsEqual(r, $ifaceNil))) {
+				err[0] = $assertType(r, $error);
+			}
+		}; })(err, results), []]);
+		results[0] = new chanType$1(1);
+		pk.pk.getKeyPair(js.NewArrayBuffer(rawCert), $externalize(algorithm$1, ptrType$4), $externalize((function(err, results) { return function(pubkey$1, privkey$1) {
+			var $ptr, privkey$1, pubkey$1;
+			$go((function(err, results) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(results[0], new pkKeyPair.ptr(pubkey$1, privkey$1)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(err, results), []);
+		}; })(err, results), funcType$4));
+		_r = $recv(results[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		pair = $clone(_r[0], pkKeyPair);
+		_tmp = pair.pubkey; _tmp$1 = pair.privkey; _tmp$2 = $ifaceNil; pubkey = _tmp; privkey = _tmp$1; err[0] = _tmp$2;
+		return [pubkey, privkey, err[0]];
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [pubkey, privkey, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeys.ptr.prototype.GetKeyPair }; } $f.$ptr = $ptr; $f._r = _r; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f.algorithm$1 = algorithm$1; $f.err = err; $f.pair = pair; $f.pk = pk; $f.privkey = privkey; $f.pubkey = pubkey; $f.rawCert = rawCert; $f.results = results; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+	};
+	PlatformKeys.prototype.GetKeyPair = function(rawCert, algorithm$1) { return this.$val.GetKeyPair(rawCert, algorithm$1); };
+	PlatformKeys.ptr.prototype.Sign = function(algorithm$1, privkey, data) {
+		var $ptr, _r, _selection, _tmp, _tmp$1, _tmp$2, _tmp$3, algorithm$1, data, err, err$1, errChan, pk, privkey, promise, res, resChan, sig, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _selection = $f._selection; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; algorithm$1 = $f.algorithm$1; data = $f.data; err = $f.err; err$1 = $f.err$1; errChan = $f.errChan; pk = $f.pk; privkey = $f.privkey; promise = $f.promise; res = $f.res; resChan = $f.resChan; sig = $f.sig; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		err = [err];
+		errChan = [errChan];
+		resChan = [resChan];
+		sig = sliceType$1.nil;
+		err[0] = $ifaceNil;
+		pk = this;
+		$deferred.push([(function(err, errChan, resChan) { return function() {
+			var $ptr, r;
+			r = $recover();
+			if (!($interfaceIsEqual(r, $ifaceNil))) {
+				err[0] = $assertType(r, $error);
+			}
+		}; })(err, errChan, resChan), []]);
+		promise = pk.pk.subtleCrypto().sign($externalize(algorithm$1, ptrType$4), privkey, js.NewArrayBuffer(data));
+		errChan[0] = new chanType$2(1);
+		resChan[0] = new chanType$3(1);
+		promise.then($externalize((function(err, errChan, resChan) { return function(result) {
+			var $ptr, result;
+			$go((function(err, errChan, resChan) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(resChan[0], $assertType($internalize(new ($global.Uint8Array)(result), $emptyInterface), sliceType$1)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(err, errChan, resChan), []);
+		}; })(err, errChan, resChan), funcType$2));
+		promise.catch($externalize((function(err, errChan, resChan) { return function(err$1) {
+			var $ptr, err$1;
+			$go((function(err, errChan, resChan) { return function $b() {
+				var $ptr, _r, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				_r = fmt.Errorf("%s", new sliceType$5([err$1])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				$r = $send(errChan[0], _r); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(err, errChan, resChan), []);
+		}; })(err, errChan, resChan), funcType$5));
+		res = sliceType$1.nil;
+		_r = $select([[resChan[0]], [errChan[0]]]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_selection = _r;
+		if (_selection[0] === 0) {
+			res = _selection[1][0];
+			_tmp = res; _tmp$1 = $ifaceNil; sig = _tmp; err[0] = _tmp$1;
+			return [sig, err[0]];
+		} else if (_selection[0] === 1) {
+			err$1 = _selection[1][0];
+			_tmp$2 = sliceType$1.nil; _tmp$3 = err$1; sig = _tmp$2; err[0] = _tmp$3;
+			return [sig, err[0]];
+		}
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [sig, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeys.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._selection = _selection; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f.algorithm$1 = algorithm$1; $f.data = data; $f.err = err; $f.err$1 = err$1; $f.errChan = errChan; $f.pk = pk; $f.privkey = privkey; $f.promise = promise; $f.res = res; $f.resChan = resChan; $f.sig = sig; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+	};
+	PlatformKeys.prototype.Sign = function(algorithm$1, privkey, data) { return this.$val.Sign(algorithm$1, privkey, data); };
 	NewPKSigner = function(pk, cert, algo, privkey) {
 		var $ptr, _r, _tuple, algo, cert, err, pk, privkey, pubkey, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; algo = $f.algo; cert = $f.cert; err = $f.err; pk = $f.pk; privkey = $f.privkey; pubkey = $f.pubkey; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -35541,85 +35652,50 @@ $packages["main"] = (function() {
 	};
 	PKSigner.prototype.PublicKey = function() { return this.$val.PublicKey(); };
 	PKSigner.ptr.prototype.Sign = function(rand$1, data) {
-		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _selection, _tmp, _tmp$1, _tmp$2, _tmp$3, _tmp$4, _tmp$5, _tuple, asn1Sig, crypto, data, err, err$1, err$2, errChan, pks, promise, rand$1, res, resChan, sig, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _selection = $f._selection; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tmp$4 = $f._tmp$4; _tmp$5 = $f._tmp$5; _tuple = $f._tuple; asn1Sig = $f.asn1Sig; crypto = $f.crypto; data = $f.data; err = $f.err; err$1 = $f.err$1; err$2 = $f.err$2; errChan = $f.errChan; pks = $f.pks; promise = $f.promise; rand$1 = $f.rand$1; res = $f.res; resChan = $f.resChan; sig = $f.sig; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		err = [err];
-		errChan = [errChan];
-		resChan = [resChan];
-		sig = ptrType$1.nil;
-		err[0] = $ifaceNil;
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _tmp, _tmp$1, _tmp$2, _tmp$3, _tmp$4, _tmp$5, _tuple, _tuple$1, asn1Sig, data, err, err$1, pks, rand$1, res, sig, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tmp$4 = $f._tmp$4; _tmp$5 = $f._tmp$5; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; asn1Sig = $f.asn1Sig; data = $f.data; err = $f.err; err$1 = $f.err$1; pks = $f.pks; rand$1 = $f.rand$1; res = $f.res; sig = $f.sig; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		sig = ptrType$2.nil;
+		err = $ifaceNil;
 		pks = this;
-		$deferred.push([(function(err, errChan, resChan) { return function() {
-			var $ptr, r;
-			r = $recover();
-			if (!($interfaceIsEqual(r, $ifaceNil))) {
-				err[0] = $assertType(r, $error);
-			}
-		}; })(err, errChan, resChan), []]);
-		crypto = pks.pk.subtleCrypto();
-		promise = crypto.sign($externalize(pks.algo, ptrType$3), pks.privateKey, js.NewArrayBuffer(data));
-		errChan[0] = new chanType$2(1);
-		resChan[0] = new chanType$3(1);
-		promise.then($externalize((function(err, errChan, resChan) { return function(result) {
-			var $ptr, result;
-			$go((function(err, errChan, resChan) { return function $b() {
-				var $ptr, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(resChan[0], $assertType($internalize(new ($global.Uint8Array)(result), $emptyInterface), sliceType$1)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}; })(err, errChan, resChan), []);
-		}; })(err, errChan, resChan), funcType$4));
-		promise.catch($externalize((function(err, errChan, resChan) { return function(err$1) {
-			var $ptr, err$1;
-			$go((function(err, errChan, resChan) { return function $b() {
-				var $ptr, _r, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				_r = fmt.Errorf("%s", new sliceType$6([err$1])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				$r = $send(errChan[0], _r); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
-			}; })(err, errChan, resChan), []);
-		}; })(err, errChan, resChan), funcType$5));
-		res = sliceType$1.nil;
-		_r = $select([[resChan[0]], [errChan[0]]]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_selection = _r;
-		switch (0) { default: if (_selection[0] === 0) {
-			res = _selection[1][0];
-			break;
-		} else if (_selection[0] === 1) {
-			err$1 = _selection[1][0];
-			_tmp = ptrType$1.nil; _tmp$1 = err$1; sig = _tmp; err[0] = _tmp$1;
-			return [sig, err[0]];
-		} }
+		_r = pks.pk.Sign(pks.algo, pks.privateKey, data); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; res = _tuple[0]; err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			_tmp = ptrType$2.nil; _tmp$1 = err; sig = _tmp; err = _tmp$1;
+			return [sig, err];
+		}
 		_r$1 = pks.publicKey.Type(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		_r$2 = strings.HasPrefix(_r$1, "ecdsa-"); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		/* */ if (_r$2) { $s = 2; continue; }
 		/* */ $s = 3; continue;
 		/* if (_r$2) { */ case 2:
-			asn1Sig = new structType.ptr(ptrType$8.nil, ptrType$8.nil);
+			asn1Sig = new structType.ptr(ptrType$9.nil, ptrType$9.nil);
 			_r$3 = asn1.Unmarshal(res, asn1Sig); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			_tuple = _r$3; err$2 = _tuple[1];
-			if (!($interfaceIsEqual(err$2, $ifaceNil))) {
-				_tmp$2 = ptrType$1.nil; _tmp$3 = err$2; sig = _tmp$2; err[0] = _tmp$3;
-				return [sig, err[0]];
+			_tuple$1 = _r$3; err$1 = _tuple$1[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				_tmp$2 = ptrType$2.nil; _tmp$3 = err$1; sig = _tmp$2; err = _tmp$3;
+				return [sig, err];
 			}
 			_r$4 = ssh.Marshal(asn1Sig); /* */ $s = 7; case 7: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
 			res = _r$4;
 		/* } */ case 3:
 		_r$5 = pks.publicKey.Type(); /* */ $s = 8; case 8: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-		_tmp$4 = new ssh.Signature.ptr(_r$5, res); _tmp$5 = $ifaceNil; sig = _tmp$4; err[0] = _tmp$5;
-		return [sig, err[0]];
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [sig, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PKSigner.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._selection = _selection; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tmp$4 = _tmp$4; $f._tmp$5 = _tmp$5; $f._tuple = _tuple; $f.asn1Sig = asn1Sig; $f.crypto = crypto; $f.data = data; $f.err = err; $f.err$1 = err$1; $f.err$2 = err$2; $f.errChan = errChan; $f.pks = pks; $f.promise = promise; $f.rand$1 = rand$1; $f.res = res; $f.resChan = resChan; $f.sig = sig; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+		_tmp$4 = new ssh.Signature.ptr(_r$5, res); _tmp$5 = $ifaceNil; sig = _tmp$4; err = _tmp$5;
+		return [sig, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PKSigner.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tmp$4 = _tmp$4; $f._tmp$5 = _tmp$5; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.asn1Sig = asn1Sig; $f.data = data; $f.err = err; $f.err$1 = err$1; $f.pks = pks; $f.rand$1 = rand$1; $f.res = res; $f.sig = sig; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	PKSigner.prototype.Sign = function(rand$1, data) { return this.$val.Sign(rand$1, data); };
-	ptrType$9.methods = [{prop: "List", name: "List", pkg: "", typ: $funcType([], [sliceType, $error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ssh.PublicKey, sliceType$1], [ptrType$1, $error], false)}, {prop: "Signers", name: "Signers", pkg: "", typ: $funcType([], [sliceType$2, $error], false)}, {prop: "Add", name: "Add", pkg: "", typ: $funcType([agent.AddedKey], [$error], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([ssh.PublicKey], [$error], false)}, {prop: "RemoveAll", name: "RemoveAll", pkg: "", typ: $funcType([], [$error], false)}, {prop: "Lock", name: "Lock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "Unlock", name: "Unlock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "listCertificates", name: "listCertificates", pkg: "main", typ: $funcType([], [sliceType$3, $error], false)}];
-	ptrType$10.methods = [{prop: "OnDisconnect", name: "OnDisconnect", pkg: "", typ: $funcType([], [], false)}, {prop: "OnMessage", name: "OnMessage", pkg: "", typ: $funcType([js.M], [], false)}, {prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}, {prop: "SendMessages", name: "SendMessages", pkg: "", typ: $funcType([], [], false)}, {prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}];
-	ptrType$11.methods = [{prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [ssh.PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$1, $error], false)}];
-	PKHashAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$4, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}]);
-	PKKeyAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$4, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}, {prop: "Hash", name: "Hash", pkg: "", typ: ptrType$2, tag: "js:\"hash\""}]);
-	PKMatch.init([{prop: "Object", name: "", pkg: "", typ: ptrType$4, tag: ""}, {prop: "Certificate", name: "Certificate", pkg: "", typ: sliceType$1, tag: "js:\"certificate\""}, {prop: "KeyAlgorithm", name: "KeyAlgorithm", pkg: "", typ: ptrType$3, tag: "js:\"keyAlgorithm\""}]);
-	PlatformKeysAgent.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType$4, tag: ""}]);
-	AgentPort.init([{prop: "p", name: "p", pkg: "main", typ: ptrType$4, tag: ""}, {prop: "inReader", name: "inReader", pkg: "main", typ: ptrType$6, tag: ""}, {prop: "inWriter", name: "inWriter", pkg: "main", typ: ptrType$7, tag: ""}, {prop: "outReader", name: "outReader", pkg: "main", typ: ptrType$6, tag: ""}, {prop: "outWriter", name: "outWriter", pkg: "main", typ: ptrType$7, tag: ""}]);
-	PKSigner.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType$4, tag: ""}, {prop: "publicKey", name: "publicKey", pkg: "main", typ: ssh.PublicKey, tag: ""}, {prop: "algo", name: "algo", pkg: "main", typ: ptrType$3, tag: ""}, {prop: "privateKey", name: "privateKey", pkg: "main", typ: ptrType$4, tag: ""}]);
+	ptrType$10.methods = [{prop: "List", name: "List", pkg: "", typ: $funcType([], [sliceType, $error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ssh.PublicKey, sliceType$1], [ptrType$2, $error], false)}, {prop: "Signers", name: "Signers", pkg: "", typ: $funcType([], [sliceType$2, $error], false)}, {prop: "Add", name: "Add", pkg: "", typ: $funcType([agent.AddedKey], [$error], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([ssh.PublicKey], [$error], false)}, {prop: "RemoveAll", name: "RemoveAll", pkg: "", typ: $funcType([], [$error], false)}, {prop: "Lock", name: "Lock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "Unlock", name: "Unlock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "listCertificates", name: "listCertificates", pkg: "main", typ: $funcType([], [sliceType$4, $error], false)}];
+	ptrType$11.methods = [{prop: "OnDisconnect", name: "OnDisconnect", pkg: "", typ: $funcType([], [], false)}, {prop: "OnMessage", name: "OnMessage", pkg: "", typ: $funcType([js.M], [], false)}, {prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}, {prop: "SendMessages", name: "SendMessages", pkg: "", typ: $funcType([], [], false)}, {prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}];
+	ptrType.methods = [{prop: "SelectClientCertificates", name: "SelectClientCertificates", pkg: "", typ: $funcType([js.M], [sliceType$6, $error], false)}, {prop: "GetKeyPair", name: "GetKeyPair", pkg: "", typ: $funcType([sliceType$1, ptrType$4], [ptrType$8, ptrType$8, $error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ptrType$4, ptrType$8, sliceType$1], [sliceType$1, $error], false)}];
+	ptrType$12.methods = [{prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [ssh.PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$2, $error], false)}];
+	PlatformKeysAgent.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType, tag: ""}]);
+	AgentPort.init([{prop: "p", name: "p", pkg: "main", typ: ptrType$8, tag: ""}, {prop: "inReader", name: "inReader", pkg: "main", typ: ptrType$6, tag: ""}, {prop: "inWriter", name: "inWriter", pkg: "main", typ: ptrType$7, tag: ""}, {prop: "outReader", name: "outReader", pkg: "main", typ: ptrType$6, tag: ""}, {prop: "outWriter", name: "outWriter", pkg: "main", typ: ptrType$7, tag: ""}]);
+	PKHashAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$8, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}]);
+	PKKeyAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$8, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}, {prop: "Hash", name: "Hash", pkg: "", typ: ptrType$3, tag: "js:\"hash\""}]);
+	PKMatch.init([{prop: "Object", name: "", pkg: "", typ: ptrType$8, tag: ""}, {prop: "Certificate", name: "Certificate", pkg: "", typ: sliceType$1, tag: "js:\"certificate\""}, {prop: "KeyAlgorithm", name: "KeyAlgorithm", pkg: "", typ: ptrType$4, tag: "js:\"keyAlgorithm\""}]);
+	PlatformKeys.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType$8, tag: ""}]);
+	pkKeyPair.init([{prop: "pubkey", name: "pubkey", pkg: "main", typ: ptrType$8, tag: ""}, {prop: "privkey", name: "privkey", pkg: "main", typ: ptrType$8, tag: ""}]);
+	PKSigner.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType, tag: ""}, {prop: "publicKey", name: "publicKey", pkg: "main", typ: ssh.PublicKey, tag: ""}, {prop: "algo", name: "algo", pkg: "main", typ: ptrType$4, tag: ""}, {prop: "privateKey", name: "privateKey", pkg: "main", typ: ptrType$8, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:

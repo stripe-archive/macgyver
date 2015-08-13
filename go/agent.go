@@ -14,32 +14,15 @@ import (
 var ErrUnsupported = errors.New("unsupported operation")
 var ErrNotFound = errors.New("not found")
 
-type PKHashAlgorithm struct {
-	*js.Object
-	Name string `js:"name"`
-}
-
-type PKKeyAlgorithm struct {
-	*js.Object
-	Name string           `js:"name"`
-	Hash *PKHashAlgorithm `js:"hash"`
-}
-
-type PKMatch struct {
-	*js.Object
-	Certificate  []byte          `js:"certificate"`
-	KeyAlgorithm *PKKeyAlgorithm `js:"keyAlgorithm"`
-}
-
 type PlatformKeysAgent struct {
 	// chrome.platformKeys
-	pk *js.Object
+	pk *PlatformKeys
 }
 
 func NewPlatformKeysAgent() *PlatformKeysAgent {
 	pk := js.Global.Get("chrome").Get("platformKeys")
 	return &PlatformKeysAgent{
-		pk: pk,
+		pk: &PlatformKeys{pk},
 	}
 }
 
@@ -98,13 +81,6 @@ func algorithm(cert *x509.Certificate) *PKKeyAlgorithm {
 }
 
 func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
-	// Uncaught exceptions in JS get translated into panics in Go
-	defer func() {
-		if r := recover(); r != nil {
-			err = r.(error)
-		}
-	}()
-
 	certs, err := a.listCertificates()
 	if err != nil {
 		return nil, err
@@ -112,15 +88,11 @@ func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
 
 	for _, cert := range certs {
 		algo := algorithm(cert)
-		res := make(chan *js.Object, 1)
-		a.pk.Call("getKeyPair",
-			js.NewArrayBuffer(cert.Raw),
-			algo,
-			func(pubKey *js.Object, privKey *js.Object) {
-				go func() { res <- privKey }()
-			})
+		_, privkey, err := a.pk.GetKeyPair(cert.Raw, algo)
+		if err != nil {
+			return nil, err
+		}
 
-		privkey := <-res
 		signer, err := NewPKSigner(a.pk, cert, algo, privkey)
 		if err != nil {
 			return nil, err
@@ -151,15 +123,7 @@ func (a *PlatformKeysAgent) Unlock(passphrase []byte) error {
 	return ErrUnsupported
 }
 
-func (a *PlatformKeysAgent) listCertificates() (certs []*x509.Certificate, err error) {
-	// Uncaught exceptions in JS get translated into panics in Go
-	defer func() {
-		if r := recover(); r != nil {
-			err = r.(error)
-		}
-	}()
-
-	results := make(chan []PKMatch, 1)
+func (a *PlatformKeysAgent) listCertificates() ([]*x509.Certificate, error) {
 	req := js.M{
 		"request": js.M{
 			"certificateTypes":       []string{},
@@ -168,11 +132,12 @@ func (a *PlatformKeysAgent) listCertificates() (certs []*x509.Certificate, err e
 		"interactive": false,
 	}
 
-	a.pk.Call("selectClientCertificates", req, func(matches []PKMatch) {
-		go func() { results <- matches }()
-	})
+	matches, err := a.pk.SelectClientCertificates(req)
+	if err != nil {
+		return nil, err
+	}
 
-	matches := <-results
+	certs := make([]*x509.Certificate, 0, len(matches))
 	for _, m := range matches {
 		cert, err := x509.ParseCertificate(m.Certificate)
 		if err != nil {
@@ -182,5 +147,5 @@ func (a *PlatformKeysAgent) listCertificates() (certs []*x509.Certificate, err e
 		certs = append(certs, cert)
 	}
 
-	return
+	return certs, nil
 }

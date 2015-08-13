@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/x509"
 	"encoding/asn1"
-	"fmt"
 	"io"
 	"math/big"
 	"strings"
@@ -13,13 +12,13 @@ import (
 )
 
 type PKSigner struct {
-	pk         *js.Object
+	pk         *PlatformKeys
 	publicKey  ssh.PublicKey
 	algo       *PKKeyAlgorithm
 	privateKey *js.Object
 }
 
-func NewPKSigner(pk *js.Object, cert *x509.Certificate, algo *PKKeyAlgorithm, privkey *js.Object) (ssh.Signer, error) {
+func NewPKSigner(pk *PlatformKeys, cert *x509.Certificate, algo *PKKeyAlgorithm, privkey *js.Object) (ssh.Signer, error) {
 	pubkey, err := ssh.NewPublicKey(cert.PublicKey)
 	if err != nil {
 		return nil, err
@@ -38,39 +37,14 @@ func (pks *PKSigner) PublicKey() ssh.PublicKey {
 }
 
 func (pks *PKSigner) Sign(rand io.Reader, data []byte) (sig *ssh.Signature, err error) {
-	// Uncaught exceptions in JS get translated into panics in Go
-	defer func() {
-		if r := recover(); r != nil {
-			err = r.(error)
-		}
-	}()
-
-	crypto := pks.pk.Call("subtleCrypto")
-	promise := crypto.Call("sign", pks.algo, pks.privateKey, js.NewArrayBuffer(data))
-
-	errChan := make(chan error, 1)
-	resChan := make(chan []byte, 1)
-
-	promise.Call("then", func(result *js.Object) {
-		go func() { resChan <- js.Global.Get("Uint8Array").New(result).Interface().([]byte) }()
-	})
-	promise.Call("catch", func(err interface{}) {
-		go func() { errChan <- fmt.Errorf("%s", err) }()
-	})
-
-	var res []byte
-	select {
-	case res = <-resChan:
-		break
-	case err := <-errChan:
+	res, err := pks.pk.Sign(pks.algo, pks.privateKey, data)
+	if err != nil {
 		return nil, err
 	}
 
 	if strings.HasPrefix(pks.publicKey.Type(), "ecdsa-") {
 		// Ugh, because everything is terrible, ECDSA signatures are
-		// encoded in the ssh wire format, not ASN.1, and DSA
-		// signatures are encoded by just concatenating the two
-		// 0-padded numbers together
+		// encoded in the ssh wire format, not ASN.1
 		asn1Sig := &struct{ R, S *big.Int }{}
 		_, err := asn1.Unmarshal(res, asn1Sig)
 		if err != nil {
