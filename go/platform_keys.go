@@ -15,6 +15,10 @@ type PKKeyAlgorithm struct {
 	*js.Object
 	Name string           `js:"name"`
 	Hash *PKHashAlgorithm `js:"hash"`
+	// Only for RSA-PSS
+	SaltLength int `js:"saltLength"`
+	// Only for ECDSA
+	NamedCurve string `js:"namedCurve"`
 }
 
 type PKMatch struct {

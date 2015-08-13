@@ -7,6 +7,7 @@ import (
 	"errors"
 
 	"github.com/gopherjs/gopherjs/js"
+	minissh "github.com/stripe/minitrue/ssh"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
 )
@@ -64,22 +65,6 @@ func (a *PlatformKeysAgent) Sign(key ssh.PublicKey, data []byte) (*ssh.Signature
 	return nil, ErrNotFound
 }
 
-func algorithm(cert *x509.Certificate) *PKKeyAlgorithm {
-	switch cert.PublicKeyAlgorithm {
-	case x509.RSA:
-		return &PKKeyAlgorithm{
-			Name: "RSASSA-PKCS1-v1_5",
-			Hash: &PKHashAlgorithm{Name: "SHA-1"},
-		}
-	case x509.ECDSA:
-		return &PKKeyAlgorithm{
-			Name: "ECDSA",
-		}
-	default:
-		return nil
-	}
-}
-
 func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
 	certs, err := a.listCertificates()
 	if err != nil {
@@ -87,13 +72,7 @@ func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
 	}
 
 	for _, cert := range certs {
-		algo := algorithm(cert)
-		_, privkey, err := a.pk.GetKeyPair(cert.Raw, algo)
-		if err != nil {
-			return nil, err
-		}
-
-		signer, err := NewPKSigner(a.pk, cert, algo, privkey)
+		signer, err := minissh.NewSignerFromSigner(NewPKSigner(a.pk, cert))
 		if err != nil {
 			return nil, err
 		}
