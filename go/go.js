@@ -1992,7 +1992,7 @@ var $internalize = function(v, t, recv) {
 };
 
 $packages["github.com/gopherjs/gopherjs/js"] = (function() {
-	var $pkg = {}, $init, Object, Error, M, S, sliceType, ptrType, sliceType$2, funcType, ptrType$1, MakeWrapper, init;
+	var $pkg = {}, $init, Object, Error, M, S, sliceType, ptrType, sliceType$2, funcType, ptrType$1, MakeWrapper, NewArrayBuffer, init;
 	Object = $pkg.Object = $newType(0, $kindStruct, "js.Object", "Object", "github.com/gopherjs/gopherjs/js", function(object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -2153,6 +2153,14 @@ $packages["github.com/gopherjs/gopherjs/js"] = (function() {
 		return o;
 	};
 	$pkg.MakeWrapper = MakeWrapper;
+	NewArrayBuffer = function(b) {
+		var $ptr, b, length, offset, slice;
+		slice = b;
+		offset = $parseInt(slice.$offset) >> 0;
+		length = $parseInt(slice.$length) >> 0;
+		return slice.$array.buffer.slice(offset, offset + length >> 0);
+	};
+	$pkg.NewArrayBuffer = NewArrayBuffer;
 	init = function() {
 		var $ptr, e;
 		e = new Error.ptr(null);
@@ -3666,7 +3674,7 @@ $packages["unicode/utf8"] = (function() {
 	return $pkg;
 })();
 $packages["bytes"] = (function() {
-	var $pkg = {}, $init, errors, io, unicode, utf8, Buffer, readOp, ptrType, sliceType, arrayType, arrayType$1, sliceType$1, IndexByte, Equal, Compare, makeSlice, explode, Count, Index, genSplit, Split, HasPrefix, HasSuffix, TrimLeftFunc, TrimRightFunc, TrimFunc, indexFunc, lastIndexFunc, makeCutsetFunc, TrimRight, TrimSpace;
+	var $pkg = {}, $init, errors, io, unicode, utf8, Buffer, readOp, ptrType, sliceType, arrayType, arrayType$1, sliceType$1, IndexByte, Equal, makeSlice, explode, Count, Index, genSplit, Split, HasPrefix, HasSuffix, TrimLeftFunc, TrimRightFunc, TrimFunc, indexFunc, lastIndexFunc, makeCutsetFunc, TrimRight, TrimSpace;
 	errors = $packages["errors"];
 	io = $packages["io"];
 	unicode = $packages["unicode"];
@@ -3728,32 +3736,6 @@ $packages["bytes"] = (function() {
 		return true;
 	};
 	$pkg.Equal = Equal;
-	Compare = function(a, b) {
-		var $ptr, _i, _ref, a, b, ca, cb, i;
-		_ref = a;
-		_i = 0;
-		while (true) {
-			if (!(_i < _ref.$length)) { break; }
-			i = _i;
-			ca = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			if (i >= b.$length) {
-				return 1;
-			}
-			cb = ((i < 0 || i >= b.$length) ? $throwRuntimeError("index out of range") : b.$array[b.$offset + i]);
-			if (ca < cb) {
-				return -1;
-			}
-			if (ca > cb) {
-				return 1;
-			}
-			_i++;
-		}
-		if (a.$length < b.$length) {
-			return -1;
-		}
-		return 0;
-	};
-	$pkg.Compare = Compare;
 	Buffer.ptr.prototype.Bytes = function() {
 		var $ptr, b;
 		b = this;
@@ -4362,21 +4344,6 @@ $packages["bytes"] = (function() {
 		$r = unicode.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = utf8.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$pkg.ErrTooLarge = errors.New("bytes.Buffer: too large");
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["hash"] = (function() {
-	var $pkg = {}, $init, io, Hash, sliceType;
-	io = $packages["io"];
-	Hash = $pkg.Hash = $newType(8, $kindInterface, "hash.Hash", "Hash", "hash", null);
-	sliceType = $sliceType($Uint8);
-	Hash.init([{prop: "BlockSize", name: "BlockSize", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Reset", name: "Reset", pkg: "", typ: $funcType([], [], false)}, {prop: "Size", name: "Size", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Sum", name: "Sum", pkg: "", typ: $funcType([sliceType], [sliceType], false)}, {prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType], [$Int, $error], false)}]);
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = io.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -6364,546 +6331,6 @@ $packages["strconv"] = (function() {
 		isPrint32 = new sliceType$5([65536, 65613, 65616, 65629, 65664, 65786, 65792, 65794, 65799, 65843, 65847, 65932, 65936, 65947, 65952, 65952, 66000, 66045, 66176, 66204, 66208, 66256, 66272, 66299, 66304, 66339, 66352, 66378, 66384, 66426, 66432, 66499, 66504, 66517, 66560, 66717, 66720, 66729, 66816, 66855, 66864, 66915, 66927, 66927, 67072, 67382, 67392, 67413, 67424, 67431, 67584, 67589, 67592, 67640, 67644, 67644, 67647, 67742, 67751, 67759, 67808, 67829, 67835, 67867, 67871, 67897, 67903, 67903, 67968, 68023, 68028, 68047, 68050, 68102, 68108, 68147, 68152, 68154, 68159, 68167, 68176, 68184, 68192, 68255, 68288, 68326, 68331, 68342, 68352, 68405, 68409, 68437, 68440, 68466, 68472, 68497, 68505, 68508, 68521, 68527, 68608, 68680, 68736, 68786, 68800, 68850, 68858, 68863, 69216, 69246, 69632, 69709, 69714, 69743, 69759, 69825, 69840, 69864, 69872, 69881, 69888, 69955, 69968, 70006, 70016, 70093, 70096, 70132, 70144, 70205, 70272, 70313, 70320, 70378, 70384, 70393, 70400, 70412, 70415, 70416, 70419, 70457, 70460, 70468, 70471, 70472, 70475, 70477, 70480, 70480, 70487, 70487, 70493, 70499, 70502, 70508, 70512, 70516, 70784, 70855, 70864, 70873, 71040, 71093, 71096, 71133, 71168, 71236, 71248, 71257, 71296, 71351, 71360, 71369, 71424, 71449, 71453, 71467, 71472, 71487, 71840, 71922, 71935, 71935, 72384, 72440, 73728, 74649, 74752, 74868, 74880, 75075, 77824, 78894, 82944, 83526, 92160, 92728, 92736, 92777, 92782, 92783, 92880, 92909, 92912, 92917, 92928, 92997, 93008, 93047, 93053, 93071, 93952, 94020, 94032, 94078, 94095, 94111, 110592, 110593, 113664, 113770, 113776, 113788, 113792, 113800, 113808, 113817, 113820, 113823, 118784, 119029, 119040, 119078, 119081, 119154, 119163, 119272, 119296, 119365, 119552, 119638, 119648, 119665, 119808, 119967, 119970, 119970, 119973, 119974, 119977, 120074, 120077, 120134, 120138, 120485, 120488, 120779, 120782, 121483, 121499, 121519, 124928, 125124, 125127, 125142, 126464, 126500, 126503, 126523, 126530, 126530, 126535, 126548, 126551, 126564, 126567, 126619, 126625, 126651, 126704, 126705, 126976, 127019, 127024, 127123, 127136, 127150, 127153, 127221, 127232, 127244, 127248, 127339, 127344, 127386, 127462, 127490, 127504, 127546, 127552, 127560, 127568, 127569, 127744, 128720, 128736, 128748, 128752, 128755, 128768, 128883, 128896, 128980, 129024, 129035, 129040, 129095, 129104, 129113, 129120, 129159, 129168, 129197, 129296, 129304, 129408, 129412, 129472, 129472, 131072, 173782, 173824, 177972, 177984, 178205, 178208, 183969, 194560, 195101, 917760, 917999]);
 		isNotPrint32 = new sliceType$4([12, 39, 59, 62, 926, 2057, 2102, 2134, 2291, 2564, 2580, 2584, 4285, 4405, 4576, 4626, 4743, 4745, 4750, 4766, 4868, 4905, 4913, 4916, 9327, 27231, 27482, 27490, 54357, 54429, 54445, 54458, 54460, 54468, 54534, 54549, 54557, 54586, 54591, 54597, 54609, 55968, 60932, 60960, 60963, 60968, 60979, 60984, 60986, 61000, 61002, 61004, 61008, 61011, 61016, 61018, 61020, 61022, 61024, 61027, 61035, 61043, 61048, 61053, 61055, 61066, 61092, 61098, 61632, 61648, 61743, 62842, 62884]);
 		shifts = $toNativeArray($kindUint, [0, 0, 1, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0]);
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["crypto"] = (function() {
-	var $pkg = {}, $init, hash, io, strconv, Hash, PublicKey, SignerOpts, DecrypterOpts, sliceType, funcType, sliceType$1, digestSizes, hashes, RegisterHash;
-	hash = $packages["hash"];
-	io = $packages["io"];
-	strconv = $packages["strconv"];
-	Hash = $pkg.Hash = $newType(4, $kindUint, "crypto.Hash", "Hash", "crypto", null);
-	PublicKey = $pkg.PublicKey = $newType(8, $kindInterface, "crypto.PublicKey", "PublicKey", "crypto", null);
-	SignerOpts = $pkg.SignerOpts = $newType(8, $kindInterface, "crypto.SignerOpts", "SignerOpts", "crypto", null);
-	DecrypterOpts = $pkg.DecrypterOpts = $newType(8, $kindInterface, "crypto.DecrypterOpts", "DecrypterOpts", "crypto", null);
-	sliceType = $sliceType($Uint8);
-	funcType = $funcType([], [hash.Hash], false);
-	sliceType$1 = $sliceType(funcType);
-	Hash.prototype.HashFunc = function() {
-		var $ptr, h;
-		h = this.$val;
-		return h;
-	};
-	$ptrType(Hash).prototype.HashFunc = function() { return new Hash(this.$get()).HashFunc(); };
-	Hash.prototype.Size = function() {
-		var $ptr, h;
-		h = this.$val;
-		if (h > 0 && h < 16) {
-			return (((h < 0 || h >= digestSizes.$length) ? $throwRuntimeError("index out of range") : digestSizes.$array[digestSizes.$offset + h]) >> 0);
-		}
-		$panic(new $String("crypto: Size of unknown hash function"));
-	};
-	$ptrType(Hash).prototype.Size = function() { return new Hash(this.$get()).Size(); };
-	Hash.prototype.New = function() {
-		var $ptr, _r, f, h, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; f = $f.f; h = $f.h; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		h = this.$val;
-		/* */ if (h > 0 && h < 16) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (h > 0 && h < 16) { */ case 1:
-			f = ((h < 0 || h >= hashes.$length) ? $throwRuntimeError("index out of range") : hashes.$array[hashes.$offset + h]);
-			/* */ if (!(f === $throwNilPointerError)) { $s = 3; continue; }
-			/* */ $s = 4; continue;
-			/* if (!(f === $throwNilPointerError)) { */ case 3:
-				_r = f(); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				return _r;
-			/* } */ case 4:
-		/* } */ case 2:
-		$panic(new $String("crypto: requested hash function #" + strconv.Itoa((h >> 0)) + " is unavailable"));
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Hash.prototype.New }; } $f.$ptr = $ptr; $f._r = _r; $f.f = f; $f.h = h; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$ptrType(Hash).prototype.New = function() { return new Hash(this.$get()).New(); };
-	Hash.prototype.Available = function() {
-		var $ptr, h;
-		h = this.$val;
-		return h < 16 && !(((h < 0 || h >= hashes.$length) ? $throwRuntimeError("index out of range") : hashes.$array[hashes.$offset + h]) === $throwNilPointerError);
-	};
-	$ptrType(Hash).prototype.Available = function() { return new Hash(this.$get()).Available(); };
-	RegisterHash = function(h, f) {
-		var $ptr, f, h;
-		if (h >= 16) {
-			$panic(new $String("crypto: RegisterHash of unknown hash function"));
-		}
-		((h < 0 || h >= hashes.$length) ? $throwRuntimeError("index out of range") : hashes.$array[hashes.$offset + h] = f);
-	};
-	$pkg.RegisterHash = RegisterHash;
-	Hash.methods = [{prop: "HashFunc", name: "HashFunc", pkg: "", typ: $funcType([], [Hash], false)}, {prop: "Size", name: "Size", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "New", name: "New", pkg: "", typ: $funcType([], [hash.Hash], false)}, {prop: "Available", name: "Available", pkg: "", typ: $funcType([], [$Bool], false)}];
-	PublicKey.init([]);
-	SignerOpts.init([{prop: "HashFunc", name: "HashFunc", pkg: "", typ: $funcType([], [Hash], false)}]);
-	DecrypterOpts.init([]);
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = hash.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = io.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = strconv.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		digestSizes = new sliceType([0, 16, 16, 20, 28, 32, 48, 64, 36, 20, 28, 32, 48, 64, 28, 32]);
-		hashes = $makeSlice(sliceType$1, 16);
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["crypto/subtle"] = (function() {
-	var $pkg = {}, $init, ConstantTimeCompare, ConstantTimeSelect, ConstantTimeByteEq, ConstantTimeEq, ConstantTimeCopy, ConstantTimeLessOrEq;
-	ConstantTimeCompare = function(x, y) {
-		var $ptr, i, v, x, y;
-		if (!((x.$length === y.$length))) {
-			return 0;
-		}
-		v = 0;
-		i = 0;
-		while (true) {
-			if (!(i < x.$length)) { break; }
-			v = (v | (((((i < 0 || i >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + i]) ^ ((i < 0 || i >= y.$length) ? $throwRuntimeError("index out of range") : y.$array[y.$offset + i])) << 24 >>> 24))) >>> 0;
-			i = i + (1) >> 0;
-		}
-		return ConstantTimeByteEq(v, 0);
-	};
-	$pkg.ConstantTimeCompare = ConstantTimeCompare;
-	ConstantTimeSelect = function(v, x, y) {
-		var $ptr, v, x, y;
-		return ((~((v - 1 >> 0)) >> 0) & x) | (((v - 1 >> 0)) & y);
-	};
-	$pkg.ConstantTimeSelect = ConstantTimeSelect;
-	ConstantTimeByteEq = function(x, y) {
-		var $ptr, x, y, z;
-		z = ~(((x ^ y) << 24 >>> 24)) << 24 >>> 24;
-		z = (z & ((z >>> 4 << 24 >>> 24))) >>> 0;
-		z = (z & ((z >>> 2 << 24 >>> 24))) >>> 0;
-		z = (z & ((z >>> 1 << 24 >>> 24))) >>> 0;
-		return (z >> 0);
-	};
-	$pkg.ConstantTimeByteEq = ConstantTimeByteEq;
-	ConstantTimeEq = function(x, y) {
-		var $ptr, x, y, z;
-		z = ~(((x ^ y) >> 0)) >> 0;
-		z = z & ((z >> 16 >> 0));
-		z = z & ((z >> 8 >> 0));
-		z = z & ((z >> 4 >> 0));
-		z = z & ((z >> 2 >> 0));
-		z = z & ((z >> 1 >> 0));
-		return ((z & 1) >> 0);
-	};
-	$pkg.ConstantTimeEq = ConstantTimeEq;
-	ConstantTimeCopy = function(v, x, y) {
-		var $ptr, i, v, x, xmask, y, ymask;
-		if (!((x.$length === y.$length))) {
-			$panic(new $String("subtle: slices have different lengths"));
-		}
-		xmask = ((v - 1 >> 0) << 24 >>> 24);
-		ymask = ((~((v - 1 >> 0)) >> 0) << 24 >>> 24);
-		i = 0;
-		while (true) {
-			if (!(i < x.$length)) { break; }
-			((i < 0 || i >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + i] = (((((i < 0 || i >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + i]) & xmask) >>> 0) | ((((i < 0 || i >= y.$length) ? $throwRuntimeError("index out of range") : y.$array[y.$offset + i]) & ymask) >>> 0)) >>> 0);
-			i = i + (1) >> 0;
-		}
-	};
-	$pkg.ConstantTimeCopy = ConstantTimeCopy;
-	ConstantTimeLessOrEq = function(x, y) {
-		var $ptr, x, x32, y, y32;
-		x32 = (x >> 0);
-		y32 = (y >> 0);
-		return (((((((x32 - y32 >> 0) - 1 >> 0)) >> 31 >> 0)) & 1) >> 0);
-	};
-	$pkg.ConstantTimeLessOrEq = ConstantTimeLessOrEq;
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["crypto/cipher"] = (function() {
-	var $pkg = {}, $init, subtle, errors, io, runtime, Block, Stream, ctr, StreamReader, sliceType$1, ptrType$3, errOpen, dup, NewCTR, safeXORBytes, xorBytes;
-	subtle = $packages["crypto/subtle"];
-	errors = $packages["errors"];
-	io = $packages["io"];
-	runtime = $packages["runtime"];
-	Block = $pkg.Block = $newType(8, $kindInterface, "cipher.Block", "Block", "crypto/cipher", null);
-	Stream = $pkg.Stream = $newType(8, $kindInterface, "cipher.Stream", "Stream", "crypto/cipher", null);
-	ctr = $pkg.ctr = $newType(0, $kindStruct, "cipher.ctr", "ctr", "crypto/cipher", function(b_, ctr_, out_, outUsed_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.b = $ifaceNil;
-			this.ctr = sliceType$1.nil;
-			this.out = sliceType$1.nil;
-			this.outUsed = 0;
-			return;
-		}
-		this.b = b_;
-		this.ctr = ctr_;
-		this.out = out_;
-		this.outUsed = outUsed_;
-	});
-	StreamReader = $pkg.StreamReader = $newType(0, $kindStruct, "cipher.StreamReader", "StreamReader", "crypto/cipher", function(S_, R_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.S = $ifaceNil;
-			this.R = $ifaceNil;
-			return;
-		}
-		this.S = S_;
-		this.R = R_;
-	});
-	sliceType$1 = $sliceType($Uint8);
-	ptrType$3 = $ptrType(ctr);
-	dup = function(p) {
-		var $ptr, p, q;
-		q = $makeSlice(sliceType$1, p.$length);
-		$copySlice(q, p);
-		return q;
-	};
-	NewCTR = function(block, iv) {
-		var $ptr, _r, _r$1, _r$2, block, bufSize, iv, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; block = $f.block; bufSize = $f.bufSize; iv = $f.iv; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = block.BlockSize(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		/* */ if (!((iv.$length === _r))) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (!((iv.$length === _r))) { */ case 1:
-			$panic(new $String("cipher.NewCTR: IV length must equal block size"));
-		/* } */ case 2:
-		bufSize = 512;
-		_r$1 = block.BlockSize(); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		/* */ if (bufSize < _r$1) { $s = 4; continue; }
-		/* */ $s = 5; continue;
-		/* if (bufSize < _r$1) { */ case 4:
-			_r$2 = block.BlockSize(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			bufSize = _r$2;
-		/* } */ case 5:
-		return new ctr.ptr(block, dup(iv), $makeSlice(sliceType$1, 0, bufSize), 0);
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: NewCTR }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.block = block; $f.bufSize = bufSize; $f.iv = iv; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.NewCTR = NewCTR;
-	ctr.ptr.prototype.refill = function() {
-		var $ptr, _r, bs, i, remain, x, x$1, x$2, x$3, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; bs = $f.bs; i = $f.i; remain = $f.remain; x = $f.x; x$1 = $f.x$1; x$2 = $f.x$2; x$3 = $f.x$3; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		x = this;
-		remain = x.out.$length - x.outUsed >> 0;
-		if (remain > x.outUsed) {
-			return;
-		}
-		$copySlice(x.out, $subslice(x.out, x.outUsed));
-		x.out = $subslice(x.out, 0, x.out.$capacity);
-		_r = x.b.BlockSize(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		bs = _r;
-		/* while (true) { */ case 2:
-			/* if (!(remain < (x.out.$length - bs >> 0))) { break; } */ if(!(remain < (x.out.$length - bs >> 0))) { $s = 3; continue; }
-			$r = x.b.Encrypt($subslice(x.out, remain), x.ctr); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			remain = remain + (bs) >> 0;
-			i = x.ctr.$length - 1 >> 0;
-			while (true) {
-				if (!(i >= 0)) { break; }
-				(x$2 = x.ctr, ((i < 0 || i >= x$2.$length) ? $throwRuntimeError("index out of range") : x$2.$array[x$2.$offset + i] = (x$1 = x.ctr, ((i < 0 || i >= x$1.$length) ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + i])) + (1) << 24 >>> 24));
-				if (!(((x$3 = x.ctr, ((i < 0 || i >= x$3.$length) ? $throwRuntimeError("index out of range") : x$3.$array[x$3.$offset + i])) === 0))) {
-					break;
-				}
-				i = i - (1) >> 0;
-			}
-		/* } */ $s = 2; continue; case 3:
-		x.out = $subslice(x.out, 0, remain);
-		x.outUsed = 0;
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ctr.ptr.prototype.refill }; } $f.$ptr = $ptr; $f._r = _r; $f.bs = bs; $f.i = i; $f.remain = remain; $f.x = x; $f.x$1 = x$1; $f.x$2 = x$2; $f.x$3 = x$3; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	ctr.prototype.refill = function() { return this.$val.refill(); };
-	ctr.ptr.prototype.XORKeyStream = function(dst, src) {
-		var $ptr, _r, dst, n, src, x, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; dst = $f.dst; n = $f.n; src = $f.src; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		x = this;
-		/* while (true) { */ case 1:
-			/* if (!(src.$length > 0)) { break; } */ if(!(src.$length > 0)) { $s = 2; continue; }
-			_r = x.b.BlockSize(); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			/* */ if (x.outUsed >= (x.out.$length - _r >> 0)) { $s = 3; continue; }
-			/* */ $s = 4; continue;
-			/* if (x.outUsed >= (x.out.$length - _r >> 0)) { */ case 3:
-				$r = x.refill(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* } */ case 4:
-			n = xorBytes(dst, src, $subslice(x.out, x.outUsed));
-			dst = $subslice(dst, n);
-			src = $subslice(src, n);
-			x.outUsed = x.outUsed + (n) >> 0;
-		/* } */ $s = 1; continue; case 2:
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ctr.ptr.prototype.XORKeyStream }; } $f.$ptr = $ptr; $f._r = _r; $f.dst = dst; $f.n = n; $f.src = src; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	ctr.prototype.XORKeyStream = function(dst, src) { return this.$val.XORKeyStream(dst, src); };
-	StreamReader.ptr.prototype.Read = function(dst) {
-		var $ptr, _r, _tuple, dst, err, n, r, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; dst = $f.dst; err = $f.err; n = $f.n; r = $f.r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		n = 0;
-		err = $ifaceNil;
-		r = $clone(this, StreamReader);
-		_r = r.R.Read(dst); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_tuple = _r; n = _tuple[0]; err = _tuple[1];
-		$r = r.S.XORKeyStream($subslice(dst, 0, n), $subslice(dst, 0, n)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		return [n, err];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: StreamReader.ptr.prototype.Read }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.dst = dst; $f.err = err; $f.n = n; $f.r = r; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	StreamReader.prototype.Read = function(dst) { return this.$val.Read(dst); };
-	safeXORBytes = function(dst, a, b) {
-		var $ptr, a, b, dst, i, n;
-		n = a.$length;
-		if (b.$length < n) {
-			n = b.$length;
-		}
-		i = 0;
-		while (true) {
-			if (!(i < n)) { break; }
-			((i < 0 || i >= dst.$length) ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + i] = (((i < 0 || i >= a.$length) ? $throwRuntimeError("index out of range") : a.$array[a.$offset + i]) ^ ((i < 0 || i >= b.$length) ? $throwRuntimeError("index out of range") : b.$array[b.$offset + i])) << 24 >>> 24);
-			i = i + (1) >> 0;
-		}
-		return n;
-	};
-	xorBytes = function(dst, a, b) {
-		var $ptr, a, b, dst;
-		return safeXORBytes(dst, a, b);
-	};
-	ptrType$3.methods = [{prop: "refill", name: "refill", pkg: "crypto/cipher", typ: $funcType([], [], false)}, {prop: "XORKeyStream", name: "XORKeyStream", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}];
-	StreamReader.methods = [{prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}];
-	Block.init([{prop: "BlockSize", name: "BlockSize", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Decrypt", name: "Decrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}, {prop: "Encrypt", name: "Encrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}]);
-	Stream.init([{prop: "XORKeyStream", name: "XORKeyStream", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}]);
-	ctr.init([{prop: "b", name: "b", pkg: "crypto/cipher", typ: Block, tag: ""}, {prop: "ctr", name: "ctr", pkg: "crypto/cipher", typ: sliceType$1, tag: ""}, {prop: "out", name: "out", pkg: "crypto/cipher", typ: sliceType$1, tag: ""}, {prop: "outUsed", name: "outUsed", pkg: "crypto/cipher", typ: $Int, tag: ""}]);
-	StreamReader.init([{prop: "S", name: "S", pkg: "", typ: Stream, tag: ""}, {prop: "R", name: "R", pkg: "", typ: io.Reader, tag: ""}]);
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = subtle.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = errors.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = io.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = runtime.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		errOpen = errors.New("cipher: message authentication failed");
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["crypto/aes"] = (function() {
-	var $pkg = {}, $init, cipher, strconv, aesCipher, KeySizeError, sliceType, sliceType$1, ptrType, powx, sbox0, sbox1, te0, te1, te2, te3, td0, td1, td2, td3, encryptBlockGo, decryptBlockGo, subw, rotw, expandKeyGo, NewCipher, encryptBlock, decryptBlock, expandKey;
-	cipher = $packages["crypto/cipher"];
-	strconv = $packages["strconv"];
-	aesCipher = $pkg.aesCipher = $newType(0, $kindStruct, "aes.aesCipher", "aesCipher", "crypto/aes", function(enc_, dec_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.enc = sliceType.nil;
-			this.dec = sliceType.nil;
-			return;
-		}
-		this.enc = enc_;
-		this.dec = dec_;
-	});
-	KeySizeError = $pkg.KeySizeError = $newType(4, $kindInt, "aes.KeySizeError", "KeySizeError", "crypto/aes", null);
-	sliceType = $sliceType($Uint32);
-	sliceType$1 = $sliceType($Uint8);
-	ptrType = $ptrType(aesCipher);
-	encryptBlockGo = function(xk, dst, src) {
-		var $ptr, _q, _tmp, _tmp$1, _tmp$10, _tmp$11, _tmp$12, _tmp$13, _tmp$14, _tmp$15, _tmp$16, _tmp$17, _tmp$18, _tmp$19, _tmp$2, _tmp$20, _tmp$21, _tmp$22, _tmp$23, _tmp$24, _tmp$25, _tmp$26, _tmp$27, _tmp$3, _tmp$4, _tmp$5, _tmp$6, _tmp$7, _tmp$8, _tmp$9, dst, k, nr, r, s0, s1, s2, s3, src, t0, t1, t2, t3, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$18, x$19, x$2, x$20, x$21, x$22, x$23, x$24, x$25, x$26, x$27, x$28, x$29, x$3, x$30, x$31, x$32, x$33, x$34, x$35, x$36, x$37, x$38, x$39, x$4, x$5, x$6, x$7, x$8, x$9, xk;
-		_tmp = 0; _tmp$1 = 0; _tmp$2 = 0; _tmp$3 = 0; _tmp$4 = 0; _tmp$5 = 0; _tmp$6 = 0; _tmp$7 = 0; s0 = _tmp; s1 = _tmp$1; s2 = _tmp$2; s3 = _tmp$3; t0 = _tmp$4; t1 = _tmp$5; t2 = _tmp$6; t3 = _tmp$7;
-		s0 = ((((((((0 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 0]) >>> 0) << 24 >>> 0) | (((1 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 1]) >>> 0) << 16 >>> 0)) >>> 0) | (((2 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 2]) >>> 0) << 8 >>> 0)) >>> 0) | ((3 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 3]) >>> 0)) >>> 0;
-		s1 = ((((((((4 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 4]) >>> 0) << 24 >>> 0) | (((5 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 5]) >>> 0) << 16 >>> 0)) >>> 0) | (((6 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 6]) >>> 0) << 8 >>> 0)) >>> 0) | ((7 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 7]) >>> 0)) >>> 0;
-		s2 = ((((((((8 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 8]) >>> 0) << 24 >>> 0) | (((9 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 9]) >>> 0) << 16 >>> 0)) >>> 0) | (((10 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 10]) >>> 0) << 8 >>> 0)) >>> 0) | ((11 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 11]) >>> 0)) >>> 0;
-		s3 = ((((((((12 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 12]) >>> 0) << 24 >>> 0) | (((13 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 13]) >>> 0) << 16 >>> 0)) >>> 0) | (((14 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 14]) >>> 0) << 8 >>> 0)) >>> 0) | ((15 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 15]) >>> 0)) >>> 0;
-		s0 = (s0 ^ ((0 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 0]))) >>> 0;
-		s1 = (s1 ^ ((1 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 1]))) >>> 0;
-		s2 = (s2 ^ ((2 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 2]))) >>> 0;
-		s3 = (s3 ^ ((3 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 3]))) >>> 0;
-		nr = (_q = xk.$length / 4, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero")) - 2 >> 0;
-		k = 4;
-		r = 0;
-		while (true) {
-			if (!(r < nr)) { break; }
-			t0 = ((((((((x = k + 0 >> 0, ((x < 0 || x >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x])) ^ (x$1 = ((s0 >>> 24 >>> 0) << 24 >>> 24), ((x$1 < 0 || x$1 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$1]))) >>> 0) ^ (x$2 = ((s1 >>> 16 >>> 0) << 24 >>> 24), ((x$2 < 0 || x$2 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$2]))) >>> 0) ^ (x$3 = ((s2 >>> 8 >>> 0) << 24 >>> 24), ((x$3 < 0 || x$3 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$3]))) >>> 0) ^ (x$4 = (s3 << 24 >>> 24), ((x$4 < 0 || x$4 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$4]))) >>> 0;
-			t1 = ((((((((x$5 = k + 1 >> 0, ((x$5 < 0 || x$5 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$5])) ^ (x$6 = ((s1 >>> 24 >>> 0) << 24 >>> 24), ((x$6 < 0 || x$6 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$6]))) >>> 0) ^ (x$7 = ((s2 >>> 16 >>> 0) << 24 >>> 24), ((x$7 < 0 || x$7 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$7]))) >>> 0) ^ (x$8 = ((s3 >>> 8 >>> 0) << 24 >>> 24), ((x$8 < 0 || x$8 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$8]))) >>> 0) ^ (x$9 = (s0 << 24 >>> 24), ((x$9 < 0 || x$9 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$9]))) >>> 0;
-			t2 = ((((((((x$10 = k + 2 >> 0, ((x$10 < 0 || x$10 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$10])) ^ (x$11 = ((s2 >>> 24 >>> 0) << 24 >>> 24), ((x$11 < 0 || x$11 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$11]))) >>> 0) ^ (x$12 = ((s3 >>> 16 >>> 0) << 24 >>> 24), ((x$12 < 0 || x$12 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$12]))) >>> 0) ^ (x$13 = ((s0 >>> 8 >>> 0) << 24 >>> 24), ((x$13 < 0 || x$13 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$13]))) >>> 0) ^ (x$14 = (s1 << 24 >>> 24), ((x$14 < 0 || x$14 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$14]))) >>> 0;
-			t3 = ((((((((x$15 = k + 3 >> 0, ((x$15 < 0 || x$15 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$15])) ^ (x$16 = ((s3 >>> 24 >>> 0) << 24 >>> 24), ((x$16 < 0 || x$16 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$16]))) >>> 0) ^ (x$17 = ((s0 >>> 16 >>> 0) << 24 >>> 24), ((x$17 < 0 || x$17 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$17]))) >>> 0) ^ (x$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24), ((x$18 < 0 || x$18 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$18]))) >>> 0) ^ (x$19 = (s2 << 24 >>> 24), ((x$19 < 0 || x$19 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$19]))) >>> 0;
-			k = k + (4) >> 0;
-			_tmp$8 = t0; _tmp$9 = t1; _tmp$10 = t2; _tmp$11 = t3; s0 = _tmp$8; s1 = _tmp$9; s2 = _tmp$10; s3 = _tmp$11;
-			r = r + (1) >> 0;
-		}
-		s0 = ((((((((x$20 = t0 >>> 24 >>> 0, ((x$20 < 0 || x$20 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$20])) >>> 0) << 24 >>> 0) | (((x$21 = ((t1 >>> 16 >>> 0) & 255) >>> 0, ((x$21 < 0 || x$21 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$21])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$22 = ((t2 >>> 8 >>> 0) & 255) >>> 0, ((x$22 < 0 || x$22 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$22])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$23 = (t3 & 255) >>> 0, ((x$23 < 0 || x$23 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$23])) >>> 0)) >>> 0;
-		s1 = ((((((((x$24 = t1 >>> 24 >>> 0, ((x$24 < 0 || x$24 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$24])) >>> 0) << 24 >>> 0) | (((x$25 = ((t2 >>> 16 >>> 0) & 255) >>> 0, ((x$25 < 0 || x$25 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$25])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$26 = ((t3 >>> 8 >>> 0) & 255) >>> 0, ((x$26 < 0 || x$26 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$26])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$27 = (t0 & 255) >>> 0, ((x$27 < 0 || x$27 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$27])) >>> 0)) >>> 0;
-		s2 = ((((((((x$28 = t2 >>> 24 >>> 0, ((x$28 < 0 || x$28 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$28])) >>> 0) << 24 >>> 0) | (((x$29 = ((t3 >>> 16 >>> 0) & 255) >>> 0, ((x$29 < 0 || x$29 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$29])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$30 = ((t0 >>> 8 >>> 0) & 255) >>> 0, ((x$30 < 0 || x$30 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$30])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$31 = (t1 & 255) >>> 0, ((x$31 < 0 || x$31 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$31])) >>> 0)) >>> 0;
-		s3 = ((((((((x$32 = t3 >>> 24 >>> 0, ((x$32 < 0 || x$32 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$32])) >>> 0) << 24 >>> 0) | (((x$33 = ((t0 >>> 16 >>> 0) & 255) >>> 0, ((x$33 < 0 || x$33 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$33])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$34 = ((t1 >>> 8 >>> 0) & 255) >>> 0, ((x$34 < 0 || x$34 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$34])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$35 = (t2 & 255) >>> 0, ((x$35 < 0 || x$35 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$35])) >>> 0)) >>> 0;
-		s0 = (s0 ^ ((x$36 = k + 0 >> 0, ((x$36 < 0 || x$36 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$36])))) >>> 0;
-		s1 = (s1 ^ ((x$37 = k + 1 >> 0, ((x$37 < 0 || x$37 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$37])))) >>> 0;
-		s2 = (s2 ^ ((x$38 = k + 2 >> 0, ((x$38 < 0 || x$38 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$38])))) >>> 0;
-		s3 = (s3 ^ ((x$39 = k + 3 >> 0, ((x$39 < 0 || x$39 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$39])))) >>> 0;
-		_tmp$12 = ((s0 >>> 24 >>> 0) << 24 >>> 24); _tmp$13 = ((s0 >>> 16 >>> 0) << 24 >>> 24); _tmp$14 = ((s0 >>> 8 >>> 0) << 24 >>> 24); _tmp$15 = (s0 << 24 >>> 24); (0 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 0] = _tmp$12); (1 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 1] = _tmp$13); (2 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 2] = _tmp$14); (3 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 3] = _tmp$15);
-		_tmp$16 = ((s1 >>> 24 >>> 0) << 24 >>> 24); _tmp$17 = ((s1 >>> 16 >>> 0) << 24 >>> 24); _tmp$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24); _tmp$19 = (s1 << 24 >>> 24); (4 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 4] = _tmp$16); (5 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 5] = _tmp$17); (6 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 6] = _tmp$18); (7 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 7] = _tmp$19);
-		_tmp$20 = ((s2 >>> 24 >>> 0) << 24 >>> 24); _tmp$21 = ((s2 >>> 16 >>> 0) << 24 >>> 24); _tmp$22 = ((s2 >>> 8 >>> 0) << 24 >>> 24); _tmp$23 = (s2 << 24 >>> 24); (8 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 8] = _tmp$20); (9 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 9] = _tmp$21); (10 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 10] = _tmp$22); (11 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 11] = _tmp$23);
-		_tmp$24 = ((s3 >>> 24 >>> 0) << 24 >>> 24); _tmp$25 = ((s3 >>> 16 >>> 0) << 24 >>> 24); _tmp$26 = ((s3 >>> 8 >>> 0) << 24 >>> 24); _tmp$27 = (s3 << 24 >>> 24); (12 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 12] = _tmp$24); (13 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 13] = _tmp$25); (14 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 14] = _tmp$26); (15 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 15] = _tmp$27);
-	};
-	decryptBlockGo = function(xk, dst, src) {
-		var $ptr, _q, _tmp, _tmp$1, _tmp$10, _tmp$11, _tmp$12, _tmp$13, _tmp$14, _tmp$15, _tmp$16, _tmp$17, _tmp$18, _tmp$19, _tmp$2, _tmp$20, _tmp$21, _tmp$22, _tmp$23, _tmp$24, _tmp$25, _tmp$26, _tmp$27, _tmp$3, _tmp$4, _tmp$5, _tmp$6, _tmp$7, _tmp$8, _tmp$9, dst, k, nr, r, s0, s1, s2, s3, src, t0, t1, t2, t3, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$18, x$19, x$2, x$20, x$21, x$22, x$23, x$24, x$25, x$26, x$27, x$28, x$29, x$3, x$30, x$31, x$32, x$33, x$34, x$35, x$36, x$37, x$38, x$39, x$4, x$5, x$6, x$7, x$8, x$9, xk;
-		_tmp = 0; _tmp$1 = 0; _tmp$2 = 0; _tmp$3 = 0; _tmp$4 = 0; _tmp$5 = 0; _tmp$6 = 0; _tmp$7 = 0; s0 = _tmp; s1 = _tmp$1; s2 = _tmp$2; s3 = _tmp$3; t0 = _tmp$4; t1 = _tmp$5; t2 = _tmp$6; t3 = _tmp$7;
-		s0 = ((((((((0 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 0]) >>> 0) << 24 >>> 0) | (((1 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 1]) >>> 0) << 16 >>> 0)) >>> 0) | (((2 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 2]) >>> 0) << 8 >>> 0)) >>> 0) | ((3 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 3]) >>> 0)) >>> 0;
-		s1 = ((((((((4 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 4]) >>> 0) << 24 >>> 0) | (((5 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 5]) >>> 0) << 16 >>> 0)) >>> 0) | (((6 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 6]) >>> 0) << 8 >>> 0)) >>> 0) | ((7 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 7]) >>> 0)) >>> 0;
-		s2 = ((((((((8 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 8]) >>> 0) << 24 >>> 0) | (((9 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 9]) >>> 0) << 16 >>> 0)) >>> 0) | (((10 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 10]) >>> 0) << 8 >>> 0)) >>> 0) | ((11 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 11]) >>> 0)) >>> 0;
-		s3 = ((((((((12 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 12]) >>> 0) << 24 >>> 0) | (((13 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 13]) >>> 0) << 16 >>> 0)) >>> 0) | (((14 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 14]) >>> 0) << 8 >>> 0)) >>> 0) | ((15 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 15]) >>> 0)) >>> 0;
-		s0 = (s0 ^ ((0 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 0]))) >>> 0;
-		s1 = (s1 ^ ((1 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 1]))) >>> 0;
-		s2 = (s2 ^ ((2 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 2]))) >>> 0;
-		s3 = (s3 ^ ((3 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 3]))) >>> 0;
-		nr = (_q = xk.$length / 4, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero")) - 2 >> 0;
-		k = 4;
-		r = 0;
-		while (true) {
-			if (!(r < nr)) { break; }
-			t0 = ((((((((x = k + 0 >> 0, ((x < 0 || x >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x])) ^ (x$1 = ((s0 >>> 24 >>> 0) << 24 >>> 24), ((x$1 < 0 || x$1 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$1]))) >>> 0) ^ (x$2 = ((s3 >>> 16 >>> 0) << 24 >>> 24), ((x$2 < 0 || x$2 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$2]))) >>> 0) ^ (x$3 = ((s2 >>> 8 >>> 0) << 24 >>> 24), ((x$3 < 0 || x$3 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$3]))) >>> 0) ^ (x$4 = (s1 << 24 >>> 24), ((x$4 < 0 || x$4 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$4]))) >>> 0;
-			t1 = ((((((((x$5 = k + 1 >> 0, ((x$5 < 0 || x$5 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$5])) ^ (x$6 = ((s1 >>> 24 >>> 0) << 24 >>> 24), ((x$6 < 0 || x$6 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$6]))) >>> 0) ^ (x$7 = ((s0 >>> 16 >>> 0) << 24 >>> 24), ((x$7 < 0 || x$7 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$7]))) >>> 0) ^ (x$8 = ((s3 >>> 8 >>> 0) << 24 >>> 24), ((x$8 < 0 || x$8 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$8]))) >>> 0) ^ (x$9 = (s2 << 24 >>> 24), ((x$9 < 0 || x$9 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$9]))) >>> 0;
-			t2 = ((((((((x$10 = k + 2 >> 0, ((x$10 < 0 || x$10 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$10])) ^ (x$11 = ((s2 >>> 24 >>> 0) << 24 >>> 24), ((x$11 < 0 || x$11 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$11]))) >>> 0) ^ (x$12 = ((s1 >>> 16 >>> 0) << 24 >>> 24), ((x$12 < 0 || x$12 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$12]))) >>> 0) ^ (x$13 = ((s0 >>> 8 >>> 0) << 24 >>> 24), ((x$13 < 0 || x$13 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$13]))) >>> 0) ^ (x$14 = (s3 << 24 >>> 24), ((x$14 < 0 || x$14 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$14]))) >>> 0;
-			t3 = ((((((((x$15 = k + 3 >> 0, ((x$15 < 0 || x$15 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$15])) ^ (x$16 = ((s3 >>> 24 >>> 0) << 24 >>> 24), ((x$16 < 0 || x$16 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$16]))) >>> 0) ^ (x$17 = ((s2 >>> 16 >>> 0) << 24 >>> 24), ((x$17 < 0 || x$17 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$17]))) >>> 0) ^ (x$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24), ((x$18 < 0 || x$18 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$18]))) >>> 0) ^ (x$19 = (s0 << 24 >>> 24), ((x$19 < 0 || x$19 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$19]))) >>> 0;
-			k = k + (4) >> 0;
-			_tmp$8 = t0; _tmp$9 = t1; _tmp$10 = t2; _tmp$11 = t3; s0 = _tmp$8; s1 = _tmp$9; s2 = _tmp$10; s3 = _tmp$11;
-			r = r + (1) >> 0;
-		}
-		s0 = ((((((((x$20 = t0 >>> 24 >>> 0, ((x$20 < 0 || x$20 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$20])) >>> 0) << 24 >>> 0) | (((x$21 = ((t3 >>> 16 >>> 0) & 255) >>> 0, ((x$21 < 0 || x$21 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$21])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$22 = ((t2 >>> 8 >>> 0) & 255) >>> 0, ((x$22 < 0 || x$22 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$22])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$23 = (t1 & 255) >>> 0, ((x$23 < 0 || x$23 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$23])) >>> 0)) >>> 0;
-		s1 = ((((((((x$24 = t1 >>> 24 >>> 0, ((x$24 < 0 || x$24 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$24])) >>> 0) << 24 >>> 0) | (((x$25 = ((t0 >>> 16 >>> 0) & 255) >>> 0, ((x$25 < 0 || x$25 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$25])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$26 = ((t3 >>> 8 >>> 0) & 255) >>> 0, ((x$26 < 0 || x$26 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$26])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$27 = (t2 & 255) >>> 0, ((x$27 < 0 || x$27 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$27])) >>> 0)) >>> 0;
-		s2 = ((((((((x$28 = t2 >>> 24 >>> 0, ((x$28 < 0 || x$28 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$28])) >>> 0) << 24 >>> 0) | (((x$29 = ((t1 >>> 16 >>> 0) & 255) >>> 0, ((x$29 < 0 || x$29 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$29])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$30 = ((t0 >>> 8 >>> 0) & 255) >>> 0, ((x$30 < 0 || x$30 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$30])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$31 = (t3 & 255) >>> 0, ((x$31 < 0 || x$31 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$31])) >>> 0)) >>> 0;
-		s3 = ((((((((x$32 = t3 >>> 24 >>> 0, ((x$32 < 0 || x$32 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$32])) >>> 0) << 24 >>> 0) | (((x$33 = ((t2 >>> 16 >>> 0) & 255) >>> 0, ((x$33 < 0 || x$33 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$33])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$34 = ((t1 >>> 8 >>> 0) & 255) >>> 0, ((x$34 < 0 || x$34 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$34])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$35 = (t0 & 255) >>> 0, ((x$35 < 0 || x$35 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$35])) >>> 0)) >>> 0;
-		s0 = (s0 ^ ((x$36 = k + 0 >> 0, ((x$36 < 0 || x$36 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$36])))) >>> 0;
-		s1 = (s1 ^ ((x$37 = k + 1 >> 0, ((x$37 < 0 || x$37 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$37])))) >>> 0;
-		s2 = (s2 ^ ((x$38 = k + 2 >> 0, ((x$38 < 0 || x$38 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$38])))) >>> 0;
-		s3 = (s3 ^ ((x$39 = k + 3 >> 0, ((x$39 < 0 || x$39 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$39])))) >>> 0;
-		_tmp$12 = ((s0 >>> 24 >>> 0) << 24 >>> 24); _tmp$13 = ((s0 >>> 16 >>> 0) << 24 >>> 24); _tmp$14 = ((s0 >>> 8 >>> 0) << 24 >>> 24); _tmp$15 = (s0 << 24 >>> 24); (0 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 0] = _tmp$12); (1 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 1] = _tmp$13); (2 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 2] = _tmp$14); (3 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 3] = _tmp$15);
-		_tmp$16 = ((s1 >>> 24 >>> 0) << 24 >>> 24); _tmp$17 = ((s1 >>> 16 >>> 0) << 24 >>> 24); _tmp$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24); _tmp$19 = (s1 << 24 >>> 24); (4 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 4] = _tmp$16); (5 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 5] = _tmp$17); (6 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 6] = _tmp$18); (7 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 7] = _tmp$19);
-		_tmp$20 = ((s2 >>> 24 >>> 0) << 24 >>> 24); _tmp$21 = ((s2 >>> 16 >>> 0) << 24 >>> 24); _tmp$22 = ((s2 >>> 8 >>> 0) << 24 >>> 24); _tmp$23 = (s2 << 24 >>> 24); (8 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 8] = _tmp$20); (9 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 9] = _tmp$21); (10 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 10] = _tmp$22); (11 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 11] = _tmp$23);
-		_tmp$24 = ((s3 >>> 24 >>> 0) << 24 >>> 24); _tmp$25 = ((s3 >>> 16 >>> 0) << 24 >>> 24); _tmp$26 = ((s3 >>> 8 >>> 0) << 24 >>> 24); _tmp$27 = (s3 << 24 >>> 24); (12 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 12] = _tmp$24); (13 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 13] = _tmp$25); (14 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 14] = _tmp$26); (15 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 15] = _tmp$27);
-	};
-	subw = function(w) {
-		var $ptr, w, x, x$1, x$2, x$3;
-		return ((((((((x = w >>> 24 >>> 0, ((x < 0 || x >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x])) >>> 0) << 24 >>> 0) | (((x$1 = ((w >>> 16 >>> 0) & 255) >>> 0, ((x$1 < 0 || x$1 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$1])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$2 = ((w >>> 8 >>> 0) & 255) >>> 0, ((x$2 < 0 || x$2 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$2])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$3 = (w & 255) >>> 0, ((x$3 < 0 || x$3 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$3])) >>> 0)) >>> 0;
-	};
-	rotw = function(w) {
-		var $ptr, w;
-		return ((w << 8 >>> 0) | (w >>> 24 >>> 0)) >>> 0;
-	};
-	expandKeyGo = function(key, enc, dec) {
-		var $ptr, _q, _q$1, _r, _r$1, dec, ei, enc, i, i$1, j, key, n, nk, t, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9;
-		i = 0;
-		nk = (_q = key.$length / 4, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero"));
-		i = 0;
-		while (true) {
-			if (!(i < nk)) { break; }
-			((i < 0 || i >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + i] = ((((((((x = 4 * i >> 0, ((x < 0 || x >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x])) >>> 0) << 24 >>> 0) | (((x$1 = (4 * i >> 0) + 1 >> 0, ((x$1 < 0 || x$1 >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x$1])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$2 = (4 * i >> 0) + 2 >> 0, ((x$2 < 0 || x$2 >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x$2])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$3 = (4 * i >> 0) + 3 >> 0, ((x$3 < 0 || x$3 >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x$3])) >>> 0)) >>> 0);
-			i = i + (1) >> 0;
-		}
-		while (true) {
-			if (!(i < enc.$length)) { break; }
-			t = (x$4 = i - 1 >> 0, ((x$4 < 0 || x$4 >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + x$4]));
-			if ((_r = i % nk, _r === _r ? _r : $throwRuntimeError("integer divide by zero")) === 0) {
-				t = (subw(rotw(t)) ^ ((((x$5 = (_q$1 = i / nk, (_q$1 === _q$1 && _q$1 !== 1/0 && _q$1 !== -1/0) ? _q$1 >> 0 : $throwRuntimeError("integer divide by zero")) - 1 >> 0, ((x$5 < 0 || x$5 >= powx.length) ? $throwRuntimeError("index out of range") : powx[x$5])) >>> 0) << 24 >>> 0))) >>> 0;
-			} else if (nk > 6 && ((_r$1 = i % nk, _r$1 === _r$1 ? _r$1 : $throwRuntimeError("integer divide by zero")) === 4)) {
-				t = subw(t);
-			}
-			((i < 0 || i >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + i] = ((x$6 = i - nk >> 0, ((x$6 < 0 || x$6 >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + x$6])) ^ t) >>> 0);
-			i = i + (1) >> 0;
-		}
-		if (dec === sliceType.nil) {
-			return;
-		}
-		n = enc.$length;
-		i$1 = 0;
-		while (true) {
-			if (!(i$1 < n)) { break; }
-			ei = (n - i$1 >> 0) - 4 >> 0;
-			j = 0;
-			while (true) {
-				if (!(j < 4)) { break; }
-				x$8 = (x$7 = ei + j >> 0, ((x$7 < 0 || x$7 >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + x$7]));
-				if (i$1 > 0 && (i$1 + 4 >> 0) < n) {
-					x$8 = ((((((x$9 = (x$10 = x$8 >>> 24 >>> 0, ((x$10 < 0 || x$10 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$10])), ((x$9 < 0 || x$9 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$9])) ^ (x$11 = (x$12 = ((x$8 >>> 16 >>> 0) & 255) >>> 0, ((x$12 < 0 || x$12 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$12])), ((x$11 < 0 || x$11 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$11]))) >>> 0) ^ (x$13 = (x$14 = ((x$8 >>> 8 >>> 0) & 255) >>> 0, ((x$14 < 0 || x$14 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$14])), ((x$13 < 0 || x$13 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$13]))) >>> 0) ^ (x$15 = (x$16 = (x$8 & 255) >>> 0, ((x$16 < 0 || x$16 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$16])), ((x$15 < 0 || x$15 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$15]))) >>> 0;
-				}
-				(x$17 = i$1 + j >> 0, ((x$17 < 0 || x$17 >= dec.$length) ? $throwRuntimeError("index out of range") : dec.$array[dec.$offset + x$17] = x$8));
-				j = j + (1) >> 0;
-			}
-			i$1 = i$1 + (4) >> 0;
-		}
-	};
-	KeySizeError.prototype.Error = function() {
-		var $ptr, k;
-		k = this.$val;
-		return "crypto/aes: invalid key size " + strconv.Itoa((k >> 0));
-	};
-	$ptrType(KeySizeError).prototype.Error = function() { return new KeySizeError(this.$get()).Error(); };
-	NewCipher = function(key) {
-		var $ptr, _ref, c, k, key, n;
-		k = key.$length;
-		_ref = k;
-		switch (0) { default: if (_ref === 16 || _ref === 24 || _ref === 32) {
-			break;
-		} else {
-			return [$ifaceNil, new KeySizeError((k >> 0))];
-		} }
-		n = k + 28 >> 0;
-		c = new aesCipher.ptr($makeSlice(sliceType, n), $makeSlice(sliceType, n));
-		expandKey(key, c.enc, c.dec);
-		return [c, $ifaceNil];
-	};
-	$pkg.NewCipher = NewCipher;
-	aesCipher.ptr.prototype.BlockSize = function() {
-		var $ptr, c;
-		c = this;
-		return 16;
-	};
-	aesCipher.prototype.BlockSize = function() { return this.$val.BlockSize(); };
-	aesCipher.ptr.prototype.Encrypt = function(dst, src) {
-		var $ptr, c, dst, src;
-		c = this;
-		if (src.$length < 16) {
-			$panic(new $String("crypto/aes: input not full block"));
-		}
-		if (dst.$length < 16) {
-			$panic(new $String("crypto/aes: output not full block"));
-		}
-		encryptBlock(c.enc, dst, src);
-	};
-	aesCipher.prototype.Encrypt = function(dst, src) { return this.$val.Encrypt(dst, src); };
-	aesCipher.ptr.prototype.Decrypt = function(dst, src) {
-		var $ptr, c, dst, src;
-		c = this;
-		if (src.$length < 16) {
-			$panic(new $String("crypto/aes: input not full block"));
-		}
-		if (dst.$length < 16) {
-			$panic(new $String("crypto/aes: output not full block"));
-		}
-		decryptBlock(c.dec, dst, src);
-	};
-	aesCipher.prototype.Decrypt = function(dst, src) { return this.$val.Decrypt(dst, src); };
-	encryptBlock = function(xk, dst, src) {
-		var $ptr, dst, src, xk;
-		encryptBlockGo(xk, dst, src);
-	};
-	decryptBlock = function(xk, dst, src) {
-		var $ptr, dst, src, xk;
-		decryptBlockGo(xk, dst, src);
-	};
-	expandKey = function(key, enc, dec) {
-		var $ptr, dec, enc, key;
-		expandKeyGo(key, enc, dec);
-	};
-	ptrType.methods = [{prop: "BlockSize", name: "BlockSize", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Encrypt", name: "Encrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}, {prop: "Decrypt", name: "Decrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}];
-	KeySizeError.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
-	aesCipher.init([{prop: "enc", name: "enc", pkg: "crypto/aes", typ: sliceType, tag: ""}, {prop: "dec", name: "dec", pkg: "crypto/aes", typ: sliceType, tag: ""}]);
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = cipher.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = strconv.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		powx = $toNativeArray($kindUint8, [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47]);
-		sbox0 = $toNativeArray($kindUint8, [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22]);
-		sbox1 = $toNativeArray($kindUint8, [82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47, 255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66, 250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246, 100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94, 21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6, 208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234, 151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28, 117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75, 198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18, 16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160, 224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38, 225, 105, 20, 99, 85, 33, 12, 125]);
-		te0 = $toNativeArray($kindUint32, [3328402341, 4168907908, 4000806809, 4135287693, 4294111757, 3597364157, 3731845041, 2445657428, 1613770832, 33620227, 3462883241, 1445669757, 3892248089, 3050821474, 1303096294, 3967186586, 2412431941, 528646813, 2311702848, 4202528135, 4026202645, 2992200171, 2387036105, 4226871307, 1101901292, 3017069671, 1604494077, 1169141738, 597466303, 1403299063, 3832705686, 2613100635, 1974974402, 3791519004, 1033081774, 1277568618, 1815492186, 2118074177, 4126668546, 2211236943, 1748251740, 1369810420, 3521504564, 4193382664, 3799085459, 2883115123, 1647391059, 706024767, 134480908, 2512897874, 1176707941, 2646852446, 806885416, 932615841, 168101135, 798661301, 235341577, 605164086, 461406363, 3756188221, 3454790438, 1311188841, 2142417613, 3933566367, 302582043, 495158174, 1479289972, 874125870, 907746093, 3698224818, 3025820398, 1537253627, 2756858614, 1983593293, 3084310113, 2108928974, 1378429307, 3722699582, 1580150641, 327451799, 2790478837, 3117535592, 0, 3253595436, 1075847264, 3825007647, 2041688520, 3059440621, 3563743934, 2378943302, 1740553945, 1916352843, 2487896798, 2555137236, 2958579944, 2244988746, 3151024235, 3320835882, 1336584933, 3992714006, 2252555205, 2588757463, 1714631509, 293963156, 2319795663, 3925473552, 67240454, 4269768577, 2689618160, 2017213508, 631218106, 1269344483, 2723238387, 1571005438, 2151694528, 93294474, 1066570413, 563977660, 1882732616, 4059428100, 1673313503, 2008463041, 2950355573, 1109467491, 537923632, 3858759450, 4260623118, 3218264685, 2177748300, 403442708, 638784309, 3287084079, 3193921505, 899127202, 2286175436, 773265209, 2479146071, 1437050866, 4236148354, 2050833735, 3362022572, 3126681063, 840505643, 3866325909, 3227541664, 427917720, 2655997905, 2749160575, 1143087718, 1412049534, 999329963, 193497219, 2353415882, 3354324521, 1807268051, 672404540, 2816401017, 3160301282, 369822493, 2916866934, 3688947771, 1681011286, 1949973070, 336202270, 2454276571, 201721354, 1210328172, 3093060836, 2680341085, 3184776046, 1135389935, 3294782118, 965841320, 831886756, 3554993207, 4068047243, 3588745010, 2345191491, 1849112409, 3664604599, 26054028, 2983581028, 2622377682, 1235855840, 3630984372, 2891339514, 4092916743, 3488279077, 3395642799, 4101667470, 1202630377, 268961816, 1874508501, 4034427016, 1243948399, 1546530418, 941366308, 1470539505, 1941222599, 2546386513, 3421038627, 2715671932, 3899946140, 1042226977, 2521517021, 1639824860, 227249030, 260737669, 3765465232, 2084453954, 1907733956, 3429263018, 2420656344, 100860677, 4160157185, 470683154, 3261161891, 1781871967, 2924959737, 1773779408, 394692241, 2579611992, 974986535, 664706745, 3655459128, 3958962195, 731420851, 571543859, 3530123707, 2849626480, 126783113, 865375399, 765172662, 1008606754, 361203602, 3387549984, 2278477385, 2857719295, 1344809080, 2782912378, 59542671, 1503764984, 160008576, 437062935, 1707065306, 3622233649, 2218934982, 3496503480, 2185314755, 697932208, 1512910199, 504303377, 2075177163, 2824099068, 1841019862, 739644986]);
-		te1 = $toNativeArray($kindUint32, [2781242211, 2230877308, 2582542199, 2381740923, 234877682, 3184946027, 2984144751, 1418839493, 1348481072, 50462977, 2848876391, 2102799147, 434634494, 1656084439, 3863849899, 2599188086, 1167051466, 2636087938, 1082771913, 2281340285, 368048890, 3954334041, 3381544775, 201060592, 3963727277, 1739838676, 4250903202, 3930435503, 3206782108, 4149453988, 2531553906, 1536934080, 3262494647, 484572669, 2923271059, 1783375398, 1517041206, 1098792767, 49674231, 1334037708, 1550332980, 4098991525, 886171109, 150598129, 2481090929, 1940642008, 1398944049, 1059722517, 201851908, 1385547719, 1699095331, 1587397571, 674240536, 2704774806, 252314885, 3039795866, 151914247, 908333586, 2602270848, 1038082786, 651029483, 1766729511, 3447698098, 2682942837, 454166793, 2652734339, 1951935532, 775166490, 758520603, 3000790638, 4004797018, 4217086112, 4137964114, 1299594043, 1639438038, 3464344499, 2068982057, 1054729187, 1901997871, 2534638724, 4121318227, 1757008337, 0, 750906861, 1614815264, 535035132, 3363418545, 3988151131, 3201591914, 1183697867, 3647454910, 1265776953, 3734260298, 3566750796, 3903871064, 1250283471, 1807470800, 717615087, 3847203498, 384695291, 3313910595, 3617213773, 1432761139, 2484176261, 3481945413, 283769337, 100925954, 2180939647, 4037038160, 1148730428, 3123027871, 3813386408, 4087501137, 4267549603, 3229630528, 2315620239, 2906624658, 3156319645, 1215313976, 82966005, 3747855548, 3245848246, 1974459098, 1665278241, 807407632, 451280895, 251524083, 1841287890, 1283575245, 337120268, 891687699, 801369324, 3787349855, 2721421207, 3431482436, 959321879, 1469301956, 4065699751, 2197585534, 1199193405, 2898814052, 3887750493, 724703513, 2514908019, 2696962144, 2551808385, 3516813135, 2141445340, 1715741218, 2119445034, 2872807568, 2198571144, 3398190662, 700968686, 3547052216, 1009259540, 2041044702, 3803995742, 487983883, 1991105499, 1004265696, 1449407026, 1316239930, 504629770, 3683797321, 168560134, 1816667172, 3837287516, 1570751170, 1857934291, 4014189740, 2797888098, 2822345105, 2754712981, 936633572, 2347923833, 852879335, 1133234376, 1500395319, 3084545389, 2348912013, 1689376213, 3533459022, 3762923945, 3034082412, 4205598294, 133428468, 634383082, 2949277029, 2398386810, 3913789102, 403703816, 3580869306, 2297460856, 1867130149, 1918643758, 607656988, 4049053350, 3346248884, 1368901318, 600565992, 2090982877, 2632479860, 557719327, 3717614411, 3697393085, 2249034635, 2232388234, 2430627952, 1115438654, 3295786421, 2865522278, 3633334344, 84280067, 33027830, 303828494, 2747425121, 1600795957, 4188952407, 3496589753, 2434238086, 1486471617, 658119965, 3106381470, 953803233, 334231800, 3005978776, 857870609, 3151128937, 1890179545, 2298973838, 2805175444, 3056442267, 574365214, 2450884487, 550103529, 1233637070, 4289353045, 2018519080, 2057691103, 2399374476, 4166623649, 2148108681, 387583245, 3664101311, 836232934, 3330556482, 3100665960, 3280093505, 2955516313, 2002398509, 287182607, 3413881008, 4238890068, 3597515707, 975967766]);
-		te2 = $toNativeArray($kindUint32, [1671808611, 2089089148, 2006576759, 2072901243, 4061003762, 1807603307, 1873927791, 3310653893, 810573872, 16974337, 1739181671, 729634347, 4263110654, 3613570519, 2883997099, 1989864566, 3393556426, 2191335298, 3376449993, 2106063485, 4195741690, 1508618841, 1204391495, 4027317232, 2917941677, 3563566036, 2734514082, 2951366063, 2629772188, 2767672228, 1922491506, 3227229120, 3082974647, 4246528509, 2477669779, 644500518, 911895606, 1061256767, 4144166391, 3427763148, 878471220, 2784252325, 3845444069, 4043897329, 1905517169, 3631459288, 827548209, 356461077, 67897348, 3344078279, 593839651, 3277757891, 405286936, 2527147926, 84871685, 2595565466, 118033927, 305538066, 2157648768, 3795705826, 3945188843, 661212711, 2999812018, 1973414517, 152769033, 2208177539, 745822252, 439235610, 455947803, 1857215598, 1525593178, 2700827552, 1391895634, 994932283, 3596728278, 3016654259, 695947817, 3812548067, 795958831, 2224493444, 1408607827, 3513301457, 0, 3979133421, 543178784, 4229948412, 2982705585, 1542305371, 1790891114, 3410398667, 3201918910, 961245753, 1256100938, 1289001036, 1491644504, 3477767631, 3496721360, 4012557807, 2867154858, 4212583931, 1137018435, 1305975373, 861234739, 2241073541, 1171229253, 4178635257, 33948674, 2139225727, 1357946960, 1011120188, 2679776671, 2833468328, 1374921297, 2751356323, 1086357568, 2408187279, 2460827538, 2646352285, 944271416, 4110742005, 3168756668, 3066132406, 3665145818, 560153121, 271589392, 4279952895, 4077846003, 3530407890, 3444343245, 202643468, 322250259, 3962553324, 1608629855, 2543990167, 1154254916, 389623319, 3294073796, 2817676711, 2122513534, 1028094525, 1689045092, 1575467613, 422261273, 1939203699, 1621147744, 2174228865, 1339137615, 3699352540, 577127458, 712922154, 2427141008, 2290289544, 1187679302, 3995715566, 3100863416, 339486740, 3732514782, 1591917662, 186455563, 3681988059, 3762019296, 844522546, 978220090, 169743370, 1239126601, 101321734, 611076132, 1558493276, 3260915650, 3547250131, 2901361580, 1655096418, 2443721105, 2510565781, 3828863972, 2039214713, 3878868455, 3359869896, 928607799, 1840765549, 2374762893, 3580146133, 1322425422, 2850048425, 1823791212, 1459268694, 4094161908, 3928346602, 1706019429, 2056189050, 2934523822, 135794696, 3134549946, 2022240376, 628050469, 779246638, 472135708, 2800834470, 3032970164, 3327236038, 3894660072, 3715932637, 1956440180, 522272287, 1272813131, 3185336765, 2340818315, 2323976074, 1888542832, 1044544574, 3049550261, 1722469478, 1222152264, 50660867, 4127324150, 236067854, 1638122081, 895445557, 1475980887, 3117443513, 2257655686, 3243809217, 489110045, 2662934430, 3778599393, 4162055160, 2561878936, 288563729, 1773916777, 3648039385, 2391345038, 2493985684, 2612407707, 505560094, 2274497927, 3911240169, 3460925390, 1442818645, 678973480, 3749357023, 2358182796, 2717407649, 2306869641, 219617805, 3218761151, 3862026214, 1120306242, 1756942440, 1103331905, 2578459033, 762796589, 252780047, 2966125488, 1425844308, 3151392187, 372911126]);
-		te3 = $toNativeArray($kindUint32, [1667474886, 2088535288, 2004326894, 2071694838, 4075949567, 1802223062, 1869591006, 3318043793, 808472672, 16843522, 1734846926, 724270422, 4278065639, 3621216949, 2880169549, 1987484396, 3402253711, 2189597983, 3385409673, 2105378810, 4210693615, 1499065266, 1195886990, 4042263547, 2913856577, 3570689971, 2728590687, 2947541573, 2627518243, 2762274643, 1920112356, 3233831835, 3082273397, 4261223649, 2475929149, 640051788, 909531756, 1061110142, 4160160501, 3435941763, 875846760, 2779116625, 3857003729, 4059105529, 1903268834, 3638064043, 825316194, 353713962, 67374088, 3351728789, 589522246, 3284360861, 404236336, 2526454071, 84217610, 2593830191, 117901582, 303183396, 2155911963, 3806477791, 3958056653, 656894286, 2998062463, 1970642922, 151591698, 2206440989, 741110872, 437923380, 454765878, 1852748508, 1515908788, 2694904667, 1381168804, 993742198, 3604373943, 3014905469, 690584402, 3823320797, 791638366, 2223281939, 1398011302, 3520161977, 0, 3991743681, 538992704, 4244381667, 2981218425, 1532751286, 1785380564, 3419096717, 3200178535, 960056178, 1246420628, 1280103576, 1482221744, 3486468741, 3503319995, 4025428677, 2863326543, 4227536621, 1128514950, 1296947098, 859002214, 2240123921, 1162203018, 4193849577, 33687044, 2139062782, 1347481760, 1010582648, 2678045221, 2829640523, 1364325282, 2745433693, 1077985408, 2408548869, 2459086143, 2644360225, 943212656, 4126475505, 3166494563, 3065430391, 3671750063, 555836226, 269496352, 4294908645, 4092792573, 3537006015, 3452783745, 202118168, 320025894, 3974901699, 1600119230, 2543297077, 1145359496, 387397934, 3301201811, 2812801621, 2122220284, 1027426170, 1684319432, 1566435258, 421079858, 1936954854, 1616945344, 2172753945, 1330631070, 3705438115, 572679748, 707427924, 2425400123, 2290647819, 1179044492, 4008585671, 3099120491, 336870440, 3739122087, 1583276732, 185277718, 3688593069, 3772791771, 842159716, 976899700, 168435220, 1229577106, 101059084, 606366792, 1549591736, 3267517855, 3553849021, 2897014595, 1650632388, 2442242105, 2509612081, 3840161747, 2038008818, 3890688725, 3368567691, 926374254, 1835907034, 2374863873, 3587531953, 1313788572, 2846482505, 1819063512, 1448540844, 4109633523, 3941213647, 1701162954, 2054852340, 2930698567, 134748176, 3132806511, 2021165296, 623210314, 774795868, 471606328, 2795958615, 3031746419, 3334885783, 3907527627, 3722280097, 1953799400, 522133822, 1263263126, 3183336545, 2341176845, 2324333839, 1886425312, 1044267644, 3048588401, 1718004428, 1212733584, 50529542, 4143317495, 235803164, 1633788866, 892690282, 1465383342, 3115962473, 2256965911, 3250673817, 488449850, 2661202215, 3789633753, 4177007595, 2560144171, 286339874, 1768537042, 3654906025, 2391705863, 2492770099, 2610673197, 505291324, 2273808917, 3924369609, 3469625735, 1431699370, 673740880, 3755965093, 2358021891, 2711746649, 2307489801, 218961690, 3217021541, 3873845719, 1111672452, 1751693520, 1094828930, 2576986153, 757954394, 252645662, 2964376443, 1414855848, 3149649517, 370555436]);
-		td0 = $toNativeArray($kindUint32, [1374988112, 2118214995, 437757123, 975658646, 1001089995, 530400753, 2902087851, 1273168787, 540080725, 2910219766, 2295101073, 4110568485, 1340463100, 3307916247, 641025152, 3043140495, 3736164937, 632953703, 1172967064, 1576976609, 3274667266, 2169303058, 2370213795, 1809054150, 59727847, 361929877, 3211623147, 2505202138, 3569255213, 1484005843, 1239443753, 2395588676, 1975683434, 4102977912, 2572697195, 666464733, 3202437046, 4035489047, 3374361702, 2110667444, 1675577880, 3843699074, 2538681184, 1649639237, 2976151520, 3144396420, 4269907996, 4178062228, 1883793496, 2403728665, 2497604743, 1383856311, 2876494627, 1917518562, 3810496343, 1716890410, 3001755655, 800440835, 2261089178, 3543599269, 807962610, 599762354, 33778362, 3977675356, 2328828971, 2809771154, 4077384432, 1315562145, 1708848333, 101039829, 3509871135, 3299278474, 875451293, 2733856160, 92987698, 2767645557, 193195065, 1080094634, 1584504582, 3178106961, 1042385657, 2531067453, 3711829422, 1306967366, 2438237621, 1908694277, 67556463, 1615861247, 429456164, 3602770327, 2302690252, 1742315127, 2968011453, 126454664, 3877198648, 2043211483, 2709260871, 2084704233, 4169408201, 0, 159417987, 841739592, 504459436, 1817866830, 4245618683, 260388950, 1034867998, 908933415, 168810852, 1750902305, 2606453969, 607530554, 202008497, 2472011535, 3035535058, 463180190, 2160117071, 1641816226, 1517767529, 470948374, 3801332234, 3231722213, 1008918595, 303765277, 235474187, 4069246893, 766945465, 337553864, 1475418501, 2943682380, 4003061179, 2743034109, 4144047775, 1551037884, 1147550661, 1543208500, 2336434550, 3408119516, 3069049960, 3102011747, 3610369226, 1113818384, 328671808, 2227573024, 2236228733, 3535486456, 2935566865, 3341394285, 496906059, 3702665459, 226906860, 2009195472, 733156972, 2842737049, 294930682, 1206477858, 2835123396, 2700099354, 1451044056, 573804783, 2269728455, 3644379585, 2362090238, 2564033334, 2801107407, 2776292904, 3669462566, 1068351396, 742039012, 1350078989, 1784663195, 1417561698, 4136440770, 2430122216, 775550814, 2193862645, 2673705150, 1775276924, 1876241833, 3475313331, 3366754619, 270040487, 3902563182, 3678124923, 3441850377, 1851332852, 3969562369, 2203032232, 3868552805, 2868897406, 566021896, 4011190502, 3135740889, 1248802510, 3936291284, 699432150, 832877231, 708780849, 3332740144, 899835584, 1951317047, 4236429990, 3767586992, 866637845, 4043610186, 1106041591, 2144161806, 395441711, 1984812685, 1139781709, 3433712980, 3835036895, 2664543715, 1282050075, 3240894392, 1181045119, 2640243204, 25965917, 4203181171, 4211818798, 3009879386, 2463879762, 3910161971, 1842759443, 2597806476, 933301370, 1509430414, 3943906441, 3467192302, 3076639029, 3776767469, 2051518780, 2631065433, 1441952575, 404016761, 1942435775, 1408749034, 1610459739, 3745345300, 2017778566, 3400528769, 3110650942, 941896748, 3265478751, 371049330, 3168937228, 675039627, 4279080257, 967311729, 135050206, 3635733660, 1683407248, 2076935265, 3576870512, 1215061108, 3501741890]);
-		td1 = $toNativeArray($kindUint32, [1347548327, 1400783205, 3273267108, 2520393566, 3409685355, 4045380933, 2880240216, 2471224067, 1428173050, 4138563181, 2441661558, 636813900, 4233094615, 3620022987, 2149987652, 2411029155, 1239331162, 1730525723, 2554718734, 3781033664, 46346101, 310463728, 2743944855, 3328955385, 3875770207, 2501218972, 3955191162, 3667219033, 768917123, 3545789473, 692707433, 1150208456, 1786102409, 2029293177, 1805211710, 3710368113, 3065962831, 401639597, 1724457132, 3028143674, 409198410, 2196052529, 1620529459, 1164071807, 3769721975, 2226875310, 486441376, 2499348523, 1483753576, 428819965, 2274680428, 3075636216, 598438867, 3799141122, 1474502543, 711349675, 129166120, 53458370, 2592523643, 2782082824, 4063242375, 2988687269, 3120694122, 1559041666, 730517276, 2460449204, 4042459122, 2706270690, 3446004468, 3573941694, 533804130, 2328143614, 2637442643, 2695033685, 839224033, 1973745387, 957055980, 2856345839, 106852767, 1371368976, 4181598602, 1033297158, 2933734917, 1179510461, 3046200461, 91341917, 1862534868, 4284502037, 605657339, 2547432937, 3431546947, 2003294622, 3182487618, 2282195339, 954669403, 3682191598, 1201765386, 3917234703, 3388507166, 0, 2198438022, 1211247597, 2887651696, 1315723890, 4227665663, 1443857720, 507358933, 657861945, 1678381017, 560487590, 3516619604, 975451694, 2970356327, 261314535, 3535072918, 2652609425, 1333838021, 2724322336, 1767536459, 370938394, 182621114, 3854606378, 1128014560, 487725847, 185469197, 2918353863, 3106780840, 3356761769, 2237133081, 1286567175, 3152976349, 4255350624, 2683765030, 3160175349, 3309594171, 878443390, 1988838185, 3704300486, 1756818940, 1673061617, 3403100636, 272786309, 1075025698, 545572369, 2105887268, 4174560061, 296679730, 1841768865, 1260232239, 4091327024, 3960309330, 3497509347, 1814803222, 2578018489, 4195456072, 575138148, 3299409036, 446754879, 3629546796, 4011996048, 3347532110, 3252238545, 4270639778, 915985419, 3483825537, 681933534, 651868046, 2755636671, 3828103837, 223377554, 2607439820, 1649704518, 3270937875, 3901806776, 1580087799, 4118987695, 3198115200, 2087309459, 2842678573, 3016697106, 1003007129, 2802849917, 1860738147, 2077965243, 164439672, 4100872472, 32283319, 2827177882, 1709610350, 2125135846, 136428751, 3874428392, 3652904859, 3460984630, 3572145929, 3593056380, 2939266226, 824852259, 818324884, 3224740454, 930369212, 2801566410, 2967507152, 355706840, 1257309336, 4148292826, 243256656, 790073846, 2373340630, 1296297904, 1422699085, 3756299780, 3818836405, 457992840, 3099667487, 2135319889, 77422314, 1560382517, 1945798516, 788204353, 1521706781, 1385356242, 870912086, 325965383, 2358957921, 2050466060, 2388260884, 2313884476, 4006521127, 901210569, 3990953189, 1014646705, 1503449823, 1062597235, 2031621326, 3212035895, 3931371469, 1533017514, 350174575, 2256028891, 2177544179, 1052338372, 741876788, 1606591296, 1914052035, 213705253, 2334669897, 1107234197, 1899603969, 3725069491, 2631447780, 2422494913, 1635502980, 1893020342, 1950903388, 1120974935]);
-		td2 = $toNativeArray($kindUint32, [2807058932, 1699970625, 2764249623, 1586903591, 1808481195, 1173430173, 1487645946, 59984867, 4199882800, 1844882806, 1989249228, 1277555970, 3623636965, 3419915562, 1149249077, 2744104290, 1514790577, 459744698, 244860394, 3235995134, 1963115311, 4027744588, 2544078150, 4190530515, 1608975247, 2627016082, 2062270317, 1507497298, 2200818878, 567498868, 1764313568, 3359936201, 2305455554, 2037970062, 1047239000, 1910319033, 1337376481, 2904027272, 2892417312, 984907214, 1243112415, 830661914, 861968209, 2135253587, 2011214180, 2927934315, 2686254721, 731183368, 1750626376, 4246310725, 1820824798, 4172763771, 3542330227, 48394827, 2404901663, 2871682645, 671593195, 3254988725, 2073724613, 145085239, 2280796200, 2779915199, 1790575107, 2187128086, 472615631, 3029510009, 4075877127, 3802222185, 4107101658, 3201631749, 1646252340, 4270507174, 1402811438, 1436590835, 3778151818, 3950355702, 3963161475, 4020912224, 2667994737, 273792366, 2331590177, 104699613, 95345982, 3175501286, 2377486676, 1560637892, 3564045318, 369057872, 4213447064, 3919042237, 1137477952, 2658625497, 1119727848, 2340947849, 1530455833, 4007360968, 172466556, 266959938, 516552836, 0, 2256734592, 3980931627, 1890328081, 1917742170, 4294704398, 945164165, 3575528878, 958871085, 3647212047, 2787207260, 1423022939, 775562294, 1739656202, 3876557655, 2530391278, 2443058075, 3310321856, 547512796, 1265195639, 437656594, 3121275539, 719700128, 3762502690, 387781147, 218828297, 3350065803, 2830708150, 2848461854, 428169201, 122466165, 3720081049, 1627235199, 648017665, 4122762354, 1002783846, 2117360635, 695634755, 3336358691, 4234721005, 4049844452, 3704280881, 2232435299, 574624663, 287343814, 612205898, 1039717051, 840019705, 2708326185, 793451934, 821288114, 1391201670, 3822090177, 376187827, 3113855344, 1224348052, 1679968233, 2361698556, 1058709744, 752375421, 2431590963, 1321699145, 3519142200, 2734591178, 188127444, 2177869557, 3727205754, 2384911031, 3215212461, 2648976442, 2450346104, 3432737375, 1180849278, 331544205, 3102249176, 4150144569, 2952102595, 2159976285, 2474404304, 766078933, 313773861, 2570832044, 2108100632, 1668212892, 3145456443, 2013908262, 418672217, 3070356634, 2594734927, 1852171925, 3867060991, 3473416636, 3907448597, 2614737639, 919489135, 164948639, 2094410160, 2997825956, 590424639, 2486224549, 1723872674, 3157750862, 3399941250, 3501252752, 3625268135, 2555048196, 3673637356, 1343127501, 4130281361, 3599595085, 2957853679, 1297403050, 81781910, 3051593425, 2283490410, 532201772, 1367295589, 3926170974, 895287692, 1953757831, 1093597963, 492483431, 3528626907, 1446242576, 1192455638, 1636604631, 209336225, 344873464, 1015671571, 669961897, 3375740769, 3857572124, 2973530695, 3747192018, 1933530610, 3464042516, 935293895, 3454686199, 2858115069, 1863638845, 3683022916, 4085369519, 3292445032, 875313188, 1080017571, 3279033885, 621591778, 1233856572, 2504130317, 24197544, 3017672716, 3835484340, 3247465558, 2220981195, 3060847922, 1551124588, 1463996600]);
-		td3 = $toNativeArray($kindUint32, [4104605777, 1097159550, 396673818, 660510266, 2875968315, 2638606623, 4200115116, 3808662347, 821712160, 1986918061, 3430322568, 38544885, 3856137295, 718002117, 893681702, 1654886325, 2975484382, 3122358053, 3926825029, 4274053469, 796197571, 1290801793, 1184342925, 3556361835, 2405426947, 2459735317, 1836772287, 1381620373, 3196267988, 1948373848, 3764988233, 3385345166, 3263785589, 2390325492, 1480485785, 3111247143, 3780097726, 2293045232, 548169417, 3459953789, 3746175075, 439452389, 1362321559, 1400849762, 1685577905, 1806599355, 2174754046, 137073913, 1214797936, 1174215055, 3731654548, 2079897426, 1943217067, 1258480242, 529487843, 1437280870, 3945269170, 3049390895, 3313212038, 923313619, 679998000, 3215307299, 57326082, 377642221, 3474729866, 2041877159, 133361907, 1776460110, 3673476453, 96392454, 878845905, 2801699524, 777231668, 4082475170, 2330014213, 4142626212, 2213296395, 1626319424, 1906247262, 1846563261, 562755902, 3708173718, 1040559837, 3871163981, 1418573201, 3294430577, 114585348, 1343618912, 2566595609, 3186202582, 1078185097, 3651041127, 3896688048, 2307622919, 425408743, 3371096953, 2081048481, 1108339068, 2216610296, 0, 2156299017, 736970802, 292596766, 1517440620, 251657213, 2235061775, 2933202493, 758720310, 265905162, 1554391400, 1532285339, 908999204, 174567692, 1474760595, 4002861748, 2610011675, 3234156416, 3693126241, 2001430874, 303699484, 2478443234, 2687165888, 585122620, 454499602, 151849742, 2345119218, 3064510765, 514443284, 4044981591, 1963412655, 2581445614, 2137062819, 19308535, 1928707164, 1715193156, 4219352155, 1126790795, 600235211, 3992742070, 3841024952, 836553431, 1669664834, 2535604243, 3323011204, 1243905413, 3141400786, 4180808110, 698445255, 2653899549, 2989552604, 2253581325, 3252932727, 3004591147, 1891211689, 2487810577, 3915653703, 4237083816, 4030667424, 2100090966, 865136418, 1229899655, 953270745, 3399679628, 3557504664, 4118925222, 2061379749, 3079546586, 2915017791, 983426092, 2022837584, 1607244650, 2118541908, 2366882550, 3635996816, 972512814, 3283088770, 1568718495, 3499326569, 3576539503, 621982671, 2895723464, 410887952, 2623762152, 1002142683, 645401037, 1494807662, 2595684844, 1335535747, 2507040230, 4293295786, 3167684641, 367585007, 3885750714, 1865862730, 2668221674, 2960971305, 2763173681, 1059270954, 2777952454, 2724642869, 1320957812, 2194319100, 2429595872, 2815956275, 77089521, 3973773121, 3444575871, 2448830231, 1305906550, 4021308739, 2857194700, 2516901860, 3518358430, 1787304780, 740276417, 1699839814, 1592394909, 2352307457, 2272556026, 188821243, 1729977011, 3687994002, 274084841, 3594982253, 3613494426, 2701949495, 4162096729, 322734571, 2837966542, 1640576439, 484830689, 1202797690, 3537852828, 4067639125, 349075736, 3342319475, 4157467219, 4255800159, 1030690015, 1155237496, 2951971274, 1757691577, 607398968, 2738905026, 499347990, 3794078908, 1011452712, 227885567, 2818666809, 213114376, 3034881240, 1455525988, 3414450555, 850817237, 1817998408, 3092726480]);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -10999,69 +10426,6 @@ $packages["encoding/binary"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["crypto/des"] = (function() {
-	var $pkg = {}, $init, cipher, binary, strconv, arrayType, arrayType$1, arrayType$2, arrayType$3, sliceType, feistelBox, permutationFunction, sBoxes, permuteBlock, init;
-	cipher = $packages["crypto/cipher"];
-	binary = $packages["encoding/binary"];
-	strconv = $packages["strconv"];
-	arrayType = $arrayType($Uint32, 64);
-	arrayType$1 = $arrayType(arrayType, 8);
-	arrayType$2 = $arrayType($Uint8, 16);
-	arrayType$3 = $arrayType(arrayType$2, 4);
-	sliceType = $sliceType($Uint8);
-	permuteBlock = function(src, permutation) {
-		var $ptr, _i, _ref, bit, block, n, permutation, position, src, x, x$1;
-		block = new $Uint64(0, 0);
-		_ref = permutation;
-		_i = 0;
-		while (true) {
-			if (!(_i < _ref.$length)) { break; }
-			position = _i;
-			n = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			bit = (x = $shiftRightUint64(src, n), new $Uint64(x.$high & 0, (x.$low & 1) >>> 0));
-			block = (x$1 = $shiftLeft64(bit, ((((permutation.$length - 1 >> 0)) - position >> 0) >>> 0)), new $Uint64(block.$high | x$1.$high, (block.$low | x$1.$low) >>> 0));
-			_i++;
-		}
-		return block;
-	};
-	init = function() {
-		var $ptr, _i, _ref, f, i, j, s, x, x$1, x$2, x$3;
-		_ref = sBoxes;
-		_i = 0;
-		while (true) {
-			if (!(_i < 8)) { break; }
-			s = _i;
-			i = 0;
-			while (true) {
-				if (!(i < 4)) { break; }
-				j = 0;
-				while (true) {
-					if (!(j < 16)) { break; }
-					f = $shiftLeft64(new $Uint64(0, (x = (x$1 = ((s < 0 || s >= sBoxes.length) ? $throwRuntimeError("index out of range") : sBoxes[s]), ((i < 0 || i >= x$1.length) ? $throwRuntimeError("index out of range") : x$1[i])), ((j < 0 || j >= x.length) ? $throwRuntimeError("index out of range") : x[j]))), ((4 * ((7 - (s >>> 0) >>> 0)) >>> 0)));
-					f = permuteBlock(f, new sliceType(permutationFunction));
-					(x$2 = ((s < 0 || s >= feistelBox.length) ? $throwRuntimeError("index out of range") : feistelBox[s]), x$3 = (16 * i >> 0) + j >> 0, ((x$3 < 0 || x$3 >= x$2.length) ? $throwRuntimeError("index out of range") : x$2[x$3] = (f.$low >>> 0)));
-					j = j + (1) >> 0;
-				}
-				i = i + (1) >> 0;
-			}
-			_i++;
-		}
-	};
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = cipher.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = binary.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = strconv.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		feistelBox = arrayType$1.zero();
-		permutationFunction = $toNativeArray($kindUint8, [16, 25, 12, 11, 3, 20, 4, 15, 31, 17, 9, 6, 27, 14, 1, 22, 30, 24, 8, 18, 0, 5, 29, 23, 13, 19, 2, 26, 10, 21, 28, 7]);
-		sBoxes = $toNativeArray($kindArray, [$toNativeArray($kindArray, [$toNativeArray($kindUint8, [14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7]), $toNativeArray($kindUint8, [0, 15, 7, 4, 14, 2, 13, 1, 10, 6, 12, 11, 9, 5, 3, 8]), $toNativeArray($kindUint8, [4, 1, 14, 8, 13, 6, 2, 11, 15, 12, 9, 7, 3, 10, 5, 0]), $toNativeArray($kindUint8, [15, 12, 8, 2, 4, 9, 1, 7, 5, 11, 3, 14, 10, 0, 6, 13])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [15, 1, 8, 14, 6, 11, 3, 4, 9, 7, 2, 13, 12, 0, 5, 10]), $toNativeArray($kindUint8, [3, 13, 4, 7, 15, 2, 8, 14, 12, 0, 1, 10, 6, 9, 11, 5]), $toNativeArray($kindUint8, [0, 14, 7, 11, 10, 4, 13, 1, 5, 8, 12, 6, 9, 3, 2, 15]), $toNativeArray($kindUint8, [13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 12, 0, 5, 14, 9])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [10, 0, 9, 14, 6, 3, 15, 5, 1, 13, 12, 7, 11, 4, 2, 8]), $toNativeArray($kindUint8, [13, 7, 0, 9, 3, 4, 6, 10, 2, 8, 5, 14, 12, 11, 15, 1]), $toNativeArray($kindUint8, [13, 6, 4, 9, 8, 15, 3, 0, 11, 1, 2, 12, 5, 10, 14, 7]), $toNativeArray($kindUint8, [1, 10, 13, 0, 6, 9, 8, 7, 4, 15, 14, 3, 11, 5, 2, 12])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [7, 13, 14, 3, 0, 6, 9, 10, 1, 2, 8, 5, 11, 12, 4, 15]), $toNativeArray($kindUint8, [13, 8, 11, 5, 6, 15, 0, 3, 4, 7, 2, 12, 1, 10, 14, 9]), $toNativeArray($kindUint8, [10, 6, 9, 0, 12, 11, 7, 13, 15, 1, 3, 14, 5, 2, 8, 4]), $toNativeArray($kindUint8, [3, 15, 0, 6, 10, 1, 13, 8, 9, 4, 5, 11, 12, 7, 2, 14])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [2, 12, 4, 1, 7, 10, 11, 6, 8, 5, 3, 15, 13, 0, 14, 9]), $toNativeArray($kindUint8, [14, 11, 2, 12, 4, 7, 13, 1, 5, 0, 15, 10, 3, 9, 8, 6]), $toNativeArray($kindUint8, [4, 2, 1, 11, 10, 13, 7, 8, 15, 9, 12, 5, 6, 3, 0, 14]), $toNativeArray($kindUint8, [11, 8, 12, 7, 1, 14, 2, 13, 6, 15, 0, 9, 10, 4, 5, 3])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [12, 1, 10, 15, 9, 2, 6, 8, 0, 13, 3, 4, 14, 7, 5, 11]), $toNativeArray($kindUint8, [10, 15, 4, 2, 7, 12, 9, 5, 6, 1, 13, 14, 0, 11, 3, 8]), $toNativeArray($kindUint8, [9, 14, 15, 5, 2, 8, 12, 3, 7, 0, 4, 10, 1, 13, 11, 6]), $toNativeArray($kindUint8, [4, 3, 2, 12, 9, 5, 15, 10, 11, 14, 1, 7, 6, 0, 8, 13])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [4, 11, 2, 14, 15, 0, 8, 13, 3, 12, 9, 7, 5, 10, 6, 1]), $toNativeArray($kindUint8, [13, 0, 11, 7, 4, 9, 1, 10, 14, 3, 5, 12, 2, 15, 8, 6]), $toNativeArray($kindUint8, [1, 4, 11, 13, 12, 3, 7, 14, 10, 15, 6, 8, 0, 5, 9, 2]), $toNativeArray($kindUint8, [6, 11, 13, 8, 1, 4, 10, 7, 9, 5, 0, 15, 14, 2, 3, 12])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [13, 2, 8, 4, 6, 15, 11, 1, 10, 9, 3, 14, 5, 0, 12, 7]), $toNativeArray($kindUint8, [1, 15, 13, 8, 10, 3, 7, 4, 12, 5, 6, 11, 0, 14, 9, 2]), $toNativeArray($kindUint8, [7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8]), $toNativeArray($kindUint8, [2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11])])]);
-		init();
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
 $packages["syscall"] = (function() {
 	var $pkg = {}, $init, bytes, js, runtime, sync, mmapper, Errno, Timespec, Stat_t, Dirent, sliceType, sliceType$1, ptrType, arrayType$1, structType, ptrType$22, mapType, funcType, funcType$1, ptrType$26, arrayType$10, arrayType$12, arrayType$13, warningPrinted, lineBuffer, syscallModule, alreadyTriedToLoad, minusOne, envOnce, envLock, env, envs, mapper, errEAGAIN, errEINVAL, errENOENT, errors, init, printWarning, printToConsole, use, runtime_envs, syscall, Syscall, Syscall6, BytePtrFromString, copyenv, Getenv, itoa, uitoa, clen, ReadDirent, ParseDirent, errnoErr, Read, Write, Close, Exit, Fchdir, Fchmod, Fsync, Getdents, read, write, munmap, Fchown, Fstat, Ftruncate, Lstat, Pread, Pwrite, Seek, mmap;
 	bytes = $packages["bytes"];
@@ -11879,7 +11243,7 @@ $packages["github.com/gopherjs/gopherjs/nosync"] = (function() {
 	return $pkg;
 })();
 $packages["strings"] = (function() {
-	var $pkg = {}, $init, errors, js, io, unicode, utf8, Reader, sliceType, sliceType$3, ptrType$5, IndexByte, NewReader, explode, hashStr, Count, genSplit, Split, HasPrefix, HasSuffix;
+	var $pkg = {}, $init, errors, js, io, unicode, utf8, Reader, sliceType, sliceType$3, ptrType$5, IndexByte, NewReader, explode, hashStr, Count, genSplit, Split, Join, HasPrefix, HasSuffix, TrimSuffix;
 	errors = $packages["errors"];
 	js = $packages["github.com/gopherjs/gopherjs/js"];
 	io = $packages["io"];
@@ -12208,6 +11572,35 @@ $packages["strings"] = (function() {
 		return genSplit(s, sep, 0, -1);
 	};
 	$pkg.Split = Split;
+	Join = function(a, sep) {
+		var $ptr, _i, _ref, a, b, bp, i, n, s, sep;
+		if (a.$length === 0) {
+			return "";
+		}
+		if (a.$length === 1) {
+			return (0 >= a.$length ? $throwRuntimeError("index out of range") : a.$array[a.$offset + 0]);
+		}
+		n = sep.length * ((a.$length - 1 >> 0)) >> 0;
+		i = 0;
+		while (true) {
+			if (!(i < a.$length)) { break; }
+			n = n + (((i < 0 || i >= a.$length) ? $throwRuntimeError("index out of range") : a.$array[a.$offset + i]).length) >> 0;
+			i = i + (1) >> 0;
+		}
+		b = $makeSlice(sliceType, n);
+		bp = $copyString(b, (0 >= a.$length ? $throwRuntimeError("index out of range") : a.$array[a.$offset + 0]));
+		_ref = $subslice(a, 1);
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			s = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			bp = bp + ($copyString($subslice(b, bp), sep)) >> 0;
+			bp = bp + ($copyString($subslice(b, bp), s)) >> 0;
+			_i++;
+		}
+		return $bytesToString(b);
+	};
+	$pkg.Join = Join;
 	HasPrefix = function(s, prefix) {
 		var $ptr, prefix, s;
 		return s.length >= prefix.length && s.substring(0, prefix.length) === prefix;
@@ -12218,6 +11611,14 @@ $packages["strings"] = (function() {
 		return s.length >= suffix.length && s.substring((s.length - suffix.length >> 0)) === suffix;
 	};
 	$pkg.HasSuffix = HasSuffix;
+	TrimSuffix = function(s, suffix) {
+		var $ptr, s, suffix;
+		if (HasSuffix(s, suffix)) {
+			return s.substring(0, (s.length - suffix.length >> 0));
+		}
+		return s;
+	};
+	$pkg.TrimSuffix = TrimSuffix;
 	ptrType$5.methods = [{prop: "Len", name: "Len", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Size", name: "Size", pkg: "", typ: $funcType([], [$Int64], false)}, {prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType], [$Int, $error], false)}, {prop: "ReadAt", name: "ReadAt", pkg: "", typ: $funcType([sliceType, $Int64], [$Int, $error], false)}, {prop: "ReadByte", name: "ReadByte", pkg: "", typ: $funcType([], [$Uint8, $error], false)}, {prop: "UnreadByte", name: "UnreadByte", pkg: "", typ: $funcType([], [$error], false)}, {prop: "ReadRune", name: "ReadRune", pkg: "", typ: $funcType([], [$Int32, $Int, $error], false)}, {prop: "UnreadRune", name: "UnreadRune", pkg: "", typ: $funcType([], [$error], false)}, {prop: "Seek", name: "Seek", pkg: "", typ: $funcType([$Int64, $Int], [$Int64, $error], false)}, {prop: "WriteTo", name: "WriteTo", pkg: "", typ: $funcType([io.Writer], [$Int64, $error], false)}];
 	Reader.init([{prop: "s", name: "s", pkg: "strings", typ: $String, tag: ""}, {prop: "i", name: "i", pkg: "strings", typ: $Int64, tag: ""}, {prop: "prevRune", name: "prevRune", pkg: "strings", typ: $Int, tag: ""}]);
 	$init = function() {
@@ -21186,8 +20587,730 @@ $packages["math/big"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
+$packages["crypto/rand"] = (function() {
+	var $pkg = {}, $init, errors, js, io, big, rngReader, sliceType, ptrType, ptrType$1, smallPrimesProduct, init, Int;
+	errors = $packages["errors"];
+	js = $packages["github.com/gopherjs/gopherjs/js"];
+	io = $packages["io"];
+	big = $packages["math/big"];
+	rngReader = $pkg.rngReader = $newType(0, $kindStruct, "rand.rngReader", "rngReader", "crypto/rand", function() {
+		this.$val = this;
+		if (arguments.length === 0) {
+			return;
+		}
+	});
+	sliceType = $sliceType($Uint8);
+	ptrType = $ptrType(big.Int);
+	ptrType$1 = $ptrType(rngReader);
+	init = function() {
+		var $ptr;
+		$pkg.Reader = new rngReader.ptr();
+	};
+	rngReader.ptr.prototype.Read = function(b) {
+		var $ptr, _tmp, _tmp$1, _tmp$2, _tmp$3, _tmp$4, _tmp$5, array, b, crypto, err, n, offset, r, randomBytes, require;
+		n = 0;
+		err = $ifaceNil;
+		r = this;
+		array = b.$array;
+		offset = $parseInt(b.$offset) >> 0;
+		crypto = $global.crypto;
+		if (crypto === undefined) {
+			crypto = $global.msCrypto;
+		}
+		if (!(crypto === undefined)) {
+			if (!(crypto.getRandomValues === undefined)) {
+				n = b.$length;
+				if (n > 65536) {
+					n = 65536;
+				}
+				crypto.getRandomValues(array.subarray(offset, offset + n >> 0));
+				_tmp = n; _tmp$1 = $ifaceNil; n = _tmp; err = _tmp$1;
+				return [n, err];
+			}
+		}
+		require = $global.require;
+		if (!(require === undefined)) {
+			randomBytes = require($externalize("crypto", $String)).randomBytes;
+			if (!(randomBytes === undefined)) {
+				array.set(randomBytes(b.$length), offset);
+				_tmp$2 = b.$length; _tmp$3 = $ifaceNil; n = _tmp$2; err = _tmp$3;
+				return [n, err];
+			}
+		}
+		_tmp$4 = 0; _tmp$5 = errors.New("crypto/rand not available in this environment"); n = _tmp$4; err = _tmp$5;
+		return [n, err];
+	};
+	rngReader.prototype.Read = function(b) { return this.$val.Read(b); };
+	Int = function(rand, max) {
+		var $ptr, _q, _r, _r$1, _tmp, _tmp$1, _tuple, b, bytes, err, k, max, n, rand, y, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _q = $f._q; _r = $f._r; _r$1 = $f._r$1; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tuple = $f._tuple; b = $f.b; bytes = $f.bytes; err = $f.err; k = $f.k; max = $f.max; n = $f.n; rand = $f.rand; y = $f.y; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		n = ptrType.nil;
+		err = $ifaceNil;
+		if (max.Sign() <= 0) {
+			$panic(new $String("crypto/rand: argument to Int is <= 0"));
+		}
+		k = (_q = ((max.BitLen() + 7 >> 0)) / 8, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero"));
+		b = ((_r = max.BitLen() % 8, _r === _r ? _r : $throwRuntimeError("integer divide by zero")) >>> 0);
+		if (b === 0) {
+			b = 8;
+		}
+		bytes = $makeSlice(sliceType, k);
+		n = new big.Int.ptr();
+		/* while (true) { */ case 1:
+			_r$1 = io.ReadFull(rand, bytes); /* */ $s = 3; case 3: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple = _r$1; err = _tuple[1];
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				_tmp = ptrType.nil; _tmp$1 = err; n = _tmp; err = _tmp$1;
+				return [n, err];
+			}
+			(0 >= bytes.$length ? $throwRuntimeError("index out of range") : bytes.$array[bytes.$offset + 0] = ((0 >= bytes.$length ? $throwRuntimeError("index out of range") : bytes.$array[bytes.$offset + 0]) & (((((y = b, y < 32 ? (1 << y) : 0) >> 0) - 1 >> 0) << 24 >>> 24))) >>> 0);
+			n.SetBytes(bytes);
+			if (n.Cmp(max) < 0) {
+				return [n, err];
+			}
+		/* } */ $s = 1; continue; case 2:
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Int }; } $f.$ptr = $ptr; $f._q = _q; $f._r = _r; $f._r$1 = _r$1; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tuple = _tuple; $f.b = b; $f.bytes = bytes; $f.err = err; $f.k = k; $f.max = max; $f.n = n; $f.rand = rand; $f.y = y; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.Int = Int;
+	ptrType$1.methods = [{prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType], [$Int, $error], false)}];
+	rngReader.init([]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = errors.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = js.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = io.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = big.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$pkg.Reader = $ifaceNil;
+		smallPrimesProduct = new big.Int.ptr().SetUint64(new $Uint64(3793877372, 820596253));
+		init();
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["hash"] = (function() {
+	var $pkg = {}, $init, io, Hash, sliceType;
+	io = $packages["io"];
+	Hash = $pkg.Hash = $newType(8, $kindInterface, "hash.Hash", "Hash", "hash", null);
+	sliceType = $sliceType($Uint8);
+	Hash.init([{prop: "BlockSize", name: "BlockSize", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Reset", name: "Reset", pkg: "", typ: $funcType([], [], false)}, {prop: "Size", name: "Size", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Sum", name: "Sum", pkg: "", typ: $funcType([sliceType], [sliceType], false)}, {prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType], [$Int, $error], false)}]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = io.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["crypto"] = (function() {
+	var $pkg = {}, $init, hash, io, strconv, Hash, PublicKey, Signer, SignerOpts, DecrypterOpts, sliceType, funcType, sliceType$1, digestSizes, hashes, RegisterHash;
+	hash = $packages["hash"];
+	io = $packages["io"];
+	strconv = $packages["strconv"];
+	Hash = $pkg.Hash = $newType(4, $kindUint, "crypto.Hash", "Hash", "crypto", null);
+	PublicKey = $pkg.PublicKey = $newType(8, $kindInterface, "crypto.PublicKey", "PublicKey", "crypto", null);
+	Signer = $pkg.Signer = $newType(8, $kindInterface, "crypto.Signer", "Signer", "crypto", null);
+	SignerOpts = $pkg.SignerOpts = $newType(8, $kindInterface, "crypto.SignerOpts", "SignerOpts", "crypto", null);
+	DecrypterOpts = $pkg.DecrypterOpts = $newType(8, $kindInterface, "crypto.DecrypterOpts", "DecrypterOpts", "crypto", null);
+	sliceType = $sliceType($Uint8);
+	funcType = $funcType([], [hash.Hash], false);
+	sliceType$1 = $sliceType(funcType);
+	Hash.prototype.HashFunc = function() {
+		var $ptr, h;
+		h = this.$val;
+		return h;
+	};
+	$ptrType(Hash).prototype.HashFunc = function() { return new Hash(this.$get()).HashFunc(); };
+	Hash.prototype.Size = function() {
+		var $ptr, h;
+		h = this.$val;
+		if (h > 0 && h < 16) {
+			return (((h < 0 || h >= digestSizes.$length) ? $throwRuntimeError("index out of range") : digestSizes.$array[digestSizes.$offset + h]) >> 0);
+		}
+		$panic(new $String("crypto: Size of unknown hash function"));
+	};
+	$ptrType(Hash).prototype.Size = function() { return new Hash(this.$get()).Size(); };
+	Hash.prototype.New = function() {
+		var $ptr, _r, f, h, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; f = $f.f; h = $f.h; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		h = this.$val;
+		/* */ if (h > 0 && h < 16) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (h > 0 && h < 16) { */ case 1:
+			f = ((h < 0 || h >= hashes.$length) ? $throwRuntimeError("index out of range") : hashes.$array[hashes.$offset + h]);
+			/* */ if (!(f === $throwNilPointerError)) { $s = 3; continue; }
+			/* */ $s = 4; continue;
+			/* if (!(f === $throwNilPointerError)) { */ case 3:
+				_r = f(); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				return _r;
+			/* } */ case 4:
+		/* } */ case 2:
+		$panic(new $String("crypto: requested hash function #" + strconv.Itoa((h >> 0)) + " is unavailable"));
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Hash.prototype.New }; } $f.$ptr = $ptr; $f._r = _r; $f.f = f; $f.h = h; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$ptrType(Hash).prototype.New = function() { return new Hash(this.$get()).New(); };
+	Hash.prototype.Available = function() {
+		var $ptr, h;
+		h = this.$val;
+		return h < 16 && !(((h < 0 || h >= hashes.$length) ? $throwRuntimeError("index out of range") : hashes.$array[hashes.$offset + h]) === $throwNilPointerError);
+	};
+	$ptrType(Hash).prototype.Available = function() { return new Hash(this.$get()).Available(); };
+	RegisterHash = function(h, f) {
+		var $ptr, f, h;
+		if (h >= 16) {
+			$panic(new $String("crypto: RegisterHash of unknown hash function"));
+		}
+		((h < 0 || h >= hashes.$length) ? $throwRuntimeError("index out of range") : hashes.$array[hashes.$offset + h] = f);
+	};
+	$pkg.RegisterHash = RegisterHash;
+	Hash.methods = [{prop: "HashFunc", name: "HashFunc", pkg: "", typ: $funcType([], [Hash], false)}, {prop: "Size", name: "Size", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "New", name: "New", pkg: "", typ: $funcType([], [hash.Hash], false)}, {prop: "Available", name: "Available", pkg: "", typ: $funcType([], [$Bool], false)}];
+	PublicKey.init([]);
+	Signer.init([{prop: "Public", name: "Public", pkg: "", typ: $funcType([], [PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType, SignerOpts], [sliceType, $error], false)}]);
+	SignerOpts.init([{prop: "HashFunc", name: "HashFunc", pkg: "", typ: $funcType([], [Hash], false)}]);
+	DecrypterOpts.init([]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = hash.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = io.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = strconv.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		digestSizes = new sliceType([0, 16, 16, 20, 28, 32, 48, 64, 36, 20, 28, 32, 48, 64, 28, 32]);
+		hashes = $makeSlice(sliceType$1, 16);
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["crypto/subtle"] = (function() {
+	var $pkg = {}, $init, ConstantTimeCompare, ConstantTimeSelect, ConstantTimeByteEq, ConstantTimeEq, ConstantTimeCopy, ConstantTimeLessOrEq;
+	ConstantTimeCompare = function(x, y) {
+		var $ptr, i, v, x, y;
+		if (!((x.$length === y.$length))) {
+			return 0;
+		}
+		v = 0;
+		i = 0;
+		while (true) {
+			if (!(i < x.$length)) { break; }
+			v = (v | (((((i < 0 || i >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + i]) ^ ((i < 0 || i >= y.$length) ? $throwRuntimeError("index out of range") : y.$array[y.$offset + i])) << 24 >>> 24))) >>> 0;
+			i = i + (1) >> 0;
+		}
+		return ConstantTimeByteEq(v, 0);
+	};
+	$pkg.ConstantTimeCompare = ConstantTimeCompare;
+	ConstantTimeSelect = function(v, x, y) {
+		var $ptr, v, x, y;
+		return ((~((v - 1 >> 0)) >> 0) & x) | (((v - 1 >> 0)) & y);
+	};
+	$pkg.ConstantTimeSelect = ConstantTimeSelect;
+	ConstantTimeByteEq = function(x, y) {
+		var $ptr, x, y, z;
+		z = ~(((x ^ y) << 24 >>> 24)) << 24 >>> 24;
+		z = (z & ((z >>> 4 << 24 >>> 24))) >>> 0;
+		z = (z & ((z >>> 2 << 24 >>> 24))) >>> 0;
+		z = (z & ((z >>> 1 << 24 >>> 24))) >>> 0;
+		return (z >> 0);
+	};
+	$pkg.ConstantTimeByteEq = ConstantTimeByteEq;
+	ConstantTimeEq = function(x, y) {
+		var $ptr, x, y, z;
+		z = ~(((x ^ y) >> 0)) >> 0;
+		z = z & ((z >> 16 >> 0));
+		z = z & ((z >> 8 >> 0));
+		z = z & ((z >> 4 >> 0));
+		z = z & ((z >> 2 >> 0));
+		z = z & ((z >> 1 >> 0));
+		return ((z & 1) >> 0);
+	};
+	$pkg.ConstantTimeEq = ConstantTimeEq;
+	ConstantTimeCopy = function(v, x, y) {
+		var $ptr, i, v, x, xmask, y, ymask;
+		if (!((x.$length === y.$length))) {
+			$panic(new $String("subtle: slices have different lengths"));
+		}
+		xmask = ((v - 1 >> 0) << 24 >>> 24);
+		ymask = ((~((v - 1 >> 0)) >> 0) << 24 >>> 24);
+		i = 0;
+		while (true) {
+			if (!(i < x.$length)) { break; }
+			((i < 0 || i >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + i] = (((((i < 0 || i >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + i]) & xmask) >>> 0) | ((((i < 0 || i >= y.$length) ? $throwRuntimeError("index out of range") : y.$array[y.$offset + i]) & ymask) >>> 0)) >>> 0);
+			i = i + (1) >> 0;
+		}
+	};
+	$pkg.ConstantTimeCopy = ConstantTimeCopy;
+	ConstantTimeLessOrEq = function(x, y) {
+		var $ptr, x, x32, y, y32;
+		x32 = (x >> 0);
+		y32 = (y >> 0);
+		return (((((((x32 - y32 >> 0) - 1 >> 0)) >> 31 >> 0)) & 1) >> 0);
+	};
+	$pkg.ConstantTimeLessOrEq = ConstantTimeLessOrEq;
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["crypto/cipher"] = (function() {
+	var $pkg = {}, $init, subtle, errors, io, runtime, Block, Stream, ctr, StreamReader, sliceType$1, ptrType$3, errOpen, dup, NewCTR, safeXORBytes, xorBytes;
+	subtle = $packages["crypto/subtle"];
+	errors = $packages["errors"];
+	io = $packages["io"];
+	runtime = $packages["runtime"];
+	Block = $pkg.Block = $newType(8, $kindInterface, "cipher.Block", "Block", "crypto/cipher", null);
+	Stream = $pkg.Stream = $newType(8, $kindInterface, "cipher.Stream", "Stream", "crypto/cipher", null);
+	ctr = $pkg.ctr = $newType(0, $kindStruct, "cipher.ctr", "ctr", "crypto/cipher", function(b_, ctr_, out_, outUsed_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.b = $ifaceNil;
+			this.ctr = sliceType$1.nil;
+			this.out = sliceType$1.nil;
+			this.outUsed = 0;
+			return;
+		}
+		this.b = b_;
+		this.ctr = ctr_;
+		this.out = out_;
+		this.outUsed = outUsed_;
+	});
+	StreamReader = $pkg.StreamReader = $newType(0, $kindStruct, "cipher.StreamReader", "StreamReader", "crypto/cipher", function(S_, R_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.S = $ifaceNil;
+			this.R = $ifaceNil;
+			return;
+		}
+		this.S = S_;
+		this.R = R_;
+	});
+	sliceType$1 = $sliceType($Uint8);
+	ptrType$3 = $ptrType(ctr);
+	dup = function(p) {
+		var $ptr, p, q;
+		q = $makeSlice(sliceType$1, p.$length);
+		$copySlice(q, p);
+		return q;
+	};
+	NewCTR = function(block, iv) {
+		var $ptr, _r, _r$1, _r$2, block, bufSize, iv, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; block = $f.block; bufSize = $f.bufSize; iv = $f.iv; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r = block.BlockSize(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		/* */ if (!((iv.$length === _r))) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (!((iv.$length === _r))) { */ case 1:
+			$panic(new $String("cipher.NewCTR: IV length must equal block size"));
+		/* } */ case 2:
+		bufSize = 512;
+		_r$1 = block.BlockSize(); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		/* */ if (bufSize < _r$1) { $s = 4; continue; }
+		/* */ $s = 5; continue;
+		/* if (bufSize < _r$1) { */ case 4:
+			_r$2 = block.BlockSize(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			bufSize = _r$2;
+		/* } */ case 5:
+		return new ctr.ptr(block, dup(iv), $makeSlice(sliceType$1, 0, bufSize), 0);
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: NewCTR }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.block = block; $f.bufSize = bufSize; $f.iv = iv; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.NewCTR = NewCTR;
+	ctr.ptr.prototype.refill = function() {
+		var $ptr, _r, bs, i, remain, x, x$1, x$2, x$3, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; bs = $f.bs; i = $f.i; remain = $f.remain; x = $f.x; x$1 = $f.x$1; x$2 = $f.x$2; x$3 = $f.x$3; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		x = this;
+		remain = x.out.$length - x.outUsed >> 0;
+		if (remain > x.outUsed) {
+			return;
+		}
+		$copySlice(x.out, $subslice(x.out, x.outUsed));
+		x.out = $subslice(x.out, 0, x.out.$capacity);
+		_r = x.b.BlockSize(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		bs = _r;
+		/* while (true) { */ case 2:
+			/* if (!(remain < (x.out.$length - bs >> 0))) { break; } */ if(!(remain < (x.out.$length - bs >> 0))) { $s = 3; continue; }
+			$r = x.b.Encrypt($subslice(x.out, remain), x.ctr); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			remain = remain + (bs) >> 0;
+			i = x.ctr.$length - 1 >> 0;
+			while (true) {
+				if (!(i >= 0)) { break; }
+				(x$2 = x.ctr, ((i < 0 || i >= x$2.$length) ? $throwRuntimeError("index out of range") : x$2.$array[x$2.$offset + i] = (x$1 = x.ctr, ((i < 0 || i >= x$1.$length) ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + i])) + (1) << 24 >>> 24));
+				if (!(((x$3 = x.ctr, ((i < 0 || i >= x$3.$length) ? $throwRuntimeError("index out of range") : x$3.$array[x$3.$offset + i])) === 0))) {
+					break;
+				}
+				i = i - (1) >> 0;
+			}
+		/* } */ $s = 2; continue; case 3:
+		x.out = $subslice(x.out, 0, remain);
+		x.outUsed = 0;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ctr.ptr.prototype.refill }; } $f.$ptr = $ptr; $f._r = _r; $f.bs = bs; $f.i = i; $f.remain = remain; $f.x = x; $f.x$1 = x$1; $f.x$2 = x$2; $f.x$3 = x$3; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	ctr.prototype.refill = function() { return this.$val.refill(); };
+	ctr.ptr.prototype.XORKeyStream = function(dst, src) {
+		var $ptr, _r, dst, n, src, x, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; dst = $f.dst; n = $f.n; src = $f.src; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		x = this;
+		/* while (true) { */ case 1:
+			/* if (!(src.$length > 0)) { break; } */ if(!(src.$length > 0)) { $s = 2; continue; }
+			_r = x.b.BlockSize(); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			/* */ if (x.outUsed >= (x.out.$length - _r >> 0)) { $s = 3; continue; }
+			/* */ $s = 4; continue;
+			/* if (x.outUsed >= (x.out.$length - _r >> 0)) { */ case 3:
+				$r = x.refill(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* } */ case 4:
+			n = xorBytes(dst, src, $subslice(x.out, x.outUsed));
+			dst = $subslice(dst, n);
+			src = $subslice(src, n);
+			x.outUsed = x.outUsed + (n) >> 0;
+		/* } */ $s = 1; continue; case 2:
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ctr.ptr.prototype.XORKeyStream }; } $f.$ptr = $ptr; $f._r = _r; $f.dst = dst; $f.n = n; $f.src = src; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	ctr.prototype.XORKeyStream = function(dst, src) { return this.$val.XORKeyStream(dst, src); };
+	StreamReader.ptr.prototype.Read = function(dst) {
+		var $ptr, _r, _tuple, dst, err, n, r, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; dst = $f.dst; err = $f.err; n = $f.n; r = $f.r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		n = 0;
+		err = $ifaceNil;
+		r = $clone(this, StreamReader);
+		_r = r.R.Read(dst); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; n = _tuple[0]; err = _tuple[1];
+		$r = r.S.XORKeyStream($subslice(dst, 0, n), $subslice(dst, 0, n)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		return [n, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: StreamReader.ptr.prototype.Read }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.dst = dst; $f.err = err; $f.n = n; $f.r = r; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	StreamReader.prototype.Read = function(dst) { return this.$val.Read(dst); };
+	safeXORBytes = function(dst, a, b) {
+		var $ptr, a, b, dst, i, n;
+		n = a.$length;
+		if (b.$length < n) {
+			n = b.$length;
+		}
+		i = 0;
+		while (true) {
+			if (!(i < n)) { break; }
+			((i < 0 || i >= dst.$length) ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + i] = (((i < 0 || i >= a.$length) ? $throwRuntimeError("index out of range") : a.$array[a.$offset + i]) ^ ((i < 0 || i >= b.$length) ? $throwRuntimeError("index out of range") : b.$array[b.$offset + i])) << 24 >>> 24);
+			i = i + (1) >> 0;
+		}
+		return n;
+	};
+	xorBytes = function(dst, a, b) {
+		var $ptr, a, b, dst;
+		return safeXORBytes(dst, a, b);
+	};
+	ptrType$3.methods = [{prop: "refill", name: "refill", pkg: "crypto/cipher", typ: $funcType([], [], false)}, {prop: "XORKeyStream", name: "XORKeyStream", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}];
+	StreamReader.methods = [{prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}];
+	Block.init([{prop: "BlockSize", name: "BlockSize", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Decrypt", name: "Decrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}, {prop: "Encrypt", name: "Encrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}]);
+	Stream.init([{prop: "XORKeyStream", name: "XORKeyStream", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}]);
+	ctr.init([{prop: "b", name: "b", pkg: "crypto/cipher", typ: Block, tag: ""}, {prop: "ctr", name: "ctr", pkg: "crypto/cipher", typ: sliceType$1, tag: ""}, {prop: "out", name: "out", pkg: "crypto/cipher", typ: sliceType$1, tag: ""}, {prop: "outUsed", name: "outUsed", pkg: "crypto/cipher", typ: $Int, tag: ""}]);
+	StreamReader.init([{prop: "S", name: "S", pkg: "", typ: Stream, tag: ""}, {prop: "R", name: "R", pkg: "", typ: io.Reader, tag: ""}]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = subtle.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = errors.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = io.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = runtime.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		errOpen = errors.New("cipher: message authentication failed");
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["crypto/aes"] = (function() {
+	var $pkg = {}, $init, cipher, strconv, aesCipher, KeySizeError, sliceType, sliceType$1, ptrType, powx, sbox0, sbox1, te0, te1, te2, te3, td0, td1, td2, td3, encryptBlockGo, decryptBlockGo, subw, rotw, expandKeyGo, NewCipher, encryptBlock, decryptBlock, expandKey;
+	cipher = $packages["crypto/cipher"];
+	strconv = $packages["strconv"];
+	aesCipher = $pkg.aesCipher = $newType(0, $kindStruct, "aes.aesCipher", "aesCipher", "crypto/aes", function(enc_, dec_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.enc = sliceType.nil;
+			this.dec = sliceType.nil;
+			return;
+		}
+		this.enc = enc_;
+		this.dec = dec_;
+	});
+	KeySizeError = $pkg.KeySizeError = $newType(4, $kindInt, "aes.KeySizeError", "KeySizeError", "crypto/aes", null);
+	sliceType = $sliceType($Uint32);
+	sliceType$1 = $sliceType($Uint8);
+	ptrType = $ptrType(aesCipher);
+	encryptBlockGo = function(xk, dst, src) {
+		var $ptr, _q, _tmp, _tmp$1, _tmp$10, _tmp$11, _tmp$12, _tmp$13, _tmp$14, _tmp$15, _tmp$16, _tmp$17, _tmp$18, _tmp$19, _tmp$2, _tmp$20, _tmp$21, _tmp$22, _tmp$23, _tmp$24, _tmp$25, _tmp$26, _tmp$27, _tmp$3, _tmp$4, _tmp$5, _tmp$6, _tmp$7, _tmp$8, _tmp$9, dst, k, nr, r, s0, s1, s2, s3, src, t0, t1, t2, t3, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$18, x$19, x$2, x$20, x$21, x$22, x$23, x$24, x$25, x$26, x$27, x$28, x$29, x$3, x$30, x$31, x$32, x$33, x$34, x$35, x$36, x$37, x$38, x$39, x$4, x$5, x$6, x$7, x$8, x$9, xk;
+		_tmp = 0; _tmp$1 = 0; _tmp$2 = 0; _tmp$3 = 0; _tmp$4 = 0; _tmp$5 = 0; _tmp$6 = 0; _tmp$7 = 0; s0 = _tmp; s1 = _tmp$1; s2 = _tmp$2; s3 = _tmp$3; t0 = _tmp$4; t1 = _tmp$5; t2 = _tmp$6; t3 = _tmp$7;
+		s0 = ((((((((0 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 0]) >>> 0) << 24 >>> 0) | (((1 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 1]) >>> 0) << 16 >>> 0)) >>> 0) | (((2 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 2]) >>> 0) << 8 >>> 0)) >>> 0) | ((3 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 3]) >>> 0)) >>> 0;
+		s1 = ((((((((4 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 4]) >>> 0) << 24 >>> 0) | (((5 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 5]) >>> 0) << 16 >>> 0)) >>> 0) | (((6 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 6]) >>> 0) << 8 >>> 0)) >>> 0) | ((7 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 7]) >>> 0)) >>> 0;
+		s2 = ((((((((8 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 8]) >>> 0) << 24 >>> 0) | (((9 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 9]) >>> 0) << 16 >>> 0)) >>> 0) | (((10 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 10]) >>> 0) << 8 >>> 0)) >>> 0) | ((11 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 11]) >>> 0)) >>> 0;
+		s3 = ((((((((12 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 12]) >>> 0) << 24 >>> 0) | (((13 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 13]) >>> 0) << 16 >>> 0)) >>> 0) | (((14 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 14]) >>> 0) << 8 >>> 0)) >>> 0) | ((15 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 15]) >>> 0)) >>> 0;
+		s0 = (s0 ^ ((0 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 0]))) >>> 0;
+		s1 = (s1 ^ ((1 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 1]))) >>> 0;
+		s2 = (s2 ^ ((2 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 2]))) >>> 0;
+		s3 = (s3 ^ ((3 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 3]))) >>> 0;
+		nr = (_q = xk.$length / 4, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero")) - 2 >> 0;
+		k = 4;
+		r = 0;
+		while (true) {
+			if (!(r < nr)) { break; }
+			t0 = ((((((((x = k + 0 >> 0, ((x < 0 || x >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x])) ^ (x$1 = ((s0 >>> 24 >>> 0) << 24 >>> 24), ((x$1 < 0 || x$1 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$1]))) >>> 0) ^ (x$2 = ((s1 >>> 16 >>> 0) << 24 >>> 24), ((x$2 < 0 || x$2 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$2]))) >>> 0) ^ (x$3 = ((s2 >>> 8 >>> 0) << 24 >>> 24), ((x$3 < 0 || x$3 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$3]))) >>> 0) ^ (x$4 = (s3 << 24 >>> 24), ((x$4 < 0 || x$4 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$4]))) >>> 0;
+			t1 = ((((((((x$5 = k + 1 >> 0, ((x$5 < 0 || x$5 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$5])) ^ (x$6 = ((s1 >>> 24 >>> 0) << 24 >>> 24), ((x$6 < 0 || x$6 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$6]))) >>> 0) ^ (x$7 = ((s2 >>> 16 >>> 0) << 24 >>> 24), ((x$7 < 0 || x$7 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$7]))) >>> 0) ^ (x$8 = ((s3 >>> 8 >>> 0) << 24 >>> 24), ((x$8 < 0 || x$8 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$8]))) >>> 0) ^ (x$9 = (s0 << 24 >>> 24), ((x$9 < 0 || x$9 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$9]))) >>> 0;
+			t2 = ((((((((x$10 = k + 2 >> 0, ((x$10 < 0 || x$10 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$10])) ^ (x$11 = ((s2 >>> 24 >>> 0) << 24 >>> 24), ((x$11 < 0 || x$11 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$11]))) >>> 0) ^ (x$12 = ((s3 >>> 16 >>> 0) << 24 >>> 24), ((x$12 < 0 || x$12 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$12]))) >>> 0) ^ (x$13 = ((s0 >>> 8 >>> 0) << 24 >>> 24), ((x$13 < 0 || x$13 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$13]))) >>> 0) ^ (x$14 = (s1 << 24 >>> 24), ((x$14 < 0 || x$14 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$14]))) >>> 0;
+			t3 = ((((((((x$15 = k + 3 >> 0, ((x$15 < 0 || x$15 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$15])) ^ (x$16 = ((s3 >>> 24 >>> 0) << 24 >>> 24), ((x$16 < 0 || x$16 >= te0.length) ? $throwRuntimeError("index out of range") : te0[x$16]))) >>> 0) ^ (x$17 = ((s0 >>> 16 >>> 0) << 24 >>> 24), ((x$17 < 0 || x$17 >= te1.length) ? $throwRuntimeError("index out of range") : te1[x$17]))) >>> 0) ^ (x$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24), ((x$18 < 0 || x$18 >= te2.length) ? $throwRuntimeError("index out of range") : te2[x$18]))) >>> 0) ^ (x$19 = (s2 << 24 >>> 24), ((x$19 < 0 || x$19 >= te3.length) ? $throwRuntimeError("index out of range") : te3[x$19]))) >>> 0;
+			k = k + (4) >> 0;
+			_tmp$8 = t0; _tmp$9 = t1; _tmp$10 = t2; _tmp$11 = t3; s0 = _tmp$8; s1 = _tmp$9; s2 = _tmp$10; s3 = _tmp$11;
+			r = r + (1) >> 0;
+		}
+		s0 = ((((((((x$20 = t0 >>> 24 >>> 0, ((x$20 < 0 || x$20 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$20])) >>> 0) << 24 >>> 0) | (((x$21 = ((t1 >>> 16 >>> 0) & 255) >>> 0, ((x$21 < 0 || x$21 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$21])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$22 = ((t2 >>> 8 >>> 0) & 255) >>> 0, ((x$22 < 0 || x$22 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$22])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$23 = (t3 & 255) >>> 0, ((x$23 < 0 || x$23 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$23])) >>> 0)) >>> 0;
+		s1 = ((((((((x$24 = t1 >>> 24 >>> 0, ((x$24 < 0 || x$24 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$24])) >>> 0) << 24 >>> 0) | (((x$25 = ((t2 >>> 16 >>> 0) & 255) >>> 0, ((x$25 < 0 || x$25 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$25])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$26 = ((t3 >>> 8 >>> 0) & 255) >>> 0, ((x$26 < 0 || x$26 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$26])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$27 = (t0 & 255) >>> 0, ((x$27 < 0 || x$27 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$27])) >>> 0)) >>> 0;
+		s2 = ((((((((x$28 = t2 >>> 24 >>> 0, ((x$28 < 0 || x$28 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$28])) >>> 0) << 24 >>> 0) | (((x$29 = ((t3 >>> 16 >>> 0) & 255) >>> 0, ((x$29 < 0 || x$29 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$29])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$30 = ((t0 >>> 8 >>> 0) & 255) >>> 0, ((x$30 < 0 || x$30 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$30])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$31 = (t1 & 255) >>> 0, ((x$31 < 0 || x$31 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$31])) >>> 0)) >>> 0;
+		s3 = ((((((((x$32 = t3 >>> 24 >>> 0, ((x$32 < 0 || x$32 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$32])) >>> 0) << 24 >>> 0) | (((x$33 = ((t0 >>> 16 >>> 0) & 255) >>> 0, ((x$33 < 0 || x$33 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$33])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$34 = ((t1 >>> 8 >>> 0) & 255) >>> 0, ((x$34 < 0 || x$34 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$34])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$35 = (t2 & 255) >>> 0, ((x$35 < 0 || x$35 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$35])) >>> 0)) >>> 0;
+		s0 = (s0 ^ ((x$36 = k + 0 >> 0, ((x$36 < 0 || x$36 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$36])))) >>> 0;
+		s1 = (s1 ^ ((x$37 = k + 1 >> 0, ((x$37 < 0 || x$37 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$37])))) >>> 0;
+		s2 = (s2 ^ ((x$38 = k + 2 >> 0, ((x$38 < 0 || x$38 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$38])))) >>> 0;
+		s3 = (s3 ^ ((x$39 = k + 3 >> 0, ((x$39 < 0 || x$39 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$39])))) >>> 0;
+		_tmp$12 = ((s0 >>> 24 >>> 0) << 24 >>> 24); _tmp$13 = ((s0 >>> 16 >>> 0) << 24 >>> 24); _tmp$14 = ((s0 >>> 8 >>> 0) << 24 >>> 24); _tmp$15 = (s0 << 24 >>> 24); (0 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 0] = _tmp$12); (1 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 1] = _tmp$13); (2 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 2] = _tmp$14); (3 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 3] = _tmp$15);
+		_tmp$16 = ((s1 >>> 24 >>> 0) << 24 >>> 24); _tmp$17 = ((s1 >>> 16 >>> 0) << 24 >>> 24); _tmp$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24); _tmp$19 = (s1 << 24 >>> 24); (4 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 4] = _tmp$16); (5 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 5] = _tmp$17); (6 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 6] = _tmp$18); (7 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 7] = _tmp$19);
+		_tmp$20 = ((s2 >>> 24 >>> 0) << 24 >>> 24); _tmp$21 = ((s2 >>> 16 >>> 0) << 24 >>> 24); _tmp$22 = ((s2 >>> 8 >>> 0) << 24 >>> 24); _tmp$23 = (s2 << 24 >>> 24); (8 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 8] = _tmp$20); (9 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 9] = _tmp$21); (10 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 10] = _tmp$22); (11 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 11] = _tmp$23);
+		_tmp$24 = ((s3 >>> 24 >>> 0) << 24 >>> 24); _tmp$25 = ((s3 >>> 16 >>> 0) << 24 >>> 24); _tmp$26 = ((s3 >>> 8 >>> 0) << 24 >>> 24); _tmp$27 = (s3 << 24 >>> 24); (12 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 12] = _tmp$24); (13 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 13] = _tmp$25); (14 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 14] = _tmp$26); (15 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 15] = _tmp$27);
+	};
+	decryptBlockGo = function(xk, dst, src) {
+		var $ptr, _q, _tmp, _tmp$1, _tmp$10, _tmp$11, _tmp$12, _tmp$13, _tmp$14, _tmp$15, _tmp$16, _tmp$17, _tmp$18, _tmp$19, _tmp$2, _tmp$20, _tmp$21, _tmp$22, _tmp$23, _tmp$24, _tmp$25, _tmp$26, _tmp$27, _tmp$3, _tmp$4, _tmp$5, _tmp$6, _tmp$7, _tmp$8, _tmp$9, dst, k, nr, r, s0, s1, s2, s3, src, t0, t1, t2, t3, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$18, x$19, x$2, x$20, x$21, x$22, x$23, x$24, x$25, x$26, x$27, x$28, x$29, x$3, x$30, x$31, x$32, x$33, x$34, x$35, x$36, x$37, x$38, x$39, x$4, x$5, x$6, x$7, x$8, x$9, xk;
+		_tmp = 0; _tmp$1 = 0; _tmp$2 = 0; _tmp$3 = 0; _tmp$4 = 0; _tmp$5 = 0; _tmp$6 = 0; _tmp$7 = 0; s0 = _tmp; s1 = _tmp$1; s2 = _tmp$2; s3 = _tmp$3; t0 = _tmp$4; t1 = _tmp$5; t2 = _tmp$6; t3 = _tmp$7;
+		s0 = ((((((((0 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 0]) >>> 0) << 24 >>> 0) | (((1 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 1]) >>> 0) << 16 >>> 0)) >>> 0) | (((2 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 2]) >>> 0) << 8 >>> 0)) >>> 0) | ((3 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 3]) >>> 0)) >>> 0;
+		s1 = ((((((((4 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 4]) >>> 0) << 24 >>> 0) | (((5 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 5]) >>> 0) << 16 >>> 0)) >>> 0) | (((6 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 6]) >>> 0) << 8 >>> 0)) >>> 0) | ((7 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 7]) >>> 0)) >>> 0;
+		s2 = ((((((((8 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 8]) >>> 0) << 24 >>> 0) | (((9 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 9]) >>> 0) << 16 >>> 0)) >>> 0) | (((10 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 10]) >>> 0) << 8 >>> 0)) >>> 0) | ((11 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 11]) >>> 0)) >>> 0;
+		s3 = ((((((((12 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 12]) >>> 0) << 24 >>> 0) | (((13 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 13]) >>> 0) << 16 >>> 0)) >>> 0) | (((14 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 14]) >>> 0) << 8 >>> 0)) >>> 0) | ((15 >= src.$length ? $throwRuntimeError("index out of range") : src.$array[src.$offset + 15]) >>> 0)) >>> 0;
+		s0 = (s0 ^ ((0 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 0]))) >>> 0;
+		s1 = (s1 ^ ((1 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 1]))) >>> 0;
+		s2 = (s2 ^ ((2 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 2]))) >>> 0;
+		s3 = (s3 ^ ((3 >= xk.$length ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + 3]))) >>> 0;
+		nr = (_q = xk.$length / 4, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero")) - 2 >> 0;
+		k = 4;
+		r = 0;
+		while (true) {
+			if (!(r < nr)) { break; }
+			t0 = ((((((((x = k + 0 >> 0, ((x < 0 || x >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x])) ^ (x$1 = ((s0 >>> 24 >>> 0) << 24 >>> 24), ((x$1 < 0 || x$1 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$1]))) >>> 0) ^ (x$2 = ((s3 >>> 16 >>> 0) << 24 >>> 24), ((x$2 < 0 || x$2 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$2]))) >>> 0) ^ (x$3 = ((s2 >>> 8 >>> 0) << 24 >>> 24), ((x$3 < 0 || x$3 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$3]))) >>> 0) ^ (x$4 = (s1 << 24 >>> 24), ((x$4 < 0 || x$4 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$4]))) >>> 0;
+			t1 = ((((((((x$5 = k + 1 >> 0, ((x$5 < 0 || x$5 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$5])) ^ (x$6 = ((s1 >>> 24 >>> 0) << 24 >>> 24), ((x$6 < 0 || x$6 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$6]))) >>> 0) ^ (x$7 = ((s0 >>> 16 >>> 0) << 24 >>> 24), ((x$7 < 0 || x$7 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$7]))) >>> 0) ^ (x$8 = ((s3 >>> 8 >>> 0) << 24 >>> 24), ((x$8 < 0 || x$8 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$8]))) >>> 0) ^ (x$9 = (s2 << 24 >>> 24), ((x$9 < 0 || x$9 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$9]))) >>> 0;
+			t2 = ((((((((x$10 = k + 2 >> 0, ((x$10 < 0 || x$10 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$10])) ^ (x$11 = ((s2 >>> 24 >>> 0) << 24 >>> 24), ((x$11 < 0 || x$11 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$11]))) >>> 0) ^ (x$12 = ((s1 >>> 16 >>> 0) << 24 >>> 24), ((x$12 < 0 || x$12 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$12]))) >>> 0) ^ (x$13 = ((s0 >>> 8 >>> 0) << 24 >>> 24), ((x$13 < 0 || x$13 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$13]))) >>> 0) ^ (x$14 = (s3 << 24 >>> 24), ((x$14 < 0 || x$14 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$14]))) >>> 0;
+			t3 = ((((((((x$15 = k + 3 >> 0, ((x$15 < 0 || x$15 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$15])) ^ (x$16 = ((s3 >>> 24 >>> 0) << 24 >>> 24), ((x$16 < 0 || x$16 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$16]))) >>> 0) ^ (x$17 = ((s2 >>> 16 >>> 0) << 24 >>> 24), ((x$17 < 0 || x$17 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$17]))) >>> 0) ^ (x$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24), ((x$18 < 0 || x$18 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$18]))) >>> 0) ^ (x$19 = (s0 << 24 >>> 24), ((x$19 < 0 || x$19 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$19]))) >>> 0;
+			k = k + (4) >> 0;
+			_tmp$8 = t0; _tmp$9 = t1; _tmp$10 = t2; _tmp$11 = t3; s0 = _tmp$8; s1 = _tmp$9; s2 = _tmp$10; s3 = _tmp$11;
+			r = r + (1) >> 0;
+		}
+		s0 = ((((((((x$20 = t0 >>> 24 >>> 0, ((x$20 < 0 || x$20 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$20])) >>> 0) << 24 >>> 0) | (((x$21 = ((t3 >>> 16 >>> 0) & 255) >>> 0, ((x$21 < 0 || x$21 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$21])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$22 = ((t2 >>> 8 >>> 0) & 255) >>> 0, ((x$22 < 0 || x$22 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$22])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$23 = (t1 & 255) >>> 0, ((x$23 < 0 || x$23 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$23])) >>> 0)) >>> 0;
+		s1 = ((((((((x$24 = t1 >>> 24 >>> 0, ((x$24 < 0 || x$24 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$24])) >>> 0) << 24 >>> 0) | (((x$25 = ((t0 >>> 16 >>> 0) & 255) >>> 0, ((x$25 < 0 || x$25 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$25])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$26 = ((t3 >>> 8 >>> 0) & 255) >>> 0, ((x$26 < 0 || x$26 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$26])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$27 = (t2 & 255) >>> 0, ((x$27 < 0 || x$27 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$27])) >>> 0)) >>> 0;
+		s2 = ((((((((x$28 = t2 >>> 24 >>> 0, ((x$28 < 0 || x$28 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$28])) >>> 0) << 24 >>> 0) | (((x$29 = ((t1 >>> 16 >>> 0) & 255) >>> 0, ((x$29 < 0 || x$29 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$29])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$30 = ((t0 >>> 8 >>> 0) & 255) >>> 0, ((x$30 < 0 || x$30 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$30])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$31 = (t3 & 255) >>> 0, ((x$31 < 0 || x$31 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$31])) >>> 0)) >>> 0;
+		s3 = ((((((((x$32 = t3 >>> 24 >>> 0, ((x$32 < 0 || x$32 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$32])) >>> 0) << 24 >>> 0) | (((x$33 = ((t2 >>> 16 >>> 0) & 255) >>> 0, ((x$33 < 0 || x$33 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$33])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$34 = ((t1 >>> 8 >>> 0) & 255) >>> 0, ((x$34 < 0 || x$34 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$34])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$35 = (t0 & 255) >>> 0, ((x$35 < 0 || x$35 >= sbox1.length) ? $throwRuntimeError("index out of range") : sbox1[x$35])) >>> 0)) >>> 0;
+		s0 = (s0 ^ ((x$36 = k + 0 >> 0, ((x$36 < 0 || x$36 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$36])))) >>> 0;
+		s1 = (s1 ^ ((x$37 = k + 1 >> 0, ((x$37 < 0 || x$37 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$37])))) >>> 0;
+		s2 = (s2 ^ ((x$38 = k + 2 >> 0, ((x$38 < 0 || x$38 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$38])))) >>> 0;
+		s3 = (s3 ^ ((x$39 = k + 3 >> 0, ((x$39 < 0 || x$39 >= xk.$length) ? $throwRuntimeError("index out of range") : xk.$array[xk.$offset + x$39])))) >>> 0;
+		_tmp$12 = ((s0 >>> 24 >>> 0) << 24 >>> 24); _tmp$13 = ((s0 >>> 16 >>> 0) << 24 >>> 24); _tmp$14 = ((s0 >>> 8 >>> 0) << 24 >>> 24); _tmp$15 = (s0 << 24 >>> 24); (0 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 0] = _tmp$12); (1 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 1] = _tmp$13); (2 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 2] = _tmp$14); (3 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 3] = _tmp$15);
+		_tmp$16 = ((s1 >>> 24 >>> 0) << 24 >>> 24); _tmp$17 = ((s1 >>> 16 >>> 0) << 24 >>> 24); _tmp$18 = ((s1 >>> 8 >>> 0) << 24 >>> 24); _tmp$19 = (s1 << 24 >>> 24); (4 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 4] = _tmp$16); (5 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 5] = _tmp$17); (6 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 6] = _tmp$18); (7 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 7] = _tmp$19);
+		_tmp$20 = ((s2 >>> 24 >>> 0) << 24 >>> 24); _tmp$21 = ((s2 >>> 16 >>> 0) << 24 >>> 24); _tmp$22 = ((s2 >>> 8 >>> 0) << 24 >>> 24); _tmp$23 = (s2 << 24 >>> 24); (8 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 8] = _tmp$20); (9 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 9] = _tmp$21); (10 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 10] = _tmp$22); (11 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 11] = _tmp$23);
+		_tmp$24 = ((s3 >>> 24 >>> 0) << 24 >>> 24); _tmp$25 = ((s3 >>> 16 >>> 0) << 24 >>> 24); _tmp$26 = ((s3 >>> 8 >>> 0) << 24 >>> 24); _tmp$27 = (s3 << 24 >>> 24); (12 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 12] = _tmp$24); (13 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 13] = _tmp$25); (14 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 14] = _tmp$26); (15 >= dst.$length ? $throwRuntimeError("index out of range") : dst.$array[dst.$offset + 15] = _tmp$27);
+	};
+	subw = function(w) {
+		var $ptr, w, x, x$1, x$2, x$3;
+		return ((((((((x = w >>> 24 >>> 0, ((x < 0 || x >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x])) >>> 0) << 24 >>> 0) | (((x$1 = ((w >>> 16 >>> 0) & 255) >>> 0, ((x$1 < 0 || x$1 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$1])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$2 = ((w >>> 8 >>> 0) & 255) >>> 0, ((x$2 < 0 || x$2 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$2])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$3 = (w & 255) >>> 0, ((x$3 < 0 || x$3 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$3])) >>> 0)) >>> 0;
+	};
+	rotw = function(w) {
+		var $ptr, w;
+		return ((w << 8 >>> 0) | (w >>> 24 >>> 0)) >>> 0;
+	};
+	expandKeyGo = function(key, enc, dec) {
+		var $ptr, _q, _q$1, _r, _r$1, dec, ei, enc, i, i$1, j, key, n, nk, t, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9;
+		i = 0;
+		nk = (_q = key.$length / 4, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero"));
+		i = 0;
+		while (true) {
+			if (!(i < nk)) { break; }
+			((i < 0 || i >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + i] = ((((((((x = 4 * i >> 0, ((x < 0 || x >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x])) >>> 0) << 24 >>> 0) | (((x$1 = (4 * i >> 0) + 1 >> 0, ((x$1 < 0 || x$1 >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x$1])) >>> 0) << 16 >>> 0)) >>> 0) | (((x$2 = (4 * i >> 0) + 2 >> 0, ((x$2 < 0 || x$2 >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x$2])) >>> 0) << 8 >>> 0)) >>> 0) | ((x$3 = (4 * i >> 0) + 3 >> 0, ((x$3 < 0 || x$3 >= key.$length) ? $throwRuntimeError("index out of range") : key.$array[key.$offset + x$3])) >>> 0)) >>> 0);
+			i = i + (1) >> 0;
+		}
+		while (true) {
+			if (!(i < enc.$length)) { break; }
+			t = (x$4 = i - 1 >> 0, ((x$4 < 0 || x$4 >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + x$4]));
+			if ((_r = i % nk, _r === _r ? _r : $throwRuntimeError("integer divide by zero")) === 0) {
+				t = (subw(rotw(t)) ^ ((((x$5 = (_q$1 = i / nk, (_q$1 === _q$1 && _q$1 !== 1/0 && _q$1 !== -1/0) ? _q$1 >> 0 : $throwRuntimeError("integer divide by zero")) - 1 >> 0, ((x$5 < 0 || x$5 >= powx.length) ? $throwRuntimeError("index out of range") : powx[x$5])) >>> 0) << 24 >>> 0))) >>> 0;
+			} else if (nk > 6 && ((_r$1 = i % nk, _r$1 === _r$1 ? _r$1 : $throwRuntimeError("integer divide by zero")) === 4)) {
+				t = subw(t);
+			}
+			((i < 0 || i >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + i] = ((x$6 = i - nk >> 0, ((x$6 < 0 || x$6 >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + x$6])) ^ t) >>> 0);
+			i = i + (1) >> 0;
+		}
+		if (dec === sliceType.nil) {
+			return;
+		}
+		n = enc.$length;
+		i$1 = 0;
+		while (true) {
+			if (!(i$1 < n)) { break; }
+			ei = (n - i$1 >> 0) - 4 >> 0;
+			j = 0;
+			while (true) {
+				if (!(j < 4)) { break; }
+				x$8 = (x$7 = ei + j >> 0, ((x$7 < 0 || x$7 >= enc.$length) ? $throwRuntimeError("index out of range") : enc.$array[enc.$offset + x$7]));
+				if (i$1 > 0 && (i$1 + 4 >> 0) < n) {
+					x$8 = ((((((x$9 = (x$10 = x$8 >>> 24 >>> 0, ((x$10 < 0 || x$10 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$10])), ((x$9 < 0 || x$9 >= td0.length) ? $throwRuntimeError("index out of range") : td0[x$9])) ^ (x$11 = (x$12 = ((x$8 >>> 16 >>> 0) & 255) >>> 0, ((x$12 < 0 || x$12 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$12])), ((x$11 < 0 || x$11 >= td1.length) ? $throwRuntimeError("index out of range") : td1[x$11]))) >>> 0) ^ (x$13 = (x$14 = ((x$8 >>> 8 >>> 0) & 255) >>> 0, ((x$14 < 0 || x$14 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$14])), ((x$13 < 0 || x$13 >= td2.length) ? $throwRuntimeError("index out of range") : td2[x$13]))) >>> 0) ^ (x$15 = (x$16 = (x$8 & 255) >>> 0, ((x$16 < 0 || x$16 >= sbox0.length) ? $throwRuntimeError("index out of range") : sbox0[x$16])), ((x$15 < 0 || x$15 >= td3.length) ? $throwRuntimeError("index out of range") : td3[x$15]))) >>> 0;
+				}
+				(x$17 = i$1 + j >> 0, ((x$17 < 0 || x$17 >= dec.$length) ? $throwRuntimeError("index out of range") : dec.$array[dec.$offset + x$17] = x$8));
+				j = j + (1) >> 0;
+			}
+			i$1 = i$1 + (4) >> 0;
+		}
+	};
+	KeySizeError.prototype.Error = function() {
+		var $ptr, k;
+		k = this.$val;
+		return "crypto/aes: invalid key size " + strconv.Itoa((k >> 0));
+	};
+	$ptrType(KeySizeError).prototype.Error = function() { return new KeySizeError(this.$get()).Error(); };
+	NewCipher = function(key) {
+		var $ptr, _ref, c, k, key, n;
+		k = key.$length;
+		_ref = k;
+		switch (0) { default: if (_ref === 16 || _ref === 24 || _ref === 32) {
+			break;
+		} else {
+			return [$ifaceNil, new KeySizeError((k >> 0))];
+		} }
+		n = k + 28 >> 0;
+		c = new aesCipher.ptr($makeSlice(sliceType, n), $makeSlice(sliceType, n));
+		expandKey(key, c.enc, c.dec);
+		return [c, $ifaceNil];
+	};
+	$pkg.NewCipher = NewCipher;
+	aesCipher.ptr.prototype.BlockSize = function() {
+		var $ptr, c;
+		c = this;
+		return 16;
+	};
+	aesCipher.prototype.BlockSize = function() { return this.$val.BlockSize(); };
+	aesCipher.ptr.prototype.Encrypt = function(dst, src) {
+		var $ptr, c, dst, src;
+		c = this;
+		if (src.$length < 16) {
+			$panic(new $String("crypto/aes: input not full block"));
+		}
+		if (dst.$length < 16) {
+			$panic(new $String("crypto/aes: output not full block"));
+		}
+		encryptBlock(c.enc, dst, src);
+	};
+	aesCipher.prototype.Encrypt = function(dst, src) { return this.$val.Encrypt(dst, src); };
+	aesCipher.ptr.prototype.Decrypt = function(dst, src) {
+		var $ptr, c, dst, src;
+		c = this;
+		if (src.$length < 16) {
+			$panic(new $String("crypto/aes: input not full block"));
+		}
+		if (dst.$length < 16) {
+			$panic(new $String("crypto/aes: output not full block"));
+		}
+		decryptBlock(c.dec, dst, src);
+	};
+	aesCipher.prototype.Decrypt = function(dst, src) { return this.$val.Decrypt(dst, src); };
+	encryptBlock = function(xk, dst, src) {
+		var $ptr, dst, src, xk;
+		encryptBlockGo(xk, dst, src);
+	};
+	decryptBlock = function(xk, dst, src) {
+		var $ptr, dst, src, xk;
+		decryptBlockGo(xk, dst, src);
+	};
+	expandKey = function(key, enc, dec) {
+		var $ptr, dec, enc, key;
+		expandKeyGo(key, enc, dec);
+	};
+	ptrType.methods = [{prop: "BlockSize", name: "BlockSize", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Encrypt", name: "Encrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}, {prop: "Decrypt", name: "Decrypt", pkg: "", typ: $funcType([sliceType$1, sliceType$1], [], false)}];
+	KeySizeError.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
+	aesCipher.init([{prop: "enc", name: "enc", pkg: "crypto/aes", typ: sliceType, tag: ""}, {prop: "dec", name: "dec", pkg: "crypto/aes", typ: sliceType, tag: ""}]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = cipher.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = strconv.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		powx = $toNativeArray($kindUint8, [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47]);
+		sbox0 = $toNativeArray($kindUint8, [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22]);
+		sbox1 = $toNativeArray($kindUint8, [82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47, 255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66, 250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246, 100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94, 21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6, 208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234, 151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28, 117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75, 198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18, 16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160, 224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38, 225, 105, 20, 99, 85, 33, 12, 125]);
+		te0 = $toNativeArray($kindUint32, [3328402341, 4168907908, 4000806809, 4135287693, 4294111757, 3597364157, 3731845041, 2445657428, 1613770832, 33620227, 3462883241, 1445669757, 3892248089, 3050821474, 1303096294, 3967186586, 2412431941, 528646813, 2311702848, 4202528135, 4026202645, 2992200171, 2387036105, 4226871307, 1101901292, 3017069671, 1604494077, 1169141738, 597466303, 1403299063, 3832705686, 2613100635, 1974974402, 3791519004, 1033081774, 1277568618, 1815492186, 2118074177, 4126668546, 2211236943, 1748251740, 1369810420, 3521504564, 4193382664, 3799085459, 2883115123, 1647391059, 706024767, 134480908, 2512897874, 1176707941, 2646852446, 806885416, 932615841, 168101135, 798661301, 235341577, 605164086, 461406363, 3756188221, 3454790438, 1311188841, 2142417613, 3933566367, 302582043, 495158174, 1479289972, 874125870, 907746093, 3698224818, 3025820398, 1537253627, 2756858614, 1983593293, 3084310113, 2108928974, 1378429307, 3722699582, 1580150641, 327451799, 2790478837, 3117535592, 0, 3253595436, 1075847264, 3825007647, 2041688520, 3059440621, 3563743934, 2378943302, 1740553945, 1916352843, 2487896798, 2555137236, 2958579944, 2244988746, 3151024235, 3320835882, 1336584933, 3992714006, 2252555205, 2588757463, 1714631509, 293963156, 2319795663, 3925473552, 67240454, 4269768577, 2689618160, 2017213508, 631218106, 1269344483, 2723238387, 1571005438, 2151694528, 93294474, 1066570413, 563977660, 1882732616, 4059428100, 1673313503, 2008463041, 2950355573, 1109467491, 537923632, 3858759450, 4260623118, 3218264685, 2177748300, 403442708, 638784309, 3287084079, 3193921505, 899127202, 2286175436, 773265209, 2479146071, 1437050866, 4236148354, 2050833735, 3362022572, 3126681063, 840505643, 3866325909, 3227541664, 427917720, 2655997905, 2749160575, 1143087718, 1412049534, 999329963, 193497219, 2353415882, 3354324521, 1807268051, 672404540, 2816401017, 3160301282, 369822493, 2916866934, 3688947771, 1681011286, 1949973070, 336202270, 2454276571, 201721354, 1210328172, 3093060836, 2680341085, 3184776046, 1135389935, 3294782118, 965841320, 831886756, 3554993207, 4068047243, 3588745010, 2345191491, 1849112409, 3664604599, 26054028, 2983581028, 2622377682, 1235855840, 3630984372, 2891339514, 4092916743, 3488279077, 3395642799, 4101667470, 1202630377, 268961816, 1874508501, 4034427016, 1243948399, 1546530418, 941366308, 1470539505, 1941222599, 2546386513, 3421038627, 2715671932, 3899946140, 1042226977, 2521517021, 1639824860, 227249030, 260737669, 3765465232, 2084453954, 1907733956, 3429263018, 2420656344, 100860677, 4160157185, 470683154, 3261161891, 1781871967, 2924959737, 1773779408, 394692241, 2579611992, 974986535, 664706745, 3655459128, 3958962195, 731420851, 571543859, 3530123707, 2849626480, 126783113, 865375399, 765172662, 1008606754, 361203602, 3387549984, 2278477385, 2857719295, 1344809080, 2782912378, 59542671, 1503764984, 160008576, 437062935, 1707065306, 3622233649, 2218934982, 3496503480, 2185314755, 697932208, 1512910199, 504303377, 2075177163, 2824099068, 1841019862, 739644986]);
+		te1 = $toNativeArray($kindUint32, [2781242211, 2230877308, 2582542199, 2381740923, 234877682, 3184946027, 2984144751, 1418839493, 1348481072, 50462977, 2848876391, 2102799147, 434634494, 1656084439, 3863849899, 2599188086, 1167051466, 2636087938, 1082771913, 2281340285, 368048890, 3954334041, 3381544775, 201060592, 3963727277, 1739838676, 4250903202, 3930435503, 3206782108, 4149453988, 2531553906, 1536934080, 3262494647, 484572669, 2923271059, 1783375398, 1517041206, 1098792767, 49674231, 1334037708, 1550332980, 4098991525, 886171109, 150598129, 2481090929, 1940642008, 1398944049, 1059722517, 201851908, 1385547719, 1699095331, 1587397571, 674240536, 2704774806, 252314885, 3039795866, 151914247, 908333586, 2602270848, 1038082786, 651029483, 1766729511, 3447698098, 2682942837, 454166793, 2652734339, 1951935532, 775166490, 758520603, 3000790638, 4004797018, 4217086112, 4137964114, 1299594043, 1639438038, 3464344499, 2068982057, 1054729187, 1901997871, 2534638724, 4121318227, 1757008337, 0, 750906861, 1614815264, 535035132, 3363418545, 3988151131, 3201591914, 1183697867, 3647454910, 1265776953, 3734260298, 3566750796, 3903871064, 1250283471, 1807470800, 717615087, 3847203498, 384695291, 3313910595, 3617213773, 1432761139, 2484176261, 3481945413, 283769337, 100925954, 2180939647, 4037038160, 1148730428, 3123027871, 3813386408, 4087501137, 4267549603, 3229630528, 2315620239, 2906624658, 3156319645, 1215313976, 82966005, 3747855548, 3245848246, 1974459098, 1665278241, 807407632, 451280895, 251524083, 1841287890, 1283575245, 337120268, 891687699, 801369324, 3787349855, 2721421207, 3431482436, 959321879, 1469301956, 4065699751, 2197585534, 1199193405, 2898814052, 3887750493, 724703513, 2514908019, 2696962144, 2551808385, 3516813135, 2141445340, 1715741218, 2119445034, 2872807568, 2198571144, 3398190662, 700968686, 3547052216, 1009259540, 2041044702, 3803995742, 487983883, 1991105499, 1004265696, 1449407026, 1316239930, 504629770, 3683797321, 168560134, 1816667172, 3837287516, 1570751170, 1857934291, 4014189740, 2797888098, 2822345105, 2754712981, 936633572, 2347923833, 852879335, 1133234376, 1500395319, 3084545389, 2348912013, 1689376213, 3533459022, 3762923945, 3034082412, 4205598294, 133428468, 634383082, 2949277029, 2398386810, 3913789102, 403703816, 3580869306, 2297460856, 1867130149, 1918643758, 607656988, 4049053350, 3346248884, 1368901318, 600565992, 2090982877, 2632479860, 557719327, 3717614411, 3697393085, 2249034635, 2232388234, 2430627952, 1115438654, 3295786421, 2865522278, 3633334344, 84280067, 33027830, 303828494, 2747425121, 1600795957, 4188952407, 3496589753, 2434238086, 1486471617, 658119965, 3106381470, 953803233, 334231800, 3005978776, 857870609, 3151128937, 1890179545, 2298973838, 2805175444, 3056442267, 574365214, 2450884487, 550103529, 1233637070, 4289353045, 2018519080, 2057691103, 2399374476, 4166623649, 2148108681, 387583245, 3664101311, 836232934, 3330556482, 3100665960, 3280093505, 2955516313, 2002398509, 287182607, 3413881008, 4238890068, 3597515707, 975967766]);
+		te2 = $toNativeArray($kindUint32, [1671808611, 2089089148, 2006576759, 2072901243, 4061003762, 1807603307, 1873927791, 3310653893, 810573872, 16974337, 1739181671, 729634347, 4263110654, 3613570519, 2883997099, 1989864566, 3393556426, 2191335298, 3376449993, 2106063485, 4195741690, 1508618841, 1204391495, 4027317232, 2917941677, 3563566036, 2734514082, 2951366063, 2629772188, 2767672228, 1922491506, 3227229120, 3082974647, 4246528509, 2477669779, 644500518, 911895606, 1061256767, 4144166391, 3427763148, 878471220, 2784252325, 3845444069, 4043897329, 1905517169, 3631459288, 827548209, 356461077, 67897348, 3344078279, 593839651, 3277757891, 405286936, 2527147926, 84871685, 2595565466, 118033927, 305538066, 2157648768, 3795705826, 3945188843, 661212711, 2999812018, 1973414517, 152769033, 2208177539, 745822252, 439235610, 455947803, 1857215598, 1525593178, 2700827552, 1391895634, 994932283, 3596728278, 3016654259, 695947817, 3812548067, 795958831, 2224493444, 1408607827, 3513301457, 0, 3979133421, 543178784, 4229948412, 2982705585, 1542305371, 1790891114, 3410398667, 3201918910, 961245753, 1256100938, 1289001036, 1491644504, 3477767631, 3496721360, 4012557807, 2867154858, 4212583931, 1137018435, 1305975373, 861234739, 2241073541, 1171229253, 4178635257, 33948674, 2139225727, 1357946960, 1011120188, 2679776671, 2833468328, 1374921297, 2751356323, 1086357568, 2408187279, 2460827538, 2646352285, 944271416, 4110742005, 3168756668, 3066132406, 3665145818, 560153121, 271589392, 4279952895, 4077846003, 3530407890, 3444343245, 202643468, 322250259, 3962553324, 1608629855, 2543990167, 1154254916, 389623319, 3294073796, 2817676711, 2122513534, 1028094525, 1689045092, 1575467613, 422261273, 1939203699, 1621147744, 2174228865, 1339137615, 3699352540, 577127458, 712922154, 2427141008, 2290289544, 1187679302, 3995715566, 3100863416, 339486740, 3732514782, 1591917662, 186455563, 3681988059, 3762019296, 844522546, 978220090, 169743370, 1239126601, 101321734, 611076132, 1558493276, 3260915650, 3547250131, 2901361580, 1655096418, 2443721105, 2510565781, 3828863972, 2039214713, 3878868455, 3359869896, 928607799, 1840765549, 2374762893, 3580146133, 1322425422, 2850048425, 1823791212, 1459268694, 4094161908, 3928346602, 1706019429, 2056189050, 2934523822, 135794696, 3134549946, 2022240376, 628050469, 779246638, 472135708, 2800834470, 3032970164, 3327236038, 3894660072, 3715932637, 1956440180, 522272287, 1272813131, 3185336765, 2340818315, 2323976074, 1888542832, 1044544574, 3049550261, 1722469478, 1222152264, 50660867, 4127324150, 236067854, 1638122081, 895445557, 1475980887, 3117443513, 2257655686, 3243809217, 489110045, 2662934430, 3778599393, 4162055160, 2561878936, 288563729, 1773916777, 3648039385, 2391345038, 2493985684, 2612407707, 505560094, 2274497927, 3911240169, 3460925390, 1442818645, 678973480, 3749357023, 2358182796, 2717407649, 2306869641, 219617805, 3218761151, 3862026214, 1120306242, 1756942440, 1103331905, 2578459033, 762796589, 252780047, 2966125488, 1425844308, 3151392187, 372911126]);
+		te3 = $toNativeArray($kindUint32, [1667474886, 2088535288, 2004326894, 2071694838, 4075949567, 1802223062, 1869591006, 3318043793, 808472672, 16843522, 1734846926, 724270422, 4278065639, 3621216949, 2880169549, 1987484396, 3402253711, 2189597983, 3385409673, 2105378810, 4210693615, 1499065266, 1195886990, 4042263547, 2913856577, 3570689971, 2728590687, 2947541573, 2627518243, 2762274643, 1920112356, 3233831835, 3082273397, 4261223649, 2475929149, 640051788, 909531756, 1061110142, 4160160501, 3435941763, 875846760, 2779116625, 3857003729, 4059105529, 1903268834, 3638064043, 825316194, 353713962, 67374088, 3351728789, 589522246, 3284360861, 404236336, 2526454071, 84217610, 2593830191, 117901582, 303183396, 2155911963, 3806477791, 3958056653, 656894286, 2998062463, 1970642922, 151591698, 2206440989, 741110872, 437923380, 454765878, 1852748508, 1515908788, 2694904667, 1381168804, 993742198, 3604373943, 3014905469, 690584402, 3823320797, 791638366, 2223281939, 1398011302, 3520161977, 0, 3991743681, 538992704, 4244381667, 2981218425, 1532751286, 1785380564, 3419096717, 3200178535, 960056178, 1246420628, 1280103576, 1482221744, 3486468741, 3503319995, 4025428677, 2863326543, 4227536621, 1128514950, 1296947098, 859002214, 2240123921, 1162203018, 4193849577, 33687044, 2139062782, 1347481760, 1010582648, 2678045221, 2829640523, 1364325282, 2745433693, 1077985408, 2408548869, 2459086143, 2644360225, 943212656, 4126475505, 3166494563, 3065430391, 3671750063, 555836226, 269496352, 4294908645, 4092792573, 3537006015, 3452783745, 202118168, 320025894, 3974901699, 1600119230, 2543297077, 1145359496, 387397934, 3301201811, 2812801621, 2122220284, 1027426170, 1684319432, 1566435258, 421079858, 1936954854, 1616945344, 2172753945, 1330631070, 3705438115, 572679748, 707427924, 2425400123, 2290647819, 1179044492, 4008585671, 3099120491, 336870440, 3739122087, 1583276732, 185277718, 3688593069, 3772791771, 842159716, 976899700, 168435220, 1229577106, 101059084, 606366792, 1549591736, 3267517855, 3553849021, 2897014595, 1650632388, 2442242105, 2509612081, 3840161747, 2038008818, 3890688725, 3368567691, 926374254, 1835907034, 2374863873, 3587531953, 1313788572, 2846482505, 1819063512, 1448540844, 4109633523, 3941213647, 1701162954, 2054852340, 2930698567, 134748176, 3132806511, 2021165296, 623210314, 774795868, 471606328, 2795958615, 3031746419, 3334885783, 3907527627, 3722280097, 1953799400, 522133822, 1263263126, 3183336545, 2341176845, 2324333839, 1886425312, 1044267644, 3048588401, 1718004428, 1212733584, 50529542, 4143317495, 235803164, 1633788866, 892690282, 1465383342, 3115962473, 2256965911, 3250673817, 488449850, 2661202215, 3789633753, 4177007595, 2560144171, 286339874, 1768537042, 3654906025, 2391705863, 2492770099, 2610673197, 505291324, 2273808917, 3924369609, 3469625735, 1431699370, 673740880, 3755965093, 2358021891, 2711746649, 2307489801, 218961690, 3217021541, 3873845719, 1111672452, 1751693520, 1094828930, 2576986153, 757954394, 252645662, 2964376443, 1414855848, 3149649517, 370555436]);
+		td0 = $toNativeArray($kindUint32, [1374988112, 2118214995, 437757123, 975658646, 1001089995, 530400753, 2902087851, 1273168787, 540080725, 2910219766, 2295101073, 4110568485, 1340463100, 3307916247, 641025152, 3043140495, 3736164937, 632953703, 1172967064, 1576976609, 3274667266, 2169303058, 2370213795, 1809054150, 59727847, 361929877, 3211623147, 2505202138, 3569255213, 1484005843, 1239443753, 2395588676, 1975683434, 4102977912, 2572697195, 666464733, 3202437046, 4035489047, 3374361702, 2110667444, 1675577880, 3843699074, 2538681184, 1649639237, 2976151520, 3144396420, 4269907996, 4178062228, 1883793496, 2403728665, 2497604743, 1383856311, 2876494627, 1917518562, 3810496343, 1716890410, 3001755655, 800440835, 2261089178, 3543599269, 807962610, 599762354, 33778362, 3977675356, 2328828971, 2809771154, 4077384432, 1315562145, 1708848333, 101039829, 3509871135, 3299278474, 875451293, 2733856160, 92987698, 2767645557, 193195065, 1080094634, 1584504582, 3178106961, 1042385657, 2531067453, 3711829422, 1306967366, 2438237621, 1908694277, 67556463, 1615861247, 429456164, 3602770327, 2302690252, 1742315127, 2968011453, 126454664, 3877198648, 2043211483, 2709260871, 2084704233, 4169408201, 0, 159417987, 841739592, 504459436, 1817866830, 4245618683, 260388950, 1034867998, 908933415, 168810852, 1750902305, 2606453969, 607530554, 202008497, 2472011535, 3035535058, 463180190, 2160117071, 1641816226, 1517767529, 470948374, 3801332234, 3231722213, 1008918595, 303765277, 235474187, 4069246893, 766945465, 337553864, 1475418501, 2943682380, 4003061179, 2743034109, 4144047775, 1551037884, 1147550661, 1543208500, 2336434550, 3408119516, 3069049960, 3102011747, 3610369226, 1113818384, 328671808, 2227573024, 2236228733, 3535486456, 2935566865, 3341394285, 496906059, 3702665459, 226906860, 2009195472, 733156972, 2842737049, 294930682, 1206477858, 2835123396, 2700099354, 1451044056, 573804783, 2269728455, 3644379585, 2362090238, 2564033334, 2801107407, 2776292904, 3669462566, 1068351396, 742039012, 1350078989, 1784663195, 1417561698, 4136440770, 2430122216, 775550814, 2193862645, 2673705150, 1775276924, 1876241833, 3475313331, 3366754619, 270040487, 3902563182, 3678124923, 3441850377, 1851332852, 3969562369, 2203032232, 3868552805, 2868897406, 566021896, 4011190502, 3135740889, 1248802510, 3936291284, 699432150, 832877231, 708780849, 3332740144, 899835584, 1951317047, 4236429990, 3767586992, 866637845, 4043610186, 1106041591, 2144161806, 395441711, 1984812685, 1139781709, 3433712980, 3835036895, 2664543715, 1282050075, 3240894392, 1181045119, 2640243204, 25965917, 4203181171, 4211818798, 3009879386, 2463879762, 3910161971, 1842759443, 2597806476, 933301370, 1509430414, 3943906441, 3467192302, 3076639029, 3776767469, 2051518780, 2631065433, 1441952575, 404016761, 1942435775, 1408749034, 1610459739, 3745345300, 2017778566, 3400528769, 3110650942, 941896748, 3265478751, 371049330, 3168937228, 675039627, 4279080257, 967311729, 135050206, 3635733660, 1683407248, 2076935265, 3576870512, 1215061108, 3501741890]);
+		td1 = $toNativeArray($kindUint32, [1347548327, 1400783205, 3273267108, 2520393566, 3409685355, 4045380933, 2880240216, 2471224067, 1428173050, 4138563181, 2441661558, 636813900, 4233094615, 3620022987, 2149987652, 2411029155, 1239331162, 1730525723, 2554718734, 3781033664, 46346101, 310463728, 2743944855, 3328955385, 3875770207, 2501218972, 3955191162, 3667219033, 768917123, 3545789473, 692707433, 1150208456, 1786102409, 2029293177, 1805211710, 3710368113, 3065962831, 401639597, 1724457132, 3028143674, 409198410, 2196052529, 1620529459, 1164071807, 3769721975, 2226875310, 486441376, 2499348523, 1483753576, 428819965, 2274680428, 3075636216, 598438867, 3799141122, 1474502543, 711349675, 129166120, 53458370, 2592523643, 2782082824, 4063242375, 2988687269, 3120694122, 1559041666, 730517276, 2460449204, 4042459122, 2706270690, 3446004468, 3573941694, 533804130, 2328143614, 2637442643, 2695033685, 839224033, 1973745387, 957055980, 2856345839, 106852767, 1371368976, 4181598602, 1033297158, 2933734917, 1179510461, 3046200461, 91341917, 1862534868, 4284502037, 605657339, 2547432937, 3431546947, 2003294622, 3182487618, 2282195339, 954669403, 3682191598, 1201765386, 3917234703, 3388507166, 0, 2198438022, 1211247597, 2887651696, 1315723890, 4227665663, 1443857720, 507358933, 657861945, 1678381017, 560487590, 3516619604, 975451694, 2970356327, 261314535, 3535072918, 2652609425, 1333838021, 2724322336, 1767536459, 370938394, 182621114, 3854606378, 1128014560, 487725847, 185469197, 2918353863, 3106780840, 3356761769, 2237133081, 1286567175, 3152976349, 4255350624, 2683765030, 3160175349, 3309594171, 878443390, 1988838185, 3704300486, 1756818940, 1673061617, 3403100636, 272786309, 1075025698, 545572369, 2105887268, 4174560061, 296679730, 1841768865, 1260232239, 4091327024, 3960309330, 3497509347, 1814803222, 2578018489, 4195456072, 575138148, 3299409036, 446754879, 3629546796, 4011996048, 3347532110, 3252238545, 4270639778, 915985419, 3483825537, 681933534, 651868046, 2755636671, 3828103837, 223377554, 2607439820, 1649704518, 3270937875, 3901806776, 1580087799, 4118987695, 3198115200, 2087309459, 2842678573, 3016697106, 1003007129, 2802849917, 1860738147, 2077965243, 164439672, 4100872472, 32283319, 2827177882, 1709610350, 2125135846, 136428751, 3874428392, 3652904859, 3460984630, 3572145929, 3593056380, 2939266226, 824852259, 818324884, 3224740454, 930369212, 2801566410, 2967507152, 355706840, 1257309336, 4148292826, 243256656, 790073846, 2373340630, 1296297904, 1422699085, 3756299780, 3818836405, 457992840, 3099667487, 2135319889, 77422314, 1560382517, 1945798516, 788204353, 1521706781, 1385356242, 870912086, 325965383, 2358957921, 2050466060, 2388260884, 2313884476, 4006521127, 901210569, 3990953189, 1014646705, 1503449823, 1062597235, 2031621326, 3212035895, 3931371469, 1533017514, 350174575, 2256028891, 2177544179, 1052338372, 741876788, 1606591296, 1914052035, 213705253, 2334669897, 1107234197, 1899603969, 3725069491, 2631447780, 2422494913, 1635502980, 1893020342, 1950903388, 1120974935]);
+		td2 = $toNativeArray($kindUint32, [2807058932, 1699970625, 2764249623, 1586903591, 1808481195, 1173430173, 1487645946, 59984867, 4199882800, 1844882806, 1989249228, 1277555970, 3623636965, 3419915562, 1149249077, 2744104290, 1514790577, 459744698, 244860394, 3235995134, 1963115311, 4027744588, 2544078150, 4190530515, 1608975247, 2627016082, 2062270317, 1507497298, 2200818878, 567498868, 1764313568, 3359936201, 2305455554, 2037970062, 1047239000, 1910319033, 1337376481, 2904027272, 2892417312, 984907214, 1243112415, 830661914, 861968209, 2135253587, 2011214180, 2927934315, 2686254721, 731183368, 1750626376, 4246310725, 1820824798, 4172763771, 3542330227, 48394827, 2404901663, 2871682645, 671593195, 3254988725, 2073724613, 145085239, 2280796200, 2779915199, 1790575107, 2187128086, 472615631, 3029510009, 4075877127, 3802222185, 4107101658, 3201631749, 1646252340, 4270507174, 1402811438, 1436590835, 3778151818, 3950355702, 3963161475, 4020912224, 2667994737, 273792366, 2331590177, 104699613, 95345982, 3175501286, 2377486676, 1560637892, 3564045318, 369057872, 4213447064, 3919042237, 1137477952, 2658625497, 1119727848, 2340947849, 1530455833, 4007360968, 172466556, 266959938, 516552836, 0, 2256734592, 3980931627, 1890328081, 1917742170, 4294704398, 945164165, 3575528878, 958871085, 3647212047, 2787207260, 1423022939, 775562294, 1739656202, 3876557655, 2530391278, 2443058075, 3310321856, 547512796, 1265195639, 437656594, 3121275539, 719700128, 3762502690, 387781147, 218828297, 3350065803, 2830708150, 2848461854, 428169201, 122466165, 3720081049, 1627235199, 648017665, 4122762354, 1002783846, 2117360635, 695634755, 3336358691, 4234721005, 4049844452, 3704280881, 2232435299, 574624663, 287343814, 612205898, 1039717051, 840019705, 2708326185, 793451934, 821288114, 1391201670, 3822090177, 376187827, 3113855344, 1224348052, 1679968233, 2361698556, 1058709744, 752375421, 2431590963, 1321699145, 3519142200, 2734591178, 188127444, 2177869557, 3727205754, 2384911031, 3215212461, 2648976442, 2450346104, 3432737375, 1180849278, 331544205, 3102249176, 4150144569, 2952102595, 2159976285, 2474404304, 766078933, 313773861, 2570832044, 2108100632, 1668212892, 3145456443, 2013908262, 418672217, 3070356634, 2594734927, 1852171925, 3867060991, 3473416636, 3907448597, 2614737639, 919489135, 164948639, 2094410160, 2997825956, 590424639, 2486224549, 1723872674, 3157750862, 3399941250, 3501252752, 3625268135, 2555048196, 3673637356, 1343127501, 4130281361, 3599595085, 2957853679, 1297403050, 81781910, 3051593425, 2283490410, 532201772, 1367295589, 3926170974, 895287692, 1953757831, 1093597963, 492483431, 3528626907, 1446242576, 1192455638, 1636604631, 209336225, 344873464, 1015671571, 669961897, 3375740769, 3857572124, 2973530695, 3747192018, 1933530610, 3464042516, 935293895, 3454686199, 2858115069, 1863638845, 3683022916, 4085369519, 3292445032, 875313188, 1080017571, 3279033885, 621591778, 1233856572, 2504130317, 24197544, 3017672716, 3835484340, 3247465558, 2220981195, 3060847922, 1551124588, 1463996600]);
+		td3 = $toNativeArray($kindUint32, [4104605777, 1097159550, 396673818, 660510266, 2875968315, 2638606623, 4200115116, 3808662347, 821712160, 1986918061, 3430322568, 38544885, 3856137295, 718002117, 893681702, 1654886325, 2975484382, 3122358053, 3926825029, 4274053469, 796197571, 1290801793, 1184342925, 3556361835, 2405426947, 2459735317, 1836772287, 1381620373, 3196267988, 1948373848, 3764988233, 3385345166, 3263785589, 2390325492, 1480485785, 3111247143, 3780097726, 2293045232, 548169417, 3459953789, 3746175075, 439452389, 1362321559, 1400849762, 1685577905, 1806599355, 2174754046, 137073913, 1214797936, 1174215055, 3731654548, 2079897426, 1943217067, 1258480242, 529487843, 1437280870, 3945269170, 3049390895, 3313212038, 923313619, 679998000, 3215307299, 57326082, 377642221, 3474729866, 2041877159, 133361907, 1776460110, 3673476453, 96392454, 878845905, 2801699524, 777231668, 4082475170, 2330014213, 4142626212, 2213296395, 1626319424, 1906247262, 1846563261, 562755902, 3708173718, 1040559837, 3871163981, 1418573201, 3294430577, 114585348, 1343618912, 2566595609, 3186202582, 1078185097, 3651041127, 3896688048, 2307622919, 425408743, 3371096953, 2081048481, 1108339068, 2216610296, 0, 2156299017, 736970802, 292596766, 1517440620, 251657213, 2235061775, 2933202493, 758720310, 265905162, 1554391400, 1532285339, 908999204, 174567692, 1474760595, 4002861748, 2610011675, 3234156416, 3693126241, 2001430874, 303699484, 2478443234, 2687165888, 585122620, 454499602, 151849742, 2345119218, 3064510765, 514443284, 4044981591, 1963412655, 2581445614, 2137062819, 19308535, 1928707164, 1715193156, 4219352155, 1126790795, 600235211, 3992742070, 3841024952, 836553431, 1669664834, 2535604243, 3323011204, 1243905413, 3141400786, 4180808110, 698445255, 2653899549, 2989552604, 2253581325, 3252932727, 3004591147, 1891211689, 2487810577, 3915653703, 4237083816, 4030667424, 2100090966, 865136418, 1229899655, 953270745, 3399679628, 3557504664, 4118925222, 2061379749, 3079546586, 2915017791, 983426092, 2022837584, 1607244650, 2118541908, 2366882550, 3635996816, 972512814, 3283088770, 1568718495, 3499326569, 3576539503, 621982671, 2895723464, 410887952, 2623762152, 1002142683, 645401037, 1494807662, 2595684844, 1335535747, 2507040230, 4293295786, 3167684641, 367585007, 3885750714, 1865862730, 2668221674, 2960971305, 2763173681, 1059270954, 2777952454, 2724642869, 1320957812, 2194319100, 2429595872, 2815956275, 77089521, 3973773121, 3444575871, 2448830231, 1305906550, 4021308739, 2857194700, 2516901860, 3518358430, 1787304780, 740276417, 1699839814, 1592394909, 2352307457, 2272556026, 188821243, 1729977011, 3687994002, 274084841, 3594982253, 3613494426, 2701949495, 4162096729, 322734571, 2837966542, 1640576439, 484830689, 1202797690, 3537852828, 4067639125, 349075736, 3342319475, 4157467219, 4255800159, 1030690015, 1155237496, 2951971274, 1757691577, 607398968, 2738905026, 499347990, 3794078908, 1011452712, 227885567, 2818666809, 213114376, 3034881240, 1455525988, 3414450555, 850817237, 1817998408, 3092726480]);
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["crypto/des"] = (function() {
+	var $pkg = {}, $init, cipher, binary, strconv, arrayType, arrayType$1, arrayType$2, arrayType$3, sliceType, feistelBox, permutationFunction, sBoxes, permuteBlock, init;
+	cipher = $packages["crypto/cipher"];
+	binary = $packages["encoding/binary"];
+	strconv = $packages["strconv"];
+	arrayType = $arrayType($Uint32, 64);
+	arrayType$1 = $arrayType(arrayType, 8);
+	arrayType$2 = $arrayType($Uint8, 16);
+	arrayType$3 = $arrayType(arrayType$2, 4);
+	sliceType = $sliceType($Uint8);
+	permuteBlock = function(src, permutation) {
+		var $ptr, _i, _ref, bit, block, n, permutation, position, src, x, x$1;
+		block = new $Uint64(0, 0);
+		_ref = permutation;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			position = _i;
+			n = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			bit = (x = $shiftRightUint64(src, n), new $Uint64(x.$high & 0, (x.$low & 1) >>> 0));
+			block = (x$1 = $shiftLeft64(bit, ((((permutation.$length - 1 >> 0)) - position >> 0) >>> 0)), new $Uint64(block.$high | x$1.$high, (block.$low | x$1.$low) >>> 0));
+			_i++;
+		}
+		return block;
+	};
+	init = function() {
+		var $ptr, _i, _ref, f, i, j, s, x, x$1, x$2, x$3;
+		_ref = sBoxes;
+		_i = 0;
+		while (true) {
+			if (!(_i < 8)) { break; }
+			s = _i;
+			i = 0;
+			while (true) {
+				if (!(i < 4)) { break; }
+				j = 0;
+				while (true) {
+					if (!(j < 16)) { break; }
+					f = $shiftLeft64(new $Uint64(0, (x = (x$1 = ((s < 0 || s >= sBoxes.length) ? $throwRuntimeError("index out of range") : sBoxes[s]), ((i < 0 || i >= x$1.length) ? $throwRuntimeError("index out of range") : x$1[i])), ((j < 0 || j >= x.length) ? $throwRuntimeError("index out of range") : x[j]))), ((4 * ((7 - (s >>> 0) >>> 0)) >>> 0)));
+					f = permuteBlock(f, new sliceType(permutationFunction));
+					(x$2 = ((s < 0 || s >= feistelBox.length) ? $throwRuntimeError("index out of range") : feistelBox[s]), x$3 = (16 * i >> 0) + j >> 0, ((x$3 < 0 || x$3 >= x$2.length) ? $throwRuntimeError("index out of range") : x$2[x$3] = (f.$low >>> 0)));
+					j = j + (1) >> 0;
+				}
+				i = i + (1) >> 0;
+			}
+			_i++;
+		}
+	};
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = cipher.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = binary.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = strconv.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		feistelBox = arrayType$1.zero();
+		permutationFunction = $toNativeArray($kindUint8, [16, 25, 12, 11, 3, 20, 4, 15, 31, 17, 9, 6, 27, 14, 1, 22, 30, 24, 8, 18, 0, 5, 29, 23, 13, 19, 2, 26, 10, 21, 28, 7]);
+		sBoxes = $toNativeArray($kindArray, [$toNativeArray($kindArray, [$toNativeArray($kindUint8, [14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7]), $toNativeArray($kindUint8, [0, 15, 7, 4, 14, 2, 13, 1, 10, 6, 12, 11, 9, 5, 3, 8]), $toNativeArray($kindUint8, [4, 1, 14, 8, 13, 6, 2, 11, 15, 12, 9, 7, 3, 10, 5, 0]), $toNativeArray($kindUint8, [15, 12, 8, 2, 4, 9, 1, 7, 5, 11, 3, 14, 10, 0, 6, 13])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [15, 1, 8, 14, 6, 11, 3, 4, 9, 7, 2, 13, 12, 0, 5, 10]), $toNativeArray($kindUint8, [3, 13, 4, 7, 15, 2, 8, 14, 12, 0, 1, 10, 6, 9, 11, 5]), $toNativeArray($kindUint8, [0, 14, 7, 11, 10, 4, 13, 1, 5, 8, 12, 6, 9, 3, 2, 15]), $toNativeArray($kindUint8, [13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 12, 0, 5, 14, 9])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [10, 0, 9, 14, 6, 3, 15, 5, 1, 13, 12, 7, 11, 4, 2, 8]), $toNativeArray($kindUint8, [13, 7, 0, 9, 3, 4, 6, 10, 2, 8, 5, 14, 12, 11, 15, 1]), $toNativeArray($kindUint8, [13, 6, 4, 9, 8, 15, 3, 0, 11, 1, 2, 12, 5, 10, 14, 7]), $toNativeArray($kindUint8, [1, 10, 13, 0, 6, 9, 8, 7, 4, 15, 14, 3, 11, 5, 2, 12])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [7, 13, 14, 3, 0, 6, 9, 10, 1, 2, 8, 5, 11, 12, 4, 15]), $toNativeArray($kindUint8, [13, 8, 11, 5, 6, 15, 0, 3, 4, 7, 2, 12, 1, 10, 14, 9]), $toNativeArray($kindUint8, [10, 6, 9, 0, 12, 11, 7, 13, 15, 1, 3, 14, 5, 2, 8, 4]), $toNativeArray($kindUint8, [3, 15, 0, 6, 10, 1, 13, 8, 9, 4, 5, 11, 12, 7, 2, 14])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [2, 12, 4, 1, 7, 10, 11, 6, 8, 5, 3, 15, 13, 0, 14, 9]), $toNativeArray($kindUint8, [14, 11, 2, 12, 4, 7, 13, 1, 5, 0, 15, 10, 3, 9, 8, 6]), $toNativeArray($kindUint8, [4, 2, 1, 11, 10, 13, 7, 8, 15, 9, 12, 5, 6, 3, 0, 14]), $toNativeArray($kindUint8, [11, 8, 12, 7, 1, 14, 2, 13, 6, 15, 0, 9, 10, 4, 5, 3])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [12, 1, 10, 15, 9, 2, 6, 8, 0, 13, 3, 4, 14, 7, 5, 11]), $toNativeArray($kindUint8, [10, 15, 4, 2, 7, 12, 9, 5, 6, 1, 13, 14, 0, 11, 3, 8]), $toNativeArray($kindUint8, [9, 14, 15, 5, 2, 8, 12, 3, 7, 0, 4, 10, 1, 13, 11, 6]), $toNativeArray($kindUint8, [4, 3, 2, 12, 9, 5, 15, 10, 11, 14, 1, 7, 6, 0, 8, 13])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [4, 11, 2, 14, 15, 0, 8, 13, 3, 12, 9, 7, 5, 10, 6, 1]), $toNativeArray($kindUint8, [13, 0, 11, 7, 4, 9, 1, 10, 14, 3, 5, 12, 2, 15, 8, 6]), $toNativeArray($kindUint8, [1, 4, 11, 13, 12, 3, 7, 14, 10, 15, 6, 8, 0, 5, 9, 2]), $toNativeArray($kindUint8, [6, 11, 13, 8, 1, 4, 10, 7, 9, 5, 0, 15, 14, 2, 3, 12])]), $toNativeArray($kindArray, [$toNativeArray($kindUint8, [13, 2, 8, 4, 6, 15, 11, 1, 10, 9, 3, 14, 5, 0, 12, 7]), $toNativeArray($kindUint8, [1, 15, 13, 8, 10, 3, 7, 4, 12, 5, 6, 11, 0, 14, 9, 2]), $toNativeArray($kindUint8, [7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8]), $toNativeArray($kindUint8, [2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11])])]);
+		init();
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
 $packages["crypto/dsa"] = (function() {
-	var $pkg = {}, $init, errors, io, big, Parameters, PublicKey, PrivateKey, sliceType, ptrType, fermatInverse, Sign, Verify;
+	var $pkg = {}, $init, errors, io, big, Parameters, PublicKey, ptrType, Verify;
 	errors = $packages["errors"];
 	io = $packages["io"];
 	big = $packages["math/big"];
@@ -21213,70 +21336,7 @@ $packages["crypto/dsa"] = (function() {
 		this.Parameters = Parameters_;
 		this.Y = Y_;
 	});
-	PrivateKey = $pkg.PrivateKey = $newType(0, $kindStruct, "dsa.PrivateKey", "PrivateKey", "crypto/dsa", function(PublicKey_, X_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.PublicKey = new PublicKey.ptr();
-			this.X = ptrType.nil;
-			return;
-		}
-		this.PublicKey = PublicKey_;
-		this.X = X_;
-	});
-	sliceType = $sliceType($Uint8);
 	ptrType = $ptrType(big.Int);
-	fermatInverse = function(k, P) {
-		var $ptr, P, k, pMinus2, two;
-		two = big.NewInt(new $Int64(0, 2));
-		pMinus2 = new big.Int.ptr().Sub(P, two);
-		return new big.Int.ptr().Exp(k, pMinus2, P);
-	};
-	Sign = function(rand, priv, hash) {
-		var $ptr, _r, _tuple, buf, err, hash, k, kInv, n, priv, r, rand, s, z, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; buf = $f.buf; err = $f.err; hash = $f.hash; k = $f.k; kInv = $f.kInv; n = $f.n; priv = $f.priv; r = $f.r; rand = $f.rand; s = $f.s; z = $f.z; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		r = ptrType.nil;
-		s = ptrType.nil;
-		err = $ifaceNil;
-		n = priv.PublicKey.Parameters.Q.BitLen();
-		if (!(((n & 7) === 0))) {
-			err = $pkg.ErrInvalidPublicKey;
-			return [r, s, err];
-		}
-		n = (n >> $min((3), 31)) >> 0;
-		/* while (true) { */ case 1:
-			k = new big.Int.ptr();
-			buf = $makeSlice(sliceType, n);
-			/* while (true) { */ case 3:
-				_r = io.ReadFull(rand, buf); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				_tuple = _r; err = _tuple[1];
-				if (!($interfaceIsEqual(err, $ifaceNil))) {
-					return [r, s, err];
-				}
-				k.SetBytes(buf);
-				if (k.Sign() > 0 && k.Cmp(priv.PublicKey.Parameters.Q) < 0) {
-					/* break; */ $s = 4; continue;
-				}
-			/* } */ $s = 3; continue; case 4:
-			kInv = fermatInverse(k, priv.PublicKey.Parameters.Q);
-			r = new big.Int.ptr().Exp(priv.PublicKey.Parameters.G, k, priv.PublicKey.Parameters.P);
-			r.Mod(r, priv.PublicKey.Parameters.Q);
-			if (r.Sign() === 0) {
-				/* continue; */ $s = 1; continue;
-			}
-			z = k.SetBytes(hash);
-			s = new big.Int.ptr().Mul(priv.X, r);
-			s.Add(s, z);
-			s.Mod(s, priv.PublicKey.Parameters.Q);
-			s.Mul(s, kInv);
-			s.Mod(s, priv.PublicKey.Parameters.Q);
-			if (!((s.Sign() === 0))) {
-				/* break; */ $s = 2; continue;
-			}
-		/* } */ $s = 1; continue; case 2:
-		return [r, s, err];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.buf = buf; $f.err = err; $f.hash = hash; $f.k = k; $f.kInv = kInv; $f.n = n; $f.priv = priv; $f.r = r; $f.rand = rand; $f.s = s; $f.z = z; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.Sign = Sign;
 	Verify = function(pub, hash, r, s) {
 		var $ptr, hash, n, pub, r, s, u1, u2, v, w, z;
 		if (r.Sign() < 1 || r.Cmp(pub.Parameters.Q) >= 0) {
@@ -21305,7 +21365,6 @@ $packages["crypto/dsa"] = (function() {
 	$pkg.Verify = Verify;
 	Parameters.init([{prop: "P", name: "P", pkg: "", typ: ptrType, tag: ""}, {prop: "Q", name: "Q", pkg: "", typ: ptrType, tag: ""}, {prop: "G", name: "G", pkg: "", typ: ptrType, tag: ""}]);
 	PublicKey.init([{prop: "Parameters", name: "", pkg: "", typ: Parameters, tag: ""}, {prop: "Y", name: "Y", pkg: "", typ: ptrType, tag: ""}]);
-	PrivateKey.init([{prop: "PublicKey", name: "", pkg: "", typ: PublicKey, tag: ""}, {prop: "X", name: "X", pkg: "", typ: ptrType, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -21319,7 +21378,7 @@ $packages["crypto/dsa"] = (function() {
 	return $pkg;
 })();
 $packages["crypto/elliptic"] = (function() {
-	var $pkg = {}, $init, io, big, sync, Curve, CurveParams, p224Curve, p224FieldElement, p224LargeFieldElement, p256Curve, ptrType, ptrType$1, sliceType, sliceType$1, arrayType, arrayType$1, arrayType$2, arrayType$3, arrayType$4, arrayType$5, arrayType$6, initonce, p384, p521, p224, p224P, p224ZeroModP31, p224ZeroModP63, p256, p256RInverse, p256One, p256One$ptr, p256Precomputed, p256Zero31, zForAffine, Marshal, Unmarshal, initAll, initP384, initP521, P256, P384, P521, initP224, p224IsZero, p224Add, p224Sub, p224Mul, p224Square, p224ReduceLarge, p224Reduce, p224Invert, p224Contract, p224AddJacobian, p224DoubleJacobian, p224CopyConditional, p224ScalarMult, p224ToAffine, get28BitsFromEnd, p224FromBig, p224ToBig, initP256, p256GetScalar, nonZeroToAllOnes, p256ReduceCarry, p256Sum, p256Diff, p256ReduceDegree, p256Square, p256Mul, p256Assign, p256Invert, p256Scalar3, p256Scalar4, p256Scalar8, p256PointDouble, p256PointAddMixed, p256PointAdd, p256CopyConditional, p256SelectAffinePoint, p256SelectJacobianPoint, p256GetBit, p256ScalarBaseMult, p256PointToAffine, p256ToAffine, p256ScalarMult, p256FromBig, p256ToBig;
+	var $pkg = {}, $init, io, big, sync, Curve, CurveParams, p224Curve, p224FieldElement, p224LargeFieldElement, p256Curve, ptrType, ptrType$1, sliceType, sliceType$1, arrayType, arrayType$1, arrayType$2, arrayType$3, arrayType$4, arrayType$5, arrayType$6, initonce, p384, p521, p224, p224P, p224ZeroModP31, p224ZeroModP63, p256, p256RInverse, p256One, p256One$ptr, p256Precomputed, p256Zero31, zForAffine, Marshal, Unmarshal, initAll, initP384, initP521, P256, P384, P521, initP224, P224, p224IsZero, p224Add, p224Sub, p224Mul, p224Square, p224ReduceLarge, p224Reduce, p224Invert, p224Contract, p224AddJacobian, p224DoubleJacobian, p224CopyConditional, p224ScalarMult, p224ToAffine, get28BitsFromEnd, p224FromBig, p224ToBig, initP256, p256GetScalar, nonZeroToAllOnes, p256ReduceCarry, p256Sum, p256Diff, p256ReduceDegree, p256Square, p256Mul, p256Assign, p256Invert, p256Scalar3, p256Scalar4, p256Scalar8, p256PointDouble, p256PointAddMixed, p256PointAdd, p256CopyConditional, p256SelectAffinePoint, p256SelectJacobianPoint, p256GetBit, p256ScalarBaseMult, p256PointToAffine, p256ToAffine, p256ScalarMult, p256FromBig, p256ToBig;
 	io = $packages["io"];
 	big = $packages["math/big"];
 	sync = $packages["sync"];
@@ -21726,6 +21785,14 @@ $packages["crypto/elliptic"] = (function() {
 		p224FromBig(p224.b, p224.CurveParams.B);
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: initP224 }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f._tuple$3 = _tuple$3; $f._tuple$4 = _tuple$4; $f.$s = $s; $f.$r = $r; return $f;
 	};
+	P224 = function() {
+		var $ptr, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = initonce.Do(initAll); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		return new p224.constructor.elem(p224);
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: P224 }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.P224 = P224;
 	p224Curve.ptr.prototype.Params = function() {
 		var $ptr, curve;
 		curve = $clone(this, p224Curve);
@@ -26251,108 +26318,6 @@ $packages["crypto/md5"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["crypto/rand"] = (function() {
-	var $pkg = {}, $init, errors, js, io, big, rngReader, sliceType, ptrType, ptrType$1, smallPrimesProduct, init, Int;
-	errors = $packages["errors"];
-	js = $packages["github.com/gopherjs/gopherjs/js"];
-	io = $packages["io"];
-	big = $packages["math/big"];
-	rngReader = $pkg.rngReader = $newType(0, $kindStruct, "rand.rngReader", "rngReader", "crypto/rand", function() {
-		this.$val = this;
-		if (arguments.length === 0) {
-			return;
-		}
-	});
-	sliceType = $sliceType($Uint8);
-	ptrType = $ptrType(big.Int);
-	ptrType$1 = $ptrType(rngReader);
-	init = function() {
-		var $ptr;
-		$pkg.Reader = new rngReader.ptr();
-	};
-	rngReader.ptr.prototype.Read = function(b) {
-		var $ptr, _tmp, _tmp$1, _tmp$2, _tmp$3, _tmp$4, _tmp$5, array, b, crypto, err, n, offset, r, randomBytes, require;
-		n = 0;
-		err = $ifaceNil;
-		r = this;
-		array = b.$array;
-		offset = $parseInt(b.$offset) >> 0;
-		crypto = $global.crypto;
-		if (crypto === undefined) {
-			crypto = $global.msCrypto;
-		}
-		if (!(crypto === undefined)) {
-			if (!(crypto.getRandomValues === undefined)) {
-				n = b.$length;
-				if (n > 65536) {
-					n = 65536;
-				}
-				crypto.getRandomValues(array.subarray(offset, offset + n >> 0));
-				_tmp = n; _tmp$1 = $ifaceNil; n = _tmp; err = _tmp$1;
-				return [n, err];
-			}
-		}
-		require = $global.require;
-		if (!(require === undefined)) {
-			randomBytes = require($externalize("crypto", $String)).randomBytes;
-			if (!(randomBytes === undefined)) {
-				array.set(randomBytes(b.$length), offset);
-				_tmp$2 = b.$length; _tmp$3 = $ifaceNil; n = _tmp$2; err = _tmp$3;
-				return [n, err];
-			}
-		}
-		_tmp$4 = 0; _tmp$5 = errors.New("crypto/rand not available in this environment"); n = _tmp$4; err = _tmp$5;
-		return [n, err];
-	};
-	rngReader.prototype.Read = function(b) { return this.$val.Read(b); };
-	Int = function(rand, max) {
-		var $ptr, _q, _r, _r$1, _tmp, _tmp$1, _tuple, b, bytes, err, k, max, n, rand, y, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _q = $f._q; _r = $f._r; _r$1 = $f._r$1; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tuple = $f._tuple; b = $f.b; bytes = $f.bytes; err = $f.err; k = $f.k; max = $f.max; n = $f.n; rand = $f.rand; y = $f.y; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		n = ptrType.nil;
-		err = $ifaceNil;
-		if (max.Sign() <= 0) {
-			$panic(new $String("crypto/rand: argument to Int is <= 0"));
-		}
-		k = (_q = ((max.BitLen() + 7 >> 0)) / 8, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero"));
-		b = ((_r = max.BitLen() % 8, _r === _r ? _r : $throwRuntimeError("integer divide by zero")) >>> 0);
-		if (b === 0) {
-			b = 8;
-		}
-		bytes = $makeSlice(sliceType, k);
-		n = new big.Int.ptr();
-		/* while (true) { */ case 1:
-			_r$1 = io.ReadFull(rand, bytes); /* */ $s = 3; case 3: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_tuple = _r$1; err = _tuple[1];
-			if (!($interfaceIsEqual(err, $ifaceNil))) {
-				_tmp = ptrType.nil; _tmp$1 = err; n = _tmp; err = _tmp$1;
-				return [n, err];
-			}
-			(0 >= bytes.$length ? $throwRuntimeError("index out of range") : bytes.$array[bytes.$offset + 0] = ((0 >= bytes.$length ? $throwRuntimeError("index out of range") : bytes.$array[bytes.$offset + 0]) & (((((y = b, y < 32 ? (1 << y) : 0) >> 0) - 1 >> 0) << 24 >>> 24))) >>> 0);
-			n.SetBytes(bytes);
-			if (n.Cmp(max) < 0) {
-				return [n, err];
-			}
-		/* } */ $s = 1; continue; case 2:
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Int }; } $f.$ptr = $ptr; $f._q = _q; $f._r = _r; $f._r$1 = _r$1; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tuple = _tuple; $f.b = b; $f.bytes = bytes; $f.err = err; $f.k = k; $f.max = max; $f.n = n; $f.rand = rand; $f.y = y; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.Int = Int;
-	ptrType$1.methods = [{prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType], [$Int, $error], false)}];
-	rngReader.init([]);
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = errors.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = js.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = io.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = big.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$pkg.Reader = $ifaceNil;
-		smallPrimesProduct = new big.Int.ptr().SetUint64(new $Uint64(3793877372, 820596253));
-		init();
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
 $packages["crypto/rsa"] = (function() {
 	var $pkg = {}, $init, bytes, crypto, rand, subtle, errors, hash, io, big, PKCS1v15DecryptOptions, PSSOptions, PublicKey, OAEPOptions, PrivateKey, PrecomputedValues, CRTValue, sliceType, arrayType, ptrType, ptrType$1, ptrType$2, ptrType$3, ptrType$4, sliceType$1, arrayType$1, sliceType$2, hashPrefixes, bigZero, bigOne, errPublicModulus, errPublicExponentSmall, errPublicExponentLarge, _map, _key, DecryptPKCS1v15, DecryptPKCS1v15SessionKey, decryptPKCS1v15, SignPKCS1v15, VerifyPKCS1v15, pkcs1v15HashInfo, copyWithLeftPad, emsaPSSEncode, signPSSWithSalt, SignPSS, checkPub, incCounter, mgf1XOR, encrypt, modInverse, decrypt, DecryptOAEP, leftPad;
 	bytes = $packages["bytes"];
@@ -27648,16 +27613,271 @@ $packages["crypto/sha256"] = (function() {
 	return $pkg;
 })();
 $packages["crypto/x509/pkix"] = (function() {
-	var $pkg = {}, $init, asn1, big, time;
+	var $pkg = {}, $init, asn1, big, time, AlgorithmIdentifier, RDNSequence, RelativeDistinguishedNameSET, AttributeTypeAndValue, Extension, Name, CertificateList, TBSCertificateList, RevokedCertificate, sliceType, sliceType$1, sliceType$2, sliceType$4, ptrType, ptrType$1, ptrType$2, sliceType$5, sliceType$6, ptrType$3, oidCountry, oidOrganization, oidOrganizationalUnit, oidCommonName, oidSerialNumber, oidLocality, oidProvince, oidStreetAddress, oidPostalCode, oidInAttributeTypeAndValue;
 	asn1 = $packages["encoding/asn1"];
 	big = $packages["math/big"];
 	time = $packages["time"];
+	AlgorithmIdentifier = $pkg.AlgorithmIdentifier = $newType(0, $kindStruct, "pkix.AlgorithmIdentifier", "AlgorithmIdentifier", "crypto/x509/pkix", function(Algorithm_, Parameters_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Algorithm = asn1.ObjectIdentifier.nil;
+			this.Parameters = new asn1.RawValue.ptr();
+			return;
+		}
+		this.Algorithm = Algorithm_;
+		this.Parameters = Parameters_;
+	});
+	RDNSequence = $pkg.RDNSequence = $newType(12, $kindSlice, "pkix.RDNSequence", "RDNSequence", "crypto/x509/pkix", null);
+	RelativeDistinguishedNameSET = $pkg.RelativeDistinguishedNameSET = $newType(12, $kindSlice, "pkix.RelativeDistinguishedNameSET", "RelativeDistinguishedNameSET", "crypto/x509/pkix", null);
+	AttributeTypeAndValue = $pkg.AttributeTypeAndValue = $newType(0, $kindStruct, "pkix.AttributeTypeAndValue", "AttributeTypeAndValue", "crypto/x509/pkix", function(Type_, Value_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Type = asn1.ObjectIdentifier.nil;
+			this.Value = $ifaceNil;
+			return;
+		}
+		this.Type = Type_;
+		this.Value = Value_;
+	});
+	Extension = $pkg.Extension = $newType(0, $kindStruct, "pkix.Extension", "Extension", "crypto/x509/pkix", function(Id_, Critical_, Value_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Id = asn1.ObjectIdentifier.nil;
+			this.Critical = false;
+			this.Value = sliceType$4.nil;
+			return;
+		}
+		this.Id = Id_;
+		this.Critical = Critical_;
+		this.Value = Value_;
+	});
+	Name = $pkg.Name = $newType(0, $kindStruct, "pkix.Name", "Name", "crypto/x509/pkix", function(Country_, Organization_, OrganizationalUnit_, Locality_, Province_, StreetAddress_, PostalCode_, SerialNumber_, CommonName_, Names_, ExtraNames_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Country = sliceType$2.nil;
+			this.Organization = sliceType$2.nil;
+			this.OrganizationalUnit = sliceType$2.nil;
+			this.Locality = sliceType$2.nil;
+			this.Province = sliceType$2.nil;
+			this.StreetAddress = sliceType$2.nil;
+			this.PostalCode = sliceType$2.nil;
+			this.SerialNumber = "";
+			this.CommonName = "";
+			this.Names = sliceType$1.nil;
+			this.ExtraNames = sliceType$1.nil;
+			return;
+		}
+		this.Country = Country_;
+		this.Organization = Organization_;
+		this.OrganizationalUnit = OrganizationalUnit_;
+		this.Locality = Locality_;
+		this.Province = Province_;
+		this.StreetAddress = StreetAddress_;
+		this.PostalCode = PostalCode_;
+		this.SerialNumber = SerialNumber_;
+		this.CommonName = CommonName_;
+		this.Names = Names_;
+		this.ExtraNames = ExtraNames_;
+	});
+	CertificateList = $pkg.CertificateList = $newType(0, $kindStruct, "pkix.CertificateList", "CertificateList", "crypto/x509/pkix", function(TBSCertList_, SignatureAlgorithm_, SignatureValue_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.TBSCertList = new TBSCertificateList.ptr();
+			this.SignatureAlgorithm = new AlgorithmIdentifier.ptr();
+			this.SignatureValue = new asn1.BitString.ptr();
+			return;
+		}
+		this.TBSCertList = TBSCertList_;
+		this.SignatureAlgorithm = SignatureAlgorithm_;
+		this.SignatureValue = SignatureValue_;
+	});
+	TBSCertificateList = $pkg.TBSCertificateList = $newType(0, $kindStruct, "pkix.TBSCertificateList", "TBSCertificateList", "crypto/x509/pkix", function(Raw_, Version_, Signature_, Issuer_, ThisUpdate_, NextUpdate_, RevokedCertificates_, Extensions_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Raw = asn1.RawContent.nil;
+			this.Version = 0;
+			this.Signature = new AlgorithmIdentifier.ptr();
+			this.Issuer = RDNSequence.nil;
+			this.ThisUpdate = new time.Time.ptr();
+			this.NextUpdate = new time.Time.ptr();
+			this.RevokedCertificates = sliceType$5.nil;
+			this.Extensions = sliceType$6.nil;
+			return;
+		}
+		this.Raw = Raw_;
+		this.Version = Version_;
+		this.Signature = Signature_;
+		this.Issuer = Issuer_;
+		this.ThisUpdate = ThisUpdate_;
+		this.NextUpdate = NextUpdate_;
+		this.RevokedCertificates = RevokedCertificates_;
+		this.Extensions = Extensions_;
+	});
+	RevokedCertificate = $pkg.RevokedCertificate = $newType(0, $kindStruct, "pkix.RevokedCertificate", "RevokedCertificate", "crypto/x509/pkix", function(SerialNumber_, RevocationTime_, Extensions_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.SerialNumber = ptrType$3.nil;
+			this.RevocationTime = new time.Time.ptr();
+			this.Extensions = sliceType$6.nil;
+			return;
+		}
+		this.SerialNumber = SerialNumber_;
+		this.RevocationTime = RevocationTime_;
+		this.Extensions = Extensions_;
+	});
+	sliceType = $sliceType($Int);
+	sliceType$1 = $sliceType(AttributeTypeAndValue);
+	sliceType$2 = $sliceType($String);
+	sliceType$4 = $sliceType($Uint8);
+	ptrType = $ptrType(RDNSequence);
+	ptrType$1 = $ptrType(Name);
+	ptrType$2 = $ptrType(CertificateList);
+	sliceType$5 = $sliceType(RevokedCertificate);
+	sliceType$6 = $sliceType(Extension);
+	ptrType$3 = $ptrType(big.Int);
+	Name.ptr.prototype.FillFromRDNSequence = function(rdns) {
+		var $ptr, _i, _ref, _ref$1, _tuple, atv, n, ok, rdn, rdns, t, value;
+		n = this;
+		_ref = rdns.$get();
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			rdn = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			if (rdn.$length === 0) {
+				_i++;
+				continue;
+			}
+			atv = $clone((0 >= rdn.$length ? $throwRuntimeError("index out of range") : rdn.$array[rdn.$offset + 0]), AttributeTypeAndValue);
+			n.Names = $append(n.Names, atv);
+			_tuple = $assertType(atv.Value, $String, true); value = _tuple[0]; ok = _tuple[1];
+			if (!ok) {
+				_i++;
+				continue;
+			}
+			t = atv.Type;
+			if ((t.$length === 4) && ((0 >= t.$length ? $throwRuntimeError("index out of range") : t.$array[t.$offset + 0]) === 2) && ((1 >= t.$length ? $throwRuntimeError("index out of range") : t.$array[t.$offset + 1]) === 5) && ((2 >= t.$length ? $throwRuntimeError("index out of range") : t.$array[t.$offset + 2]) === 4)) {
+				_ref$1 = (3 >= t.$length ? $throwRuntimeError("index out of range") : t.$array[t.$offset + 3]);
+				if (_ref$1 === 3) {
+					n.CommonName = value;
+				} else if (_ref$1 === 5) {
+					n.SerialNumber = value;
+				} else if (_ref$1 === 6) {
+					n.Country = $append(n.Country, value);
+				} else if (_ref$1 === 7) {
+					n.Locality = $append(n.Locality, value);
+				} else if (_ref$1 === 8) {
+					n.Province = $append(n.Province, value);
+				} else if (_ref$1 === 9) {
+					n.StreetAddress = $append(n.StreetAddress, value);
+				} else if (_ref$1 === 10) {
+					n.Organization = $append(n.Organization, value);
+				} else if (_ref$1 === 11) {
+					n.OrganizationalUnit = $append(n.OrganizationalUnit, value);
+				} else if (_ref$1 === 17) {
+					n.PostalCode = $append(n.PostalCode, value);
+				}
+			}
+			_i++;
+		}
+	};
+	Name.prototype.FillFromRDNSequence = function(rdns) { return this.$val.FillFromRDNSequence(rdns); };
+	Name.ptr.prototype.appendRDNs = function(in$1, values, oid) {
+		var $ptr, _i, _ref, i, in$1, n, oid, s, value, values;
+		n = $clone(this, Name);
+		if ((values.$length === 0) || oidInAttributeTypeAndValue(oid, n.ExtraNames)) {
+			return in$1;
+		}
+		s = $makeSlice(sliceType$1, values.$length);
+		_ref = values;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			i = _i;
+			value = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			((i < 0 || i >= s.$length) ? $throwRuntimeError("index out of range") : s.$array[s.$offset + i]).Type = oid;
+			((i < 0 || i >= s.$length) ? $throwRuntimeError("index out of range") : s.$array[s.$offset + i]).Value = new $String(value);
+			_i++;
+		}
+		return $append(in$1, $subslice(new RelativeDistinguishedNameSET(s.$array), s.$offset, s.$offset + s.$length));
+	};
+	Name.prototype.appendRDNs = function(in$1, values, oid) { return this.$val.appendRDNs(in$1, values, oid); };
+	Name.ptr.prototype.ToRDNSequence = function() {
+		var $ptr, _i, _ref, atv, n, ret, x;
+		ret = RDNSequence.nil;
+		n = $clone(this, Name);
+		ret = n.appendRDNs(ret, n.Country, $subslice(new asn1.ObjectIdentifier(oidCountry.$array), oidCountry.$offset, oidCountry.$offset + oidCountry.$length));
+		ret = n.appendRDNs(ret, n.Organization, $subslice(new asn1.ObjectIdentifier(oidOrganization.$array), oidOrganization.$offset, oidOrganization.$offset + oidOrganization.$length));
+		ret = n.appendRDNs(ret, n.OrganizationalUnit, $subslice(new asn1.ObjectIdentifier(oidOrganizationalUnit.$array), oidOrganizationalUnit.$offset, oidOrganizationalUnit.$offset + oidOrganizationalUnit.$length));
+		ret = n.appendRDNs(ret, n.Locality, $subslice(new asn1.ObjectIdentifier(oidLocality.$array), oidLocality.$offset, oidLocality.$offset + oidLocality.$length));
+		ret = n.appendRDNs(ret, n.Province, $subslice(new asn1.ObjectIdentifier(oidProvince.$array), oidProvince.$offset, oidProvince.$offset + oidProvince.$length));
+		ret = n.appendRDNs(ret, n.StreetAddress, $subslice(new asn1.ObjectIdentifier(oidStreetAddress.$array), oidStreetAddress.$offset, oidStreetAddress.$offset + oidStreetAddress.$length));
+		ret = n.appendRDNs(ret, n.PostalCode, $subslice(new asn1.ObjectIdentifier(oidPostalCode.$array), oidPostalCode.$offset, oidPostalCode.$offset + oidPostalCode.$length));
+		if (n.CommonName.length > 0) {
+			ret = n.appendRDNs(ret, new sliceType$2([n.CommonName]), $subslice(new asn1.ObjectIdentifier(oidCommonName.$array), oidCommonName.$offset, oidCommonName.$offset + oidCommonName.$length));
+		}
+		if (n.SerialNumber.length > 0) {
+			ret = n.appendRDNs(ret, new sliceType$2([n.SerialNumber]), $subslice(new asn1.ObjectIdentifier(oidSerialNumber.$array), oidSerialNumber.$offset, oidSerialNumber.$offset + oidSerialNumber.$length));
+		}
+		_ref = n.ExtraNames;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			atv = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), AttributeTypeAndValue);
+			ret = $append(ret, (x = new sliceType$1([$clone(atv, AttributeTypeAndValue)]), $subslice(new RelativeDistinguishedNameSET(x.$array), x.$offset, x.$offset + x.$length)));
+			_i++;
+		}
+		ret = ret;
+		return ret;
+	};
+	Name.prototype.ToRDNSequence = function() { return this.$val.ToRDNSequence(); };
+	oidInAttributeTypeAndValue = function(oid, atv) {
+		var $ptr, _i, _ref, a, atv, oid;
+		_ref = atv;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			a = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), AttributeTypeAndValue);
+			if (a.Type.Equal(oid)) {
+				return true;
+			}
+			_i++;
+		}
+		return false;
+	};
+	CertificateList.ptr.prototype.HasExpired = function(now) {
+		var $ptr, certList, now;
+		now = $clone(now, time.Time);
+		certList = this;
+		return now.After(certList.TBSCertList.NextUpdate);
+	};
+	CertificateList.prototype.HasExpired = function(now) { return this.$val.HasExpired(now); };
+	Name.methods = [{prop: "appendRDNs", name: "appendRDNs", pkg: "crypto/x509/pkix", typ: $funcType([RDNSequence, sliceType$2, asn1.ObjectIdentifier], [RDNSequence], false)}, {prop: "ToRDNSequence", name: "ToRDNSequence", pkg: "", typ: $funcType([], [RDNSequence], false)}];
+	ptrType$1.methods = [{prop: "FillFromRDNSequence", name: "FillFromRDNSequence", pkg: "", typ: $funcType([ptrType], [], false)}];
+	ptrType$2.methods = [{prop: "HasExpired", name: "HasExpired", pkg: "", typ: $funcType([time.Time], [$Bool], false)}];
+	AlgorithmIdentifier.init([{prop: "Algorithm", name: "Algorithm", pkg: "", typ: asn1.ObjectIdentifier, tag: ""}, {prop: "Parameters", name: "Parameters", pkg: "", typ: asn1.RawValue, tag: "asn1:\"optional\""}]);
+	RDNSequence.init(RelativeDistinguishedNameSET);
+	RelativeDistinguishedNameSET.init(AttributeTypeAndValue);
+	AttributeTypeAndValue.init([{prop: "Type", name: "Type", pkg: "", typ: asn1.ObjectIdentifier, tag: ""}, {prop: "Value", name: "Value", pkg: "", typ: $emptyInterface, tag: ""}]);
+	Extension.init([{prop: "Id", name: "Id", pkg: "", typ: asn1.ObjectIdentifier, tag: ""}, {prop: "Critical", name: "Critical", pkg: "", typ: $Bool, tag: "asn1:\"optional\""}, {prop: "Value", name: "Value", pkg: "", typ: sliceType$4, tag: ""}]);
+	Name.init([{prop: "Country", name: "Country", pkg: "", typ: sliceType$2, tag: ""}, {prop: "Organization", name: "Organization", pkg: "", typ: sliceType$2, tag: ""}, {prop: "OrganizationalUnit", name: "OrganizationalUnit", pkg: "", typ: sliceType$2, tag: ""}, {prop: "Locality", name: "Locality", pkg: "", typ: sliceType$2, tag: ""}, {prop: "Province", name: "Province", pkg: "", typ: sliceType$2, tag: ""}, {prop: "StreetAddress", name: "StreetAddress", pkg: "", typ: sliceType$2, tag: ""}, {prop: "PostalCode", name: "PostalCode", pkg: "", typ: sliceType$2, tag: ""}, {prop: "SerialNumber", name: "SerialNumber", pkg: "", typ: $String, tag: ""}, {prop: "CommonName", name: "CommonName", pkg: "", typ: $String, tag: ""}, {prop: "Names", name: "Names", pkg: "", typ: sliceType$1, tag: ""}, {prop: "ExtraNames", name: "ExtraNames", pkg: "", typ: sliceType$1, tag: ""}]);
+	CertificateList.init([{prop: "TBSCertList", name: "TBSCertList", pkg: "", typ: TBSCertificateList, tag: ""}, {prop: "SignatureAlgorithm", name: "SignatureAlgorithm", pkg: "", typ: AlgorithmIdentifier, tag: ""}, {prop: "SignatureValue", name: "SignatureValue", pkg: "", typ: asn1.BitString, tag: ""}]);
+	TBSCertificateList.init([{prop: "Raw", name: "Raw", pkg: "", typ: asn1.RawContent, tag: ""}, {prop: "Version", name: "Version", pkg: "", typ: $Int, tag: "asn1:\"optional,default:1\""}, {prop: "Signature", name: "Signature", pkg: "", typ: AlgorithmIdentifier, tag: ""}, {prop: "Issuer", name: "Issuer", pkg: "", typ: RDNSequence, tag: ""}, {prop: "ThisUpdate", name: "ThisUpdate", pkg: "", typ: time.Time, tag: ""}, {prop: "NextUpdate", name: "NextUpdate", pkg: "", typ: time.Time, tag: "asn1:\"optional\""}, {prop: "RevokedCertificates", name: "RevokedCertificates", pkg: "", typ: sliceType$5, tag: "asn1:\"optional\""}, {prop: "Extensions", name: "Extensions", pkg: "", typ: sliceType$6, tag: "asn1:\"tag:0,optional,explicit\""}]);
+	RevokedCertificate.init([{prop: "SerialNumber", name: "SerialNumber", pkg: "", typ: ptrType$3, tag: ""}, {prop: "RevocationTime", name: "RevocationTime", pkg: "", typ: time.Time, tag: ""}, {prop: "Extensions", name: "Extensions", pkg: "", typ: sliceType$6, tag: "asn1:\"optional\""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = asn1.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = big.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = time.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		oidCountry = new sliceType([2, 5, 4, 6]);
+		oidOrganization = new sliceType([2, 5, 4, 10]);
+		oidOrganizationalUnit = new sliceType([2, 5, 4, 11]);
+		oidCommonName = new sliceType([2, 5, 4, 3]);
+		oidSerialNumber = new sliceType([2, 5, 4, 5]);
+		oidLocality = new sliceType([2, 5, 4, 7]);
+		oidProvince = new sliceType([2, 5, 4, 8]);
+		oidStreetAddress = new sliceType([2, 5, 4, 9]);
+		oidPostalCode = new sliceType([2, 5, 4, 17]);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -30135,7 +30355,7 @@ $packages["net"] = (function() {
 	return $pkg;
 })();
 $packages["crypto/x509"] = (function() {
-	var $pkg = {}, $init, bytes, crypto, aes, cipher, des, dsa, ecdsa, elliptic, md5, rsa, sha1, sha256, sha512, pkix, asn1, hex, pem, errors, fmt, io, ioutil, big, net, os, runtime, strconv, strings, sync, time, utf8, pkcs1PrivateKey, pkcs1AdditionalRSAPrime, ptrType$4, ptrType$5, sliceType$8, sliceType$9, ParsePKCS1PrivateKey;
+	var $pkg = {}, $init, bytes, crypto, aes, cipher, des, dsa, ecdsa, elliptic, md5, rsa, sha1, sha256, sha512, pkix, asn1, hex, pem, errors, fmt, io, ioutil, big, net, os, runtime, strconv, strings, sync, time, utf8, CertPool, rsaPublicKey, InvalidReason, CertificateInvalidError, HostnameError, UnknownAuthorityError, SystemRootsError, VerifyOptions, certificate, tbsCertificate, dsaAlgorithmParameters, dsaSignature, ecdsaSignature, validity, publicKeyInfo, authKeyId, SignatureAlgorithm, PublicKeyAlgorithm, KeyUsage, ExtKeyUsage, Certificate, ConstraintViolationError, UnhandledCriticalExtension, basicConstraints, policyInformation, nameConstraints, generalSubtree, authorityInfoAccess, distributionPoint, distributionPointName, ptrType, sliceType$1, structType, sliceType$2, structType$1, sliceType$3, sliceType$4, sliceType$5, ptrType$1, sliceType$6, ptrType$2, sliceType$7, ptrType$5, ptrType$6, sliceType$10, sliceType$11, sliceType$12, ptrType$8, ptrType$9, ptrType$10, ptrType$11, sliceType$13, ptrType$12, sliceType$14, ptrType$13, sliceType$15, ptrType$14, ptrType$15, sliceType$16, ptrType$16, sliceType$17, ptrType$17, sliceType$20, sliceType$21, ptrType$19, sliceType$22, mapType, ptrType$22, mapType$1, once, systemRoots, oidSignatureMD2WithRSA, oidSignatureMD5WithRSA, oidSignatureSHA1WithRSA, oidSignatureSHA256WithRSA, oidSignatureSHA384WithRSA, oidSignatureSHA512WithRSA, oidSignatureDSAWithSHA1, oidSignatureDSAWithSHA256, oidSignatureECDSAWithSHA1, oidSignatureECDSAWithSHA256, oidSignatureECDSAWithSHA384, oidSignatureECDSAWithSHA512, signatureAlgorithmDetails, oidPublicKeyRSA, oidPublicKeyDSA, oidPublicKeyECDSA, oidNamedCurveP224, oidNamedCurveP256, oidNamedCurveP384, oidNamedCurveP521, oidExtKeyUsageAny, oidExtKeyUsageServerAuth, oidExtKeyUsageClientAuth, oidExtKeyUsageCodeSigning, oidExtKeyUsageEmailProtection, oidExtKeyUsageIPSECEndSystem, oidExtKeyUsageIPSECTunnel, oidExtKeyUsageIPSECUser, oidExtKeyUsageTimeStamping, oidExtKeyUsageOCSPSigning, oidExtKeyUsageMicrosoftServerGatedCrypto, oidExtKeyUsageNetscapeServerGatedCrypto, extKeyUsageOIDs, entrustBrokenSPKI, oidExtensionAuthorityKeyId, oidExtensionAuthorityInfoAccess, oidAuthorityInfoAccessOcsp, oidAuthorityInfoAccessIssuers, initSystemRoots, systemRootsPool, appendToFreshChain, matchHostnames, toLowerCaseASCII, checkChainForKeyUsage, getSignatureAlgorithmFromOID, getPublicKeyAlgorithmFromOID, namedCurveFromOID, extKeyUsageFromOID, checkSignature, parsePublicKey, parseSANExtension, parseCertificate, ParseCertificate, signingParamsForPublicKey;
 	bytes = $packages["bytes"];
 	crypto = $packages["crypto"];
 	aes = $packages["crypto/aes"];
@@ -30166,103 +30386,1840 @@ $packages["crypto/x509"] = (function() {
 	sync = $packages["sync"];
 	time = $packages["time"];
 	utf8 = $packages["unicode/utf8"];
-	pkcs1PrivateKey = $pkg.pkcs1PrivateKey = $newType(0, $kindStruct, "x509.pkcs1PrivateKey", "pkcs1PrivateKey", "crypto/x509", function(Version_, N_, E_, D_, P_, Q_, Dp_, Dq_, Qinv_, AdditionalPrimes_) {
+	CertPool = $pkg.CertPool = $newType(0, $kindStruct, "x509.CertPool", "CertPool", "crypto/x509", function(bySubjectKeyId_, byName_, certs_) {
 		this.$val = this;
 		if (arguments.length === 0) {
-			this.Version = 0;
+			this.bySubjectKeyId = false;
+			this.byName = false;
+			this.certs = sliceType$6.nil;
+			return;
+		}
+		this.bySubjectKeyId = bySubjectKeyId_;
+		this.byName = byName_;
+		this.certs = certs_;
+	});
+	rsaPublicKey = $pkg.rsaPublicKey = $newType(0, $kindStruct, "x509.rsaPublicKey", "rsaPublicKey", "crypto/x509", function(N_, E_) {
+		this.$val = this;
+		if (arguments.length === 0) {
 			this.N = ptrType$5.nil;
 			this.E = 0;
-			this.D = ptrType$5.nil;
-			this.P = ptrType$5.nil;
-			this.Q = ptrType$5.nil;
-			this.Dp = ptrType$5.nil;
-			this.Dq = ptrType$5.nil;
-			this.Qinv = ptrType$5.nil;
-			this.AdditionalPrimes = sliceType$9.nil;
 			return;
 		}
-		this.Version = Version_;
 		this.N = N_;
 		this.E = E_;
-		this.D = D_;
-		this.P = P_;
-		this.Q = Q_;
-		this.Dp = Dp_;
-		this.Dq = Dq_;
-		this.Qinv = Qinv_;
-		this.AdditionalPrimes = AdditionalPrimes_;
 	});
-	pkcs1AdditionalRSAPrime = $pkg.pkcs1AdditionalRSAPrime = $newType(0, $kindStruct, "x509.pkcs1AdditionalRSAPrime", "pkcs1AdditionalRSAPrime", "crypto/x509", function(Prime_, Exp_, Coeff_) {
+	InvalidReason = $pkg.InvalidReason = $newType(4, $kindInt, "x509.InvalidReason", "InvalidReason", "crypto/x509", null);
+	CertificateInvalidError = $pkg.CertificateInvalidError = $newType(0, $kindStruct, "x509.CertificateInvalidError", "CertificateInvalidError", "crypto/x509", function(Cert_, Reason_) {
 		this.$val = this;
 		if (arguments.length === 0) {
-			this.Prime = ptrType$5.nil;
-			this.Exp = ptrType$5.nil;
-			this.Coeff = ptrType$5.nil;
+			this.Cert = ptrType$1.nil;
+			this.Reason = 0;
 			return;
 		}
-		this.Prime = Prime_;
-		this.Exp = Exp_;
-		this.Coeff = Coeff_;
+		this.Cert = Cert_;
+		this.Reason = Reason_;
 	});
-	ptrType$4 = $ptrType(rsa.PrivateKey);
+	HostnameError = $pkg.HostnameError = $newType(0, $kindStruct, "x509.HostnameError", "HostnameError", "crypto/x509", function(Certificate_, Host_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Certificate = ptrType$1.nil;
+			this.Host = "";
+			return;
+		}
+		this.Certificate = Certificate_;
+		this.Host = Host_;
+	});
+	UnknownAuthorityError = $pkg.UnknownAuthorityError = $newType(0, $kindStruct, "x509.UnknownAuthorityError", "UnknownAuthorityError", "crypto/x509", function(cert_, hintErr_, hintCert_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.cert = ptrType$1.nil;
+			this.hintErr = $ifaceNil;
+			this.hintCert = ptrType$1.nil;
+			return;
+		}
+		this.cert = cert_;
+		this.hintErr = hintErr_;
+		this.hintCert = hintCert_;
+	});
+	SystemRootsError = $pkg.SystemRootsError = $newType(0, $kindStruct, "x509.SystemRootsError", "SystemRootsError", "crypto/x509", function() {
+		this.$val = this;
+		if (arguments.length === 0) {
+			return;
+		}
+	});
+	VerifyOptions = $pkg.VerifyOptions = $newType(0, $kindStruct, "x509.VerifyOptions", "VerifyOptions", "crypto/x509", function(DNSName_, Intermediates_, Roots_, CurrentTime_, KeyUsages_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.DNSName = "";
+			this.Intermediates = ptrType.nil;
+			this.Roots = ptrType.nil;
+			this.CurrentTime = new time.Time.ptr();
+			this.KeyUsages = sliceType$12.nil;
+			return;
+		}
+		this.DNSName = DNSName_;
+		this.Intermediates = Intermediates_;
+		this.Roots = Roots_;
+		this.CurrentTime = CurrentTime_;
+		this.KeyUsages = KeyUsages_;
+	});
+	certificate = $pkg.certificate = $newType(0, $kindStruct, "x509.certificate", "certificate", "crypto/x509", function(Raw_, TBSCertificate_, SignatureAlgorithm_, SignatureValue_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Raw = asn1.RawContent.nil;
+			this.TBSCertificate = new tbsCertificate.ptr();
+			this.SignatureAlgorithm = new pkix.AlgorithmIdentifier.ptr();
+			this.SignatureValue = new asn1.BitString.ptr();
+			return;
+		}
+		this.Raw = Raw_;
+		this.TBSCertificate = TBSCertificate_;
+		this.SignatureAlgorithm = SignatureAlgorithm_;
+		this.SignatureValue = SignatureValue_;
+	});
+	tbsCertificate = $pkg.tbsCertificate = $newType(0, $kindStruct, "x509.tbsCertificate", "tbsCertificate", "crypto/x509", function(Raw_, Version_, SerialNumber_, SignatureAlgorithm_, Issuer_, Validity_, Subject_, PublicKey_, UniqueId_, SubjectUniqueId_, Extensions_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Raw = asn1.RawContent.nil;
+			this.Version = 0;
+			this.SerialNumber = ptrType$5.nil;
+			this.SignatureAlgorithm = new pkix.AlgorithmIdentifier.ptr();
+			this.Issuer = new asn1.RawValue.ptr();
+			this.Validity = new validity.ptr();
+			this.Subject = new asn1.RawValue.ptr();
+			this.PublicKey = new publicKeyInfo.ptr();
+			this.UniqueId = new asn1.BitString.ptr();
+			this.SubjectUniqueId = new asn1.BitString.ptr();
+			this.Extensions = sliceType$20.nil;
+			return;
+		}
+		this.Raw = Raw_;
+		this.Version = Version_;
+		this.SerialNumber = SerialNumber_;
+		this.SignatureAlgorithm = SignatureAlgorithm_;
+		this.Issuer = Issuer_;
+		this.Validity = Validity_;
+		this.Subject = Subject_;
+		this.PublicKey = PublicKey_;
+		this.UniqueId = UniqueId_;
+		this.SubjectUniqueId = SubjectUniqueId_;
+		this.Extensions = Extensions_;
+	});
+	dsaAlgorithmParameters = $pkg.dsaAlgorithmParameters = $newType(0, $kindStruct, "x509.dsaAlgorithmParameters", "dsaAlgorithmParameters", "crypto/x509", function(P_, Q_, G_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.P = ptrType$5.nil;
+			this.Q = ptrType$5.nil;
+			this.G = ptrType$5.nil;
+			return;
+		}
+		this.P = P_;
+		this.Q = Q_;
+		this.G = G_;
+	});
+	dsaSignature = $pkg.dsaSignature = $newType(0, $kindStruct, "x509.dsaSignature", "dsaSignature", "crypto/x509", function(R_, S_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.R = ptrType$5.nil;
+			this.S = ptrType$5.nil;
+			return;
+		}
+		this.R = R_;
+		this.S = S_;
+	});
+	ecdsaSignature = $pkg.ecdsaSignature = $newType(0, $kindStruct, "x509.ecdsaSignature", "ecdsaSignature", "crypto/x509", function(R_, S_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.R = ptrType$5.nil;
+			this.S = ptrType$5.nil;
+			return;
+		}
+		this.R = R_;
+		this.S = S_;
+	});
+	validity = $pkg.validity = $newType(0, $kindStruct, "x509.validity", "validity", "crypto/x509", function(NotBefore_, NotAfter_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.NotBefore = new time.Time.ptr();
+			this.NotAfter = new time.Time.ptr();
+			return;
+		}
+		this.NotBefore = NotBefore_;
+		this.NotAfter = NotAfter_;
+	});
+	publicKeyInfo = $pkg.publicKeyInfo = $newType(0, $kindStruct, "x509.publicKeyInfo", "publicKeyInfo", "crypto/x509", function(Raw_, Algorithm_, PublicKey_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Raw = asn1.RawContent.nil;
+			this.Algorithm = new pkix.AlgorithmIdentifier.ptr();
+			this.PublicKey = new asn1.BitString.ptr();
+			return;
+		}
+		this.Raw = Raw_;
+		this.Algorithm = Algorithm_;
+		this.PublicKey = PublicKey_;
+	});
+	authKeyId = $pkg.authKeyId = $newType(0, $kindStruct, "x509.authKeyId", "authKeyId", "crypto/x509", function(Id_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Id = sliceType$4.nil;
+			return;
+		}
+		this.Id = Id_;
+	});
+	SignatureAlgorithm = $pkg.SignatureAlgorithm = $newType(4, $kindInt, "x509.SignatureAlgorithm", "SignatureAlgorithm", "crypto/x509", null);
+	PublicKeyAlgorithm = $pkg.PublicKeyAlgorithm = $newType(4, $kindInt, "x509.PublicKeyAlgorithm", "PublicKeyAlgorithm", "crypto/x509", null);
+	KeyUsage = $pkg.KeyUsage = $newType(4, $kindInt, "x509.KeyUsage", "KeyUsage", "crypto/x509", null);
+	ExtKeyUsage = $pkg.ExtKeyUsage = $newType(4, $kindInt, "x509.ExtKeyUsage", "ExtKeyUsage", "crypto/x509", null);
+	Certificate = $pkg.Certificate = $newType(0, $kindStruct, "x509.Certificate", "Certificate", "crypto/x509", function(Raw_, RawTBSCertificate_, RawSubjectPublicKeyInfo_, RawSubject_, RawIssuer_, Signature_, SignatureAlgorithm_, PublicKeyAlgorithm_, PublicKey_, Version_, SerialNumber_, Issuer_, Subject_, NotBefore_, NotAfter_, KeyUsage_, Extensions_, ExtraExtensions_, UnhandledCriticalExtensions_, ExtKeyUsage_, UnknownExtKeyUsage_, BasicConstraintsValid_, IsCA_, MaxPathLen_, MaxPathLenZero_, SubjectKeyId_, AuthorityKeyId_, OCSPServer_, IssuingCertificateURL_, DNSNames_, EmailAddresses_, IPAddresses_, PermittedDNSDomainsCritical_, PermittedDNSDomains_, CRLDistributionPoints_, PolicyIdentifiers_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Raw = sliceType$4.nil;
+			this.RawTBSCertificate = sliceType$4.nil;
+			this.RawSubjectPublicKeyInfo = sliceType$4.nil;
+			this.RawSubject = sliceType$4.nil;
+			this.RawIssuer = sliceType$4.nil;
+			this.Signature = sliceType$4.nil;
+			this.SignatureAlgorithm = 0;
+			this.PublicKeyAlgorithm = 0;
+			this.PublicKey = $ifaceNil;
+			this.Version = 0;
+			this.SerialNumber = ptrType$5.nil;
+			this.Issuer = new pkix.Name.ptr();
+			this.Subject = new pkix.Name.ptr();
+			this.NotBefore = new time.Time.ptr();
+			this.NotAfter = new time.Time.ptr();
+			this.KeyUsage = 0;
+			this.Extensions = sliceType$20.nil;
+			this.ExtraExtensions = sliceType$20.nil;
+			this.UnhandledCriticalExtensions = sliceType$15.nil;
+			this.ExtKeyUsage = sliceType$12.nil;
+			this.UnknownExtKeyUsage = sliceType$15.nil;
+			this.BasicConstraintsValid = false;
+			this.IsCA = false;
+			this.MaxPathLen = 0;
+			this.MaxPathLenZero = false;
+			this.SubjectKeyId = sliceType$4.nil;
+			this.AuthorityKeyId = sliceType$4.nil;
+			this.OCSPServer = sliceType$1.nil;
+			this.IssuingCertificateURL = sliceType$1.nil;
+			this.DNSNames = sliceType$1.nil;
+			this.EmailAddresses = sliceType$1.nil;
+			this.IPAddresses = sliceType$13.nil;
+			this.PermittedDNSDomainsCritical = false;
+			this.PermittedDNSDomains = sliceType$1.nil;
+			this.CRLDistributionPoints = sliceType$1.nil;
+			this.PolicyIdentifiers = sliceType$15.nil;
+			return;
+		}
+		this.Raw = Raw_;
+		this.RawTBSCertificate = RawTBSCertificate_;
+		this.RawSubjectPublicKeyInfo = RawSubjectPublicKeyInfo_;
+		this.RawSubject = RawSubject_;
+		this.RawIssuer = RawIssuer_;
+		this.Signature = Signature_;
+		this.SignatureAlgorithm = SignatureAlgorithm_;
+		this.PublicKeyAlgorithm = PublicKeyAlgorithm_;
+		this.PublicKey = PublicKey_;
+		this.Version = Version_;
+		this.SerialNumber = SerialNumber_;
+		this.Issuer = Issuer_;
+		this.Subject = Subject_;
+		this.NotBefore = NotBefore_;
+		this.NotAfter = NotAfter_;
+		this.KeyUsage = KeyUsage_;
+		this.Extensions = Extensions_;
+		this.ExtraExtensions = ExtraExtensions_;
+		this.UnhandledCriticalExtensions = UnhandledCriticalExtensions_;
+		this.ExtKeyUsage = ExtKeyUsage_;
+		this.UnknownExtKeyUsage = UnknownExtKeyUsage_;
+		this.BasicConstraintsValid = BasicConstraintsValid_;
+		this.IsCA = IsCA_;
+		this.MaxPathLen = MaxPathLen_;
+		this.MaxPathLenZero = MaxPathLenZero_;
+		this.SubjectKeyId = SubjectKeyId_;
+		this.AuthorityKeyId = AuthorityKeyId_;
+		this.OCSPServer = OCSPServer_;
+		this.IssuingCertificateURL = IssuingCertificateURL_;
+		this.DNSNames = DNSNames_;
+		this.EmailAddresses = EmailAddresses_;
+		this.IPAddresses = IPAddresses_;
+		this.PermittedDNSDomainsCritical = PermittedDNSDomainsCritical_;
+		this.PermittedDNSDomains = PermittedDNSDomains_;
+		this.CRLDistributionPoints = CRLDistributionPoints_;
+		this.PolicyIdentifiers = PolicyIdentifiers_;
+	});
+	ConstraintViolationError = $pkg.ConstraintViolationError = $newType(0, $kindStruct, "x509.ConstraintViolationError", "ConstraintViolationError", "crypto/x509", function() {
+		this.$val = this;
+		if (arguments.length === 0) {
+			return;
+		}
+	});
+	UnhandledCriticalExtension = $pkg.UnhandledCriticalExtension = $newType(0, $kindStruct, "x509.UnhandledCriticalExtension", "UnhandledCriticalExtension", "crypto/x509", function() {
+		this.$val = this;
+		if (arguments.length === 0) {
+			return;
+		}
+	});
+	basicConstraints = $pkg.basicConstraints = $newType(0, $kindStruct, "x509.basicConstraints", "basicConstraints", "crypto/x509", function(IsCA_, MaxPathLen_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.IsCA = false;
+			this.MaxPathLen = 0;
+			return;
+		}
+		this.IsCA = IsCA_;
+		this.MaxPathLen = MaxPathLen_;
+	});
+	policyInformation = $pkg.policyInformation = $newType(0, $kindStruct, "x509.policyInformation", "policyInformation", "crypto/x509", function(Policy_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Policy = asn1.ObjectIdentifier.nil;
+			return;
+		}
+		this.Policy = Policy_;
+	});
+	nameConstraints = $pkg.nameConstraints = $newType(0, $kindStruct, "x509.nameConstraints", "nameConstraints", "crypto/x509", function(Permitted_, Excluded_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Permitted = sliceType$21.nil;
+			this.Excluded = sliceType$21.nil;
+			return;
+		}
+		this.Permitted = Permitted_;
+		this.Excluded = Excluded_;
+	});
+	generalSubtree = $pkg.generalSubtree = $newType(0, $kindStruct, "x509.generalSubtree", "generalSubtree", "crypto/x509", function(Name_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Name = "";
+			return;
+		}
+		this.Name = Name_;
+	});
+	authorityInfoAccess = $pkg.authorityInfoAccess = $newType(0, $kindStruct, "x509.authorityInfoAccess", "authorityInfoAccess", "crypto/x509", function(Method_, Location_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Method = asn1.ObjectIdentifier.nil;
+			this.Location = new asn1.RawValue.ptr();
+			return;
+		}
+		this.Method = Method_;
+		this.Location = Location_;
+	});
+	distributionPoint = $pkg.distributionPoint = $newType(0, $kindStruct, "x509.distributionPoint", "distributionPoint", "crypto/x509", function(DistributionPoint_, Reason_, CRLIssuer_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.DistributionPoint = new distributionPointName.ptr();
+			this.Reason = new asn1.BitString.ptr();
+			this.CRLIssuer = new asn1.RawValue.ptr();
+			return;
+		}
+		this.DistributionPoint = DistributionPoint_;
+		this.Reason = Reason_;
+		this.CRLIssuer = CRLIssuer_;
+	});
+	distributionPointName = $pkg.distributionPointName = $newType(0, $kindStruct, "x509.distributionPointName", "distributionPointName", "crypto/x509", function(FullName_, RelativeName_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.FullName = new asn1.RawValue.ptr();
+			this.RelativeName = pkix.RDNSequence.nil;
+			return;
+		}
+		this.FullName = FullName_;
+		this.RelativeName = RelativeName_;
+	});
+	ptrType = $ptrType(CertPool);
+	sliceType$1 = $sliceType($String);
+	structType = $structType([{prop: "algo", name: "algo", pkg: "crypto/x509", typ: SignatureAlgorithm, tag: ""}, {prop: "oid", name: "oid", pkg: "crypto/x509", typ: asn1.ObjectIdentifier, tag: ""}, {prop: "pubKeyAlgo", name: "pubKeyAlgo", pkg: "crypto/x509", typ: PublicKeyAlgorithm, tag: ""}, {prop: "hash", name: "hash", pkg: "crypto/x509", typ: crypto.Hash, tag: ""}]);
+	sliceType$2 = $sliceType(structType);
+	structType$1 = $structType([{prop: "extKeyUsage", name: "extKeyUsage", pkg: "crypto/x509", typ: ExtKeyUsage, tag: ""}, {prop: "oid", name: "oid", pkg: "crypto/x509", typ: asn1.ObjectIdentifier, tag: ""}]);
+	sliceType$3 = $sliceType(structType$1);
+	sliceType$4 = $sliceType($Uint8);
+	sliceType$5 = $sliceType($Int);
+	ptrType$1 = $ptrType(Certificate);
+	sliceType$6 = $sliceType(ptrType$1);
+	ptrType$2 = $ptrType(pem.Block);
+	sliceType$7 = $sliceType(sliceType$4);
 	ptrType$5 = $ptrType(big.Int);
-	sliceType$8 = $sliceType(ptrType$5);
-	sliceType$9 = $sliceType(pkcs1AdditionalRSAPrime);
-	ParsePKCS1PrivateKey = function(der) {
-		var $ptr, _i, _r, _ref, _tmp, _tmp$1, _tmp$2, _tmp$3, _tmp$4, _tmp$5, _tmp$6, _tmp$7, _tuple, a, der, err, i, key, priv, rest, x, x$1, x$2, x$3, x$4, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tmp$4 = $f._tmp$4; _tmp$5 = $f._tmp$5; _tmp$6 = $f._tmp$6; _tmp$7 = $f._tmp$7; _tuple = $f._tuple; a = $f.a; der = $f.der; err = $f.err; i = $f.i; key = $f.key; priv = $f.priv; rest = $f.rest; x = $f.x; x$1 = $f.x$1; x$2 = $f.x$2; x$3 = $f.x$3; x$4 = $f.x$4; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		priv = [priv];
-		key = ptrType$4.nil;
+	ptrType$6 = $ptrType(asn1.ObjectIdentifier);
+	sliceType$10 = $sliceType($emptyInterface);
+	sliceType$11 = $sliceType(sliceType$6);
+	sliceType$12 = $sliceType(ExtKeyUsage);
+	ptrType$8 = $ptrType(rsa.PublicKey);
+	ptrType$9 = $ptrType(ecdsa.PublicKey);
+	ptrType$10 = $ptrType(dsa.PublicKey);
+	ptrType$11 = $ptrType(ptrType$5);
+	sliceType$13 = $sliceType(net.IP);
+	ptrType$12 = $ptrType(pkix.RDNSequence);
+	sliceType$14 = $sliceType(distributionPoint);
+	ptrType$13 = $ptrType(sliceType$14);
+	sliceType$15 = $sliceType(asn1.ObjectIdentifier);
+	ptrType$14 = $ptrType(sliceType$15);
+	ptrType$15 = $ptrType(sliceType$4);
+	sliceType$16 = $sliceType(policyInformation);
+	ptrType$16 = $ptrType(sliceType$16);
+	sliceType$17 = $sliceType(authorityInfoAccess);
+	ptrType$17 = $ptrType(sliceType$17);
+	sliceType$20 = $sliceType(pkix.Extension);
+	sliceType$21 = $sliceType(generalSubtree);
+	ptrType$19 = $ptrType(pkix.CertificateList);
+	sliceType$22 = $sliceType(pkix.RevokedCertificate);
+	mapType = $mapType($String, sliceType$5);
+	ptrType$22 = $ptrType(VerifyOptions);
+	mapType$1 = $mapType($Int, sliceType$11);
+	initSystemRoots = function() {
+		var $ptr;
+	};
+	CertPool.ptr.prototype.findVerifiedParents = function(cert) {
+		var $ptr, _entry, _entry$1, _i, _r, _ref, c, candidates, cert, err, errCert, parents, s, x, x$1, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _entry$1 = $f._entry$1; _i = $f._i; _r = $f._r; _ref = $f._ref; c = $f.c; candidates = $f.candidates; cert = $f.cert; err = $f.err; errCert = $f.errCert; parents = $f.parents; s = $f.s; x = $f.x; x$1 = $f.x$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		parents = sliceType$5.nil;
+		errCert = ptrType$1.nil;
 		err = $ifaceNil;
-		priv[0] = $clone(new pkcs1PrivateKey.ptr(), pkcs1PrivateKey);
-		_r = asn1.Unmarshal(der, priv[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_tuple = _r; rest = _tuple[0]; err = _tuple[1];
-		if (rest.$length > 0) {
-			err = (x = new asn1.SyntaxError.ptr("trailing data"), new x.constructor.elem(x));
-			return [key, err];
+		s = this;
+		if (s === ptrType.nil) {
+			return [parents, errCert, err];
 		}
-		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			return [key, err];
+		candidates = sliceType$5.nil;
+		if (cert.AuthorityKeyId.$length > 0) {
+			candidates = (_entry = s.bySubjectKeyId[$String.keyFor($bytesToString(cert.AuthorityKeyId))], _entry !== undefined ? _entry.v : sliceType$5.nil);
 		}
-		if (priv[0].Version > 1) {
-			_tmp = ptrType$4.nil; _tmp$1 = errors.New("x509: unsupported private key version"); key = _tmp; err = _tmp$1;
-			return [key, err];
+		if (candidates.$length === 0) {
+			candidates = (_entry$1 = s.byName[$String.keyFor($bytesToString(cert.RawIssuer))], _entry$1 !== undefined ? _entry$1.v : sliceType$5.nil);
 		}
-		if (priv[0].N.Sign() <= 0 || priv[0].D.Sign() <= 0 || priv[0].P.Sign() <= 0 || priv[0].Q.Sign() <= 0) {
-			_tmp$2 = ptrType$4.nil; _tmp$3 = errors.New("x509: private key contains zero or negative value"); key = _tmp$2; err = _tmp$3;
-			return [key, err];
+		_ref = candidates;
+		_i = 0;
+		/* while (true) { */ case 1:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 2; continue; }
+			c = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			_r = cert.CheckSignatureFrom((x = s.certs, ((c < 0 || c >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + c]))); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			err = _r;
+			/* */ if ($interfaceIsEqual(err, $ifaceNil)) { $s = 4; continue; }
+			/* */ $s = 5; continue;
+			/* if ($interfaceIsEqual(err, $ifaceNil)) { */ case 4:
+				parents = $append(parents, c);
+				$s = 6; continue;
+			/* } else { */ case 5:
+				errCert = (x$1 = s.certs, ((c < 0 || c >= x$1.$length) ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + c]));
+			/* } */ case 6:
+			_i++;
+		/* } */ $s = 1; continue; case 2:
+		return [parents, errCert, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: CertPool.ptr.prototype.findVerifiedParents }; } $f.$ptr = $ptr; $f._entry = _entry; $f._entry$1 = _entry$1; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.c = c; $f.candidates = candidates; $f.cert = cert; $f.err = err; $f.errCert = errCert; $f.parents = parents; $f.s = s; $f.x = x; $f.x$1 = x$1; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CertPool.prototype.findVerifiedParents = function(cert) { return this.$val.findVerifiedParents(cert); };
+	CertPool.ptr.prototype.AddCert = function(cert) {
+		var $ptr, _entry, _entry$1, _i, _key, _key$1, _ref, c, cert, keyId, n, name, s;
+		s = this;
+		if (cert === ptrType$1.nil) {
+			$panic(new $String("adding nil Certificate to CertPool"));
 		}
-		key = new rsa.PrivateKey.ptr();
-		$copy(key.PublicKey, new rsa.PublicKey.ptr(priv[0].N, priv[0].E), rsa.PublicKey);
-		key.D = priv[0].D;
-		key.Primes = $makeSlice(sliceType$8, (2 + priv[0].AdditionalPrimes.$length >> 0));
-		(x$1 = key.Primes, (0 >= x$1.$length ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + 0] = priv[0].P));
-		(x$2 = key.Primes, (1 >= x$2.$length ? $throwRuntimeError("index out of range") : x$2.$array[x$2.$offset + 1] = priv[0].Q));
-		_ref = priv[0].AdditionalPrimes;
+		_ref = s.certs;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			c = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			if (c.Equal(cert)) {
+				return;
+			}
+			_i++;
+		}
+		n = s.certs.$length;
+		s.certs = $append(s.certs, cert);
+		if (cert.SubjectKeyId.$length > 0) {
+			keyId = $bytesToString(cert.SubjectKeyId);
+			_key = keyId; (s.bySubjectKeyId || $throwRuntimeError("assignment to entry in nil map"))[$String.keyFor(_key)] = { k: _key, v: $append((_entry = s.bySubjectKeyId[$String.keyFor(keyId)], _entry !== undefined ? _entry.v : sliceType$5.nil), n) };
+		}
+		name = $bytesToString(cert.RawSubject);
+		_key$1 = name; (s.byName || $throwRuntimeError("assignment to entry in nil map"))[$String.keyFor(_key$1)] = { k: _key$1, v: $append((_entry$1 = s.byName[$String.keyFor(name)], _entry$1 !== undefined ? _entry$1.v : sliceType$5.nil), n) };
+	};
+	CertPool.prototype.AddCert = function(cert) { return this.$val.AddCert(cert); };
+	CertPool.ptr.prototype.AppendCertsFromPEM = function(pemCerts) {
+		var $ptr, _r, _r$1, _tuple, _tuple$1, block, cert, err, ok, pemCerts, s, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; block = $f.block; cert = $f.cert; err = $f.err; ok = $f.ok; pemCerts = $f.pemCerts; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		ok = false;
+		s = this;
+		/* while (true) { */ case 1:
+			/* if (!(pemCerts.$length > 0)) { break; } */ if(!(pemCerts.$length > 0)) { $s = 2; continue; }
+			block = ptrType$2.nil;
+			_r = pem.Decode(pemCerts); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			_tuple = _r; block = _tuple[0]; pemCerts = _tuple[1];
+			if (block === ptrType$2.nil) {
+				/* break; */ $s = 2; continue;
+			}
+			/* */ if (!(block.Type === "CERTIFICATE") || !(($keys(block.Headers).length === 0))) { $s = 4; continue; }
+			/* */ $s = 5; continue;
+			/* if (!(block.Type === "CERTIFICATE") || !(($keys(block.Headers).length === 0))) { */ case 4:
+				/* continue; */ $s = 1; continue;
+			/* } */ case 5:
+			_r$1 = ParseCertificate(block.Bytes); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple$1 = _r$1; cert = _tuple$1[0]; err = _tuple$1[1];
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				/* continue; */ $s = 1; continue;
+			}
+			s.AddCert(cert);
+			ok = true;
+		/* } */ $s = 1; continue; case 2:
+		return ok;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: CertPool.ptr.prototype.AppendCertsFromPEM }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.block = block; $f.cert = cert; $f.err = err; $f.ok = ok; $f.pemCerts = pemCerts; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CertPool.prototype.AppendCertsFromPEM = function(pemCerts) { return this.$val.AppendCertsFromPEM(pemCerts); };
+	CertPool.ptr.prototype.Subjects = function() {
+		var $ptr, _i, _ref, c, i, res, s;
+		res = sliceType$7.nil;
+		s = this;
+		res = $makeSlice(sliceType$7, s.certs.$length);
+		_ref = s.certs;
 		_i = 0;
 		while (true) {
 			if (!(_i < _ref.$length)) { break; }
 			i = _i;
-			a = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), pkcs1AdditionalRSAPrime);
-			if (a.Prime.Sign() <= 0) {
-				_tmp$4 = ptrType$4.nil; _tmp$5 = errors.New("x509: private key contains zero or negative prime"); key = _tmp$4; err = _tmp$5;
-				return [key, err];
-			}
-			(x$3 = key.Primes, x$4 = i + 2 >> 0, ((x$4 < 0 || x$4 >= x$3.$length) ? $throwRuntimeError("index out of range") : x$3.$array[x$3.$offset + x$4] = a.Prime));
+			c = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			((i < 0 || i >= res.$length) ? $throwRuntimeError("index out of range") : res.$array[res.$offset + i] = c.RawSubject);
 			_i++;
 		}
-		err = key.Validate();
-		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			_tmp$6 = ptrType$4.nil; _tmp$7 = err; key = _tmp$6; err = _tmp$7;
-			return [key, err];
-		}
-		key.Precompute();
-		return [key, err];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ParsePKCS1PrivateKey }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tmp$4 = _tmp$4; $f._tmp$5 = _tmp$5; $f._tmp$6 = _tmp$6; $f._tmp$7 = _tmp$7; $f._tuple = _tuple; $f.a = a; $f.der = der; $f.err = err; $f.i = i; $f.key = key; $f.priv = priv; $f.rest = rest; $f.x = x; $f.x$1 = x$1; $f.x$2 = x$2; $f.x$3 = x$3; $f.x$4 = x$4; $f.$s = $s; $f.$r = $r; return $f;
+		return res;
 	};
-	$pkg.ParsePKCS1PrivateKey = ParsePKCS1PrivateKey;
-	pkcs1PrivateKey.init([{prop: "Version", name: "Version", pkg: "", typ: $Int, tag: ""}, {prop: "N", name: "N", pkg: "", typ: ptrType$5, tag: ""}, {prop: "E", name: "E", pkg: "", typ: $Int, tag: ""}, {prop: "D", name: "D", pkg: "", typ: ptrType$5, tag: ""}, {prop: "P", name: "P", pkg: "", typ: ptrType$5, tag: ""}, {prop: "Q", name: "Q", pkg: "", typ: ptrType$5, tag: ""}, {prop: "Dp", name: "Dp", pkg: "", typ: ptrType$5, tag: "asn1:\"optional\""}, {prop: "Dq", name: "Dq", pkg: "", typ: ptrType$5, tag: "asn1:\"optional\""}, {prop: "Qinv", name: "Qinv", pkg: "", typ: ptrType$5, tag: "asn1:\"optional\""}, {prop: "AdditionalPrimes", name: "AdditionalPrimes", pkg: "", typ: sliceType$9, tag: "asn1:\"optional,omitempty\""}]);
-	pkcs1AdditionalRSAPrime.init([{prop: "Prime", name: "Prime", pkg: "", typ: ptrType$5, tag: ""}, {prop: "Exp", name: "Exp", pkg: "", typ: ptrType$5, tag: ""}, {prop: "Coeff", name: "Coeff", pkg: "", typ: ptrType$5, tag: ""}]);
+	CertPool.prototype.Subjects = function() { return this.$val.Subjects(); };
+	systemRootsPool = function() {
+		var $ptr, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = once.Do(initSystemRoots); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		return systemRoots;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: systemRootsPool }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.ptr.prototype.systemVerify = function(opts) {
+		var $ptr, _tmp, _tmp$1, c, chains, err, opts;
+		chains = sliceType$11.nil;
+		err = $ifaceNil;
+		c = this;
+		_tmp = sliceType$11.nil; _tmp$1 = $ifaceNil; chains = _tmp; err = _tmp$1;
+		return [chains, err];
+	};
+	Certificate.prototype.systemVerify = function(opts) { return this.$val.systemVerify(opts); };
+	CertificateInvalidError.ptr.prototype.Error = function() {
+		var $ptr, _ref, e;
+		e = $clone(this, CertificateInvalidError);
+		_ref = e.Reason;
+		if (_ref === 0) {
+			return "x509: certificate is not authorized to sign other certificates";
+		} else if (_ref === 1) {
+			return "x509: certificate has expired or is not yet valid";
+		} else if (_ref === 2) {
+			return "x509: a root or intermediate certificate is not authorized to sign in this domain";
+		} else if (_ref === 3) {
+			return "x509: too many intermediates for path length constraint";
+		} else if (_ref === 4) {
+			return "x509: certificate specifies an incompatible key usage";
+		}
+		return "x509: unknown error";
+	};
+	CertificateInvalidError.prototype.Error = function() { return this.$val.Error(); };
+	HostnameError.ptr.prototype.Error = function() {
+		var $ptr, _i, _ref, c, h, ip, san, valid;
+		h = $clone(this, HostnameError);
+		c = h.Certificate;
+		valid = "";
+		ip = net.ParseIP(h.Host);
+		if (!(ip === net.IP.nil)) {
+			if (c.IPAddresses.$length === 0) {
+				return "x509: cannot validate certificate for " + h.Host + " because it doesn't contain any IP SANs";
+			}
+			_ref = c.IPAddresses;
+			_i = 0;
+			while (true) {
+				if (!(_i < _ref.$length)) { break; }
+				san = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+				if (valid.length > 0) {
+					valid = valid + (", ");
+				}
+				valid = valid + (san.String());
+				_i++;
+			}
+		} else {
+			if (c.DNSNames.$length > 0) {
+				valid = strings.Join(c.DNSNames, ", ");
+			} else {
+				valid = c.Subject.CommonName;
+			}
+		}
+		return "x509: certificate is valid for " + valid + ", not " + h.Host;
+	};
+	HostnameError.prototype.Error = function() { return this.$val.Error(); };
+	UnknownAuthorityError.ptr.prototype.Error = function() {
+		var $ptr, _r, certName, e, s, x, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; certName = $f.certName; e = $f.e; s = $f.s; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		e = $clone(this, UnknownAuthorityError);
+		s = "x509: certificate signed by unknown authority";
+		/* */ if (!($interfaceIsEqual(e.hintErr, $ifaceNil))) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (!($interfaceIsEqual(e.hintErr, $ifaceNil))) { */ case 1:
+			certName = e.hintCert.Subject.CommonName;
+			if (certName.length === 0) {
+				if (e.hintCert.Subject.Organization.$length > 0) {
+					certName = (x = e.hintCert.Subject.Organization, (0 >= x.$length ? $throwRuntimeError("index out of range") : x.$array[x.$offset + 0]));
+				}
+				certName = "serial:" + e.hintCert.SerialNumber.String();
+			}
+			_r = fmt.Sprintf(" (possibly because of %q while trying to verify candidate authority certificate %q)", new sliceType$10([e.hintErr, new $String(certName)])); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			s = s + (_r);
+		/* } */ case 2:
+		return s;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: UnknownAuthorityError.ptr.prototype.Error }; } $f.$ptr = $ptr; $f._r = _r; $f.certName = certName; $f.e = e; $f.s = s; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	UnknownAuthorityError.prototype.Error = function() { return this.$val.Error(); };
+	SystemRootsError.ptr.prototype.Error = function() {
+		var $ptr;
+		return "x509: failed to load system roots and no roots provided";
+	};
+	SystemRootsError.prototype.Error = function() { return this.$val.Error(); };
+	Certificate.ptr.prototype.isValid = function(certType, currentChain, opts) {
+		var $ptr, _i, _ref, c, certType, currentChain, domain, now, numIntermediates, ok, opts, x, x$1, x$2, x$3;
+		c = this;
+		now = $clone(opts.CurrentTime, time.Time);
+		if (now.IsZero()) {
+			$copy(now, time.Now(), time.Time);
+		}
+		if (now.Before(c.NotBefore) || now.After(c.NotAfter)) {
+			return (x = new CertificateInvalidError.ptr(c, 1), new x.constructor.elem(x));
+		}
+		if (c.PermittedDNSDomains.$length > 0) {
+			ok = false;
+			_ref = c.PermittedDNSDomains;
+			_i = 0;
+			while (true) {
+				if (!(_i < _ref.$length)) { break; }
+				domain = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+				if (opts.DNSName === domain || (strings.HasSuffix(opts.DNSName, domain) && opts.DNSName.length >= (1 + domain.length >> 0) && (opts.DNSName.charCodeAt(((opts.DNSName.length - domain.length >> 0) - 1 >> 0)) === 46))) {
+					ok = true;
+					break;
+				}
+				_i++;
+			}
+			if (!ok) {
+				return (x$1 = new CertificateInvalidError.ptr(c, 2), new x$1.constructor.elem(x$1));
+			}
+		}
+		if ((certType === 1) && (!c.BasicConstraintsValid || !c.IsCA)) {
+			return (x$2 = new CertificateInvalidError.ptr(c, 0), new x$2.constructor.elem(x$2));
+		}
+		if (c.BasicConstraintsValid && c.MaxPathLen >= 0) {
+			numIntermediates = currentChain.$length - 1 >> 0;
+			if (numIntermediates > c.MaxPathLen) {
+				return (x$3 = new CertificateInvalidError.ptr(c, 3), new x$3.constructor.elem(x$3));
+			}
+		}
+		return $ifaceNil;
+	};
+	Certificate.prototype.isValid = function(certType, currentChain, opts) { return this.$val.isValid(certType, currentChain, opts); };
+	Certificate.ptr.prototype.Verify = function(opts) {
+		var $ptr, _i, _i$1, _r, _r$1, _ref, _ref$1, _tmp, _tmp$1, _tmp$2, _tmp$3, _tuple, _tuple$1, c, candidate, candidateChains, chains, err, keyUsages, opts, usage, x, x$1, x$2, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _ref$1 = $f._ref$1; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; c = $f.c; candidate = $f.candidate; candidateChains = $f.candidateChains; chains = $f.chains; err = $f.err; keyUsages = $f.keyUsages; opts = $f.opts; usage = $f.usage; x = $f.x; x$1 = $f.x$1; x$2 = $f.x$2; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		opts = [opts];
+		chains = sliceType$11.nil;
+		err = $ifaceNil;
+		opts[0] = $clone(opts[0], VerifyOptions);
+		c = this;
+		if (opts[0].Roots === ptrType.nil && false) {
+			_tuple = c.systemVerify(opts[0]); chains = _tuple[0]; err = _tuple[1];
+			return [chains, err];
+		}
+		if (c.UnhandledCriticalExtensions.$length > 0) {
+			_tmp = sliceType$11.nil; _tmp$1 = (x = new UnhandledCriticalExtension.ptr(), new x.constructor.elem(x)); chains = _tmp; err = _tmp$1;
+			return [chains, err];
+		}
+		/* */ if (opts[0].Roots === ptrType.nil) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (opts[0].Roots === ptrType.nil) { */ case 1:
+			_r = systemRootsPool(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			opts[0].Roots = _r;
+			if (opts[0].Roots === ptrType.nil) {
+				_tmp$2 = sliceType$11.nil; _tmp$3 = (x$1 = new SystemRootsError.ptr(), new x$1.constructor.elem(x$1)); chains = _tmp$2; err = _tmp$3;
+				return [chains, err];
+			}
+		/* } */ case 2:
+		err = c.isValid(0, sliceType$6.nil, opts[0]);
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [chains, err];
+		}
+		if (opts[0].DNSName.length > 0) {
+			err = c.VerifyHostname(opts[0].DNSName);
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				return [chains, err];
+			}
+		}
+		_r$1 = c.buildChains(new $Map(), new sliceType$6([c]), opts[0]); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_tuple$1 = _r$1; candidateChains = _tuple$1[0]; err = _tuple$1[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [chains, err];
+		}
+		keyUsages = opts[0].KeyUsages;
+		if (keyUsages.$length === 0) {
+			keyUsages = new sliceType$12([1]);
+		}
+		_ref = keyUsages;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			usage = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			if (usage === 0) {
+				chains = candidateChains;
+				return [chains, err];
+			}
+			_i++;
+		}
+		_ref$1 = candidateChains;
+		_i$1 = 0;
+		while (true) {
+			if (!(_i$1 < _ref$1.$length)) { break; }
+			candidate = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
+			if (checkChainForKeyUsage(candidate, keyUsages)) {
+				chains = $append(chains, candidate);
+			}
+			_i$1++;
+		}
+		if (chains.$length === 0) {
+			err = (x$2 = new CertificateInvalidError.ptr(c, 4), new x$2.constructor.elem(x$2));
+		}
+		return [chains, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Certificate.ptr.prototype.Verify }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._ref$1 = _ref$1; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.c = c; $f.candidate = candidate; $f.candidateChains = candidateChains; $f.chains = chains; $f.err = err; $f.keyUsages = keyUsages; $f.opts = opts; $f.usage = usage; $f.x = x; $f.x$1 = x$1; $f.x$2 = x$2; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.prototype.Verify = function(opts) { return this.$val.Verify(opts); };
+	appendToFreshChain = function(chain, cert) {
+		var $ptr, cert, chain, n, x;
+		n = $makeSlice(sliceType$6, (chain.$length + 1 >> 0));
+		$copySlice(n, chain);
+		(x = chain.$length, ((x < 0 || x >= n.$length) ? $throwRuntimeError("index out of range") : n.$array[n.$offset + x] = cert));
+		return n;
+	};
+	Certificate.ptr.prototype.buildChains = function(cache, currentChain, opts) {
+		var $ptr, _entry, _i, _i$1, _i$2, _key, _r, _r$1, _r$2, _ref, _ref$1, _ref$2, _tuple, _tuple$1, _tuple$2, _tuple$3, c, cache, cert, chains, childChains, currentChain, err, failedIntermediate, failedRoot, hintCert, hintErr, intermediate, intermediateErr, intermediateNum, ok, opts, possibleIntermediates, possibleRoots, root, rootErr, rootNum, x, x$1, x$2, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _key = $f._key; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; _tuple$3 = $f._tuple$3; c = $f.c; cache = $f.cache; cert = $f.cert; chains = $f.chains; childChains = $f.childChains; currentChain = $f.currentChain; err = $f.err; failedIntermediate = $f.failedIntermediate; failedRoot = $f.failedRoot; hintCert = $f.hintCert; hintErr = $f.hintErr; intermediate = $f.intermediate; intermediateErr = $f.intermediateErr; intermediateNum = $f.intermediateNum; ok = $f.ok; opts = $f.opts; possibleIntermediates = $f.possibleIntermediates; possibleRoots = $f.possibleRoots; root = $f.root; rootErr = $f.rootErr; rootNum = $f.rootNum; x = $f.x; x$1 = $f.x$1; x$2 = $f.x$2; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		chains = sliceType$11.nil;
+		err = $ifaceNil;
+		c = this;
+		_r = opts.Roots.findVerifiedParents(c); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; possibleRoots = _tuple[0]; failedRoot = _tuple[1]; rootErr = _tuple[2];
+		_ref = possibleRoots;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			rootNum = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			root = (x = opts.Roots.certs, ((rootNum < 0 || rootNum >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + rootNum]));
+			err = root.isValid(2, currentChain, opts);
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				_i++;
+				/* continue; */ $s = 2; continue;
+			}
+			chains = $append(chains, appendToFreshChain(currentChain, root));
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		_r$1 = opts.Intermediates.findVerifiedParents(c); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_tuple$1 = _r$1; possibleIntermediates = _tuple$1[0]; failedIntermediate = _tuple$1[1]; intermediateErr = _tuple$1[2];
+		_ref$1 = possibleIntermediates;
+		_i$1 = 0;
+		/* while (true) { */ case 5:
+			/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 6; continue; }
+			intermediateNum = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
+			intermediate = (x$1 = opts.Intermediates.certs, ((intermediateNum < 0 || intermediateNum >= x$1.$length) ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + intermediateNum]));
+			_ref$2 = currentChain;
+			_i$2 = 0;
+			/* while (true) { */ case 7:
+				/* if (!(_i$2 < _ref$2.$length)) { break; } */ if(!(_i$2 < _ref$2.$length)) { $s = 8; continue; }
+				cert = ((_i$2 < 0 || _i$2 >= _ref$2.$length) ? $throwRuntimeError("index out of range") : _ref$2.$array[_ref$2.$offset + _i$2]);
+				if (cert === intermediate) {
+					_i$1++;
+					/* continue nextIntermediate; */ $s = 5; continue s;
+				}
+				_i$2++;
+			/* } */ $s = 7; continue; case 8:
+			err = intermediate.isValid(1, currentChain, opts);
+			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 9; continue; }
+			/* */ $s = 10; continue;
+			/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 9:
+				_i$1++;
+				/* continue; */ $s = 5; continue;
+			/* } */ case 10:
+			childChains = sliceType$11.nil;
+			_tuple$2 = (_entry = cache[$Int.keyFor(intermediateNum)], _entry !== undefined ? [_entry.v, true] : [sliceType$11.nil, false]); childChains = _tuple$2[0]; ok = _tuple$2[1];
+			/* */ if (!ok) { $s = 11; continue; }
+			/* */ $s = 12; continue;
+			/* if (!ok) { */ case 11:
+				_r$2 = intermediate.buildChains(cache, appendToFreshChain(currentChain, intermediate), opts); /* */ $s = 13; case 13: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+				_tuple$3 = _r$2; childChains = _tuple$3[0]; err = _tuple$3[1];
+				_key = intermediateNum; (cache || $throwRuntimeError("assignment to entry in nil map"))[$Int.keyFor(_key)] = { k: _key, v: childChains };
+			/* } */ case 12:
+			chains = $appendSlice(chains, childChains);
+			_i$1++;
+		/* } */ $s = 5; continue; case 6:
+		if (chains.$length > 0) {
+			err = $ifaceNil;
+		}
+		if ((chains.$length === 0) && $interfaceIsEqual(err, $ifaceNil)) {
+			hintErr = rootErr;
+			hintCert = failedRoot;
+			if ($interfaceIsEqual(hintErr, $ifaceNil)) {
+				hintErr = intermediateErr;
+				hintCert = failedIntermediate;
+			}
+			err = (x$2 = new UnknownAuthorityError.ptr(c, hintErr, hintCert), new x$2.constructor.elem(x$2));
+		}
+		return [chains, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Certificate.ptr.prototype.buildChains }; } $f.$ptr = $ptr; $f._entry = _entry; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._key = _key; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f._tuple$3 = _tuple$3; $f.c = c; $f.cache = cache; $f.cert = cert; $f.chains = chains; $f.childChains = childChains; $f.currentChain = currentChain; $f.err = err; $f.failedIntermediate = failedIntermediate; $f.failedRoot = failedRoot; $f.hintCert = hintCert; $f.hintErr = hintErr; $f.intermediate = intermediate; $f.intermediateErr = intermediateErr; $f.intermediateNum = intermediateNum; $f.ok = ok; $f.opts = opts; $f.possibleIntermediates = possibleIntermediates; $f.possibleRoots = possibleRoots; $f.root = root; $f.rootErr = rootErr; $f.rootNum = rootNum; $f.x = x; $f.x$1 = x$1; $f.x$2 = x$2; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.prototype.buildChains = function(cache, currentChain, opts) { return this.$val.buildChains(cache, currentChain, opts); };
+	matchHostnames = function(pattern, host) {
+		var $ptr, _i, _ref, host, hostParts, i, pattern, patternPart, patternParts;
+		host = strings.TrimSuffix(host, ".");
+		pattern = strings.TrimSuffix(pattern, ".");
+		if ((pattern.length === 0) || (host.length === 0)) {
+			return false;
+		}
+		patternParts = strings.Split(pattern, ".");
+		hostParts = strings.Split(host, ".");
+		if (!((patternParts.$length === hostParts.$length))) {
+			return false;
+		}
+		_ref = patternParts;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			i = _i;
+			patternPart = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			if ((i === 0) && patternPart === "*") {
+				_i++;
+				continue;
+			}
+			if (!(patternPart === ((i < 0 || i >= hostParts.$length) ? $throwRuntimeError("index out of range") : hostParts.$array[hostParts.$offset + i]))) {
+				return false;
+			}
+			_i++;
+		}
+		return true;
+	};
+	toLowerCaseASCII = function(in$1) {
+		var $ptr, _i, _i$1, _ref, _ref$1, _rune, c, c$1, i, in$1, isAlreadyLowerCase, out;
+		isAlreadyLowerCase = true;
+		_ref = in$1;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.length)) { break; }
+			_rune = $decodeRune(_ref, _i);
+			c = _rune[0];
+			if (c === 65533) {
+				isAlreadyLowerCase = false;
+				break;
+			}
+			if (65 <= c && c <= 90) {
+				isAlreadyLowerCase = false;
+				break;
+			}
+			_i += _rune[1];
+		}
+		if (isAlreadyLowerCase) {
+			return in$1;
+		}
+		out = new sliceType$4($stringToBytes(in$1));
+		_ref$1 = out;
+		_i$1 = 0;
+		while (true) {
+			if (!(_i$1 < _ref$1.$length)) { break; }
+			i = _i$1;
+			c$1 = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
+			if (65 <= c$1 && c$1 <= 90) {
+				((i < 0 || i >= out.$length) ? $throwRuntimeError("index out of range") : out.$array[out.$offset + i] = ((i < 0 || i >= out.$length) ? $throwRuntimeError("index out of range") : out.$array[out.$offset + i]) + (32) << 24 >>> 24);
+			}
+			_i$1++;
+		}
+		return $bytesToString(out);
+	};
+	Certificate.ptr.prototype.VerifyHostname = function(h) {
+		var $ptr, _i, _i$1, _ref, _ref$1, c, candidate, candidateIP, h, ip, lowered, match, x, x$1;
+		c = this;
+		candidateIP = h;
+		if (h.length >= 3 && (h.charCodeAt(0) === 91) && (h.charCodeAt((h.length - 1 >> 0)) === 93)) {
+			candidateIP = h.substring(1, (h.length - 1 >> 0));
+		}
+		ip = net.ParseIP(candidateIP);
+		if (!(ip === net.IP.nil)) {
+			_ref = c.IPAddresses;
+			_i = 0;
+			while (true) {
+				if (!(_i < _ref.$length)) { break; }
+				candidate = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+				if (ip.Equal(candidate)) {
+					return $ifaceNil;
+				}
+				_i++;
+			}
+			return (x = new HostnameError.ptr(c, candidateIP), new x.constructor.elem(x));
+		}
+		lowered = toLowerCaseASCII(h);
+		if (c.DNSNames.$length > 0) {
+			_ref$1 = c.DNSNames;
+			_i$1 = 0;
+			while (true) {
+				if (!(_i$1 < _ref$1.$length)) { break; }
+				match = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
+				if (matchHostnames(toLowerCaseASCII(match), lowered)) {
+					return $ifaceNil;
+				}
+				_i$1++;
+			}
+		} else if (matchHostnames(toLowerCaseASCII(c.Subject.CommonName), lowered)) {
+			return $ifaceNil;
+		}
+		return (x$1 = new HostnameError.ptr(c, h), new x$1.constructor.elem(x$1));
+	};
+	Certificate.prototype.VerifyHostname = function(h) { return this.$val.VerifyHostname(h); };
+	checkChainForKeyUsage = function(chain, keyUsages) {
+		var $ptr, _i, _i$1, _i$2, _ref, _ref$1, _ref$2, cert, chain, i, i$1, keyUsages, requestedUsage, usage, usage$1, usages, usagesRemaining;
+		usages = $makeSlice(sliceType$12, keyUsages.$length);
+		$copySlice(usages, keyUsages);
+		if (chain.$length === 0) {
+			return false;
+		}
+		usagesRemaining = usages.$length;
+		i = chain.$length - 1 >> 0;
+		NextCert:
+		while (true) {
+			if (!(i >= 0)) { break; }
+			cert = ((i < 0 || i >= chain.$length) ? $throwRuntimeError("index out of range") : chain.$array[chain.$offset + i]);
+			if ((cert.ExtKeyUsage.$length === 0) && (cert.UnknownExtKeyUsage.$length === 0)) {
+				i = i - (1) >> 0;
+				continue;
+			}
+			_ref = cert.ExtKeyUsage;
+			_i = 0;
+			while (true) {
+				if (!(_i < _ref.$length)) { break; }
+				usage = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+				if (usage === 0) {
+					i = i - (1) >> 0;
+					continue NextCert;
+				}
+				_i++;
+			}
+			_ref$1 = usages;
+			_i$1 = 0;
+			NextRequestedUsage:
+			while (true) {
+				if (!(_i$1 < _ref$1.$length)) { break; }
+				i$1 = _i$1;
+				requestedUsage = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
+				if (requestedUsage === -1) {
+					_i$1++;
+					continue;
+				}
+				_ref$2 = cert.ExtKeyUsage;
+				_i$2 = 0;
+				while (true) {
+					if (!(_i$2 < _ref$2.$length)) { break; }
+					usage$1 = ((_i$2 < 0 || _i$2 >= _ref$2.$length) ? $throwRuntimeError("index out of range") : _ref$2.$array[_ref$2.$offset + _i$2]);
+					if (requestedUsage === usage$1) {
+						_i$1++;
+						continue NextRequestedUsage;
+					} else if ((requestedUsage === 1) && ((usage$1 === 11) || (usage$1 === 10))) {
+						_i$1++;
+						continue NextRequestedUsage;
+					}
+					_i$2++;
+				}
+				((i$1 < 0 || i$1 >= usages.$length) ? $throwRuntimeError("index out of range") : usages.$array[usages.$offset + i$1] = -1);
+				usagesRemaining = usagesRemaining - (1) >> 0;
+				if (usagesRemaining === 0) {
+					return false;
+				}
+				_i$1++;
+			}
+			i = i - (1) >> 0;
+		}
+		return true;
+	};
+	getSignatureAlgorithmFromOID = function(oid) {
+		var $ptr, _i, _ref, details, oid;
+		_ref = signatureAlgorithmDetails;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			details = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), structType);
+			if (oid.Equal(details.oid)) {
+				return details.algo;
+			}
+			_i++;
+		}
+		return 0;
+	};
+	getPublicKeyAlgorithmFromOID = function(oid) {
+		var $ptr, oid;
+		if (oid.Equal(oidPublicKeyRSA)) {
+			return 1;
+		} else if (oid.Equal(oidPublicKeyDSA)) {
+			return 2;
+		} else if (oid.Equal(oidPublicKeyECDSA)) {
+			return 3;
+		}
+		return 0;
+	};
+	namedCurveFromOID = function(oid) {
+		var $ptr, _r, _r$1, _r$2, _r$3, oid, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; oid = $f.oid; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		/* */ if (oid.Equal(oidNamedCurveP224)) { $s = 1; continue; }
+		/* */ if (oid.Equal(oidNamedCurveP256)) { $s = 2; continue; }
+		/* */ if (oid.Equal(oidNamedCurveP384)) { $s = 3; continue; }
+		/* */ if (oid.Equal(oidNamedCurveP521)) { $s = 4; continue; }
+		/* */ $s = 5; continue;
+		/* if (oid.Equal(oidNamedCurveP224)) { */ case 1:
+			_r = elliptic.P224(); /* */ $s = 6; case 6: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			return _r;
+			$s = 5; continue;
+		/* } else if (oid.Equal(oidNamedCurveP256)) { */ case 2:
+			_r$1 = elliptic.P256(); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			return _r$1;
+			$s = 5; continue;
+		/* } else if (oid.Equal(oidNamedCurveP384)) { */ case 3:
+			_r$2 = elliptic.P384(); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			return _r$2;
+			$s = 5; continue;
+		/* } else if (oid.Equal(oidNamedCurveP521)) { */ case 4:
+			_r$3 = elliptic.P521(); /* */ $s = 9; case 9: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			return _r$3;
+		/* } */ case 5:
+		return $ifaceNil;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: namedCurveFromOID }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f.oid = oid; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	extKeyUsageFromOID = function(oid) {
+		var $ptr, _i, _ref, _tmp, _tmp$1, eku, oid, ok, pair;
+		eku = 0;
+		ok = false;
+		_ref = extKeyUsageOIDs;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref.$length)) { break; }
+			pair = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), structType$1);
+			if (oid.Equal(pair.oid)) {
+				_tmp = pair.extKeyUsage; _tmp$1 = true; eku = _tmp; ok = _tmp$1;
+				return [eku, ok];
+			}
+			_i++;
+		}
+		return [eku, ok];
+	};
+	ConstraintViolationError.ptr.prototype.Error = function() {
+		var $ptr;
+		return "x509: invalid signature: parent certificate cannot sign this kind of certificate";
+	};
+	ConstraintViolationError.prototype.Error = function() { return this.$val.Error(); };
+	Certificate.ptr.prototype.Equal = function(other) {
+		var $ptr, c, other;
+		c = this;
+		return bytes.Equal(c.Raw, other.Raw);
+	};
+	Certificate.prototype.Equal = function(other) { return this.$val.Equal(other); };
+	Certificate.ptr.prototype.CheckSignatureFrom = function(parent) {
+		var $ptr, _r, c, err, parent, x, x$1, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; c = $f.c; err = $f.err; parent = $f.parent; x = $f.x; x$1 = $f.x$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		err = $ifaceNil;
+		c = this;
+		if (((parent.Version === 3) && !parent.BasicConstraintsValid || parent.BasicConstraintsValid && !parent.IsCA) && !bytes.Equal(c.RawSubjectPublicKeyInfo, entrustBrokenSPKI)) {
+			err = (x = new ConstraintViolationError.ptr(), new x.constructor.elem(x));
+			return err;
+		}
+		if (!((parent.KeyUsage === 0)) && ((parent.KeyUsage & 32) === 0)) {
+			err = (x$1 = new ConstraintViolationError.ptr(), new x$1.constructor.elem(x$1));
+			return err;
+		}
+		if (parent.PublicKeyAlgorithm === 0) {
+			err = $pkg.ErrUnsupportedAlgorithm;
+			return err;
+		}
+		_r = parent.CheckSignature(c.SignatureAlgorithm, c.RawTBSCertificate, c.Signature); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		err = _r;
+		return err;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Certificate.ptr.prototype.CheckSignatureFrom }; } $f.$ptr = $ptr; $f._r = _r; $f.c = c; $f.err = err; $f.parent = parent; $f.x = x; $f.x$1 = x$1; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.prototype.CheckSignatureFrom = function(parent) { return this.$val.CheckSignatureFrom(parent); };
+	Certificate.ptr.prototype.CheckSignature = function(algo, signed, signature) {
+		var $ptr, _r, algo, c, err, signature, signed, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; algo = $f.algo; c = $f.c; err = $f.err; signature = $f.signature; signed = $f.signed; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		err = $ifaceNil;
+		c = this;
+		_r = checkSignature(algo, signed, signature, c.PublicKey); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		err = _r;
+		return err;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Certificate.ptr.prototype.CheckSignature }; } $f.$ptr = $ptr; $f._r = _r; $f.algo = algo; $f.c = c; $f.err = err; $f.signature = signature; $f.signed = signed; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.prototype.CheckSignature = function(algo, signed, signature) { return this.$val.CheckSignature(algo, signed, signature); };
+	checkSignature = function(algo, signed, signature, publicKey) {
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _ref, _ref$1, _tuple, _tuple$1, algo, digest, dsaSig, ecdsaSig, err, err$1, err$2, h, hashType, pub, pub$1, pub$2, publicKey, rest, rest$1, signature, signed, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _ref = $f._ref; _ref$1 = $f._ref$1; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; algo = $f.algo; digest = $f.digest; dsaSig = $f.dsaSig; ecdsaSig = $f.ecdsaSig; err = $f.err; err$1 = $f.err$1; err$2 = $f.err$2; h = $f.h; hashType = $f.hashType; pub = $f.pub; pub$1 = $f.pub$1; pub$2 = $f.pub$2; publicKey = $f.publicKey; rest = $f.rest; rest$1 = $f.rest$1; signature = $f.signature; signed = $f.signed; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		err = $ifaceNil;
+		hashType = 0;
+		_ref = algo;
+		if (_ref === 3 || _ref === 7 || _ref === 9) {
+			hashType = 3;
+		} else if (_ref === 4 || _ref === 8 || _ref === 10) {
+			hashType = 5;
+		} else if (_ref === 5 || _ref === 11) {
+			hashType = 6;
+		} else if (_ref === 6 || _ref === 12) {
+			hashType = 7;
+		} else {
+			err = $pkg.ErrUnsupportedAlgorithm;
+			return err;
+		}
+		if (!new crypto.Hash(hashType).Available()) {
+			err = $pkg.ErrUnsupportedAlgorithm;
+			return err;
+		}
+		_r = new crypto.Hash(hashType).New(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		h = _r;
+		_r$1 = h.Write(signed); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_r$1;
+		_r$2 = h.Sum(sliceType$4.nil); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		digest = _r$2;
+		_ref$1 = publicKey;
+		/* */ if ($assertType(_ref$1, ptrType$8, true)[1]) { $s = 4; continue; }
+		/* */ if ($assertType(_ref$1, ptrType$10, true)[1]) { $s = 5; continue; }
+		/* */ if ($assertType(_ref$1, ptrType$9, true)[1]) { $s = 6; continue; }
+		/* */ $s = 7; continue;
+		/* if ($assertType(_ref$1, ptrType$8, true)[1]) { */ case 4:
+			pub = _ref$1.$val;
+			err = rsa.VerifyPKCS1v15(pub, hashType, digest, signature);
+			return err;
+			$s = 7; continue;
+		/* } else if ($assertType(_ref$1, ptrType$10, true)[1]) { */ case 5:
+			pub$1 = _ref$1.$val;
+			dsaSig = new dsaSignature.ptr();
+			_r$3 = asn1.Unmarshal(signature, dsaSig); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			_tuple = _r$3; rest = _tuple[0]; err$1 = _tuple[1];
+			/* */ if (!($interfaceIsEqual(err$1, $ifaceNil))) { $s = 9; continue; }
+			/* */ if (!((rest.$length === 0))) { $s = 10; continue; }
+			/* */ $s = 11; continue;
+			/* if (!($interfaceIsEqual(err$1, $ifaceNil))) { */ case 9:
+				err = err$1;
+				return err;
+				$s = 11; continue;
+			/* } else if (!((rest.$length === 0))) { */ case 10:
+				err = errors.New("x509: trailing data after DSA signature");
+				return err;
+			/* } */ case 11:
+			if (dsaSig.R.Sign() <= 0 || dsaSig.S.Sign() <= 0) {
+				err = errors.New("x509: DSA signature contained zero or negative values");
+				return err;
+			}
+			if (!dsa.Verify(pub$1, digest, dsaSig.R, dsaSig.S)) {
+				err = errors.New("x509: DSA verification failure");
+				return err;
+			}
+			return err;
+			$s = 7; continue;
+		/* } else if ($assertType(_ref$1, ptrType$9, true)[1]) { */ case 6:
+			pub$2 = _ref$1.$val;
+			ecdsaSig = new ecdsaSignature.ptr();
+			_r$4 = asn1.Unmarshal(signature, ecdsaSig); /* */ $s = 12; case 12: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			_tuple$1 = _r$4; rest$1 = _tuple$1[0]; err$2 = _tuple$1[1];
+			/* */ if (!($interfaceIsEqual(err$2, $ifaceNil))) { $s = 13; continue; }
+			/* */ if (!((rest$1.$length === 0))) { $s = 14; continue; }
+			/* */ $s = 15; continue;
+			/* if (!($interfaceIsEqual(err$2, $ifaceNil))) { */ case 13:
+				err = err$2;
+				return err;
+				$s = 15; continue;
+			/* } else if (!((rest$1.$length === 0))) { */ case 14:
+				err = errors.New("x509: trailing data after ECDSA signature");
+				return err;
+			/* } */ case 15:
+			if (ecdsaSig.R.Sign() <= 0 || ecdsaSig.S.Sign() <= 0) {
+				err = errors.New("x509: ECDSA signature contained zero or negative values");
+				return err;
+			}
+			_r$5 = ecdsa.Verify(pub$2, digest, ecdsaSig.R, ecdsaSig.S); /* */ $s = 18; case 18: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+			/* */ if (!_r$5) { $s = 16; continue; }
+			/* */ $s = 17; continue;
+			/* if (!_r$5) { */ case 16:
+				err = errors.New("x509: ECDSA verification failure");
+				return err;
+			/* } */ case 17:
+			return err;
+		/* } */ case 7:
+		err = $pkg.ErrUnsupportedAlgorithm;
+		return err;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: checkSignature }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._ref = _ref; $f._ref$1 = _ref$1; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.algo = algo; $f.digest = digest; $f.dsaSig = dsaSig; $f.ecdsaSig = ecdsaSig; $f.err = err; $f.err$1 = err$1; $f.err$2 = err$2; $f.h = h; $f.hashType = hashType; $f.pub = pub; $f.pub$1 = pub$1; $f.pub$2 = pub$2; $f.publicKey = publicKey; $f.rest = rest; $f.rest$1 = rest$1; $f.signature = signature; $f.signed = signed; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.ptr.prototype.CheckCRLSignature = function(crl) {
+		var $ptr, _r, algo, c, crl, err, x, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; algo = $f.algo; c = $f.c; crl = $f.crl; err = $f.err; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		err = $ifaceNil;
+		c = this;
+		algo = getSignatureAlgorithmFromOID(crl.SignatureAlgorithm.Algorithm);
+		_r = c.CheckSignature(algo, (x = crl.TBSCertList.Raw, $subslice(new sliceType$4(x.$array), x.$offset, x.$offset + x.$length)), crl.SignatureValue.RightAlign()); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		err = _r;
+		return err;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Certificate.ptr.prototype.CheckCRLSignature }; } $f.$ptr = $ptr; $f._r = _r; $f.algo = algo; $f.c = c; $f.crl = crl; $f.err = err; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.prototype.CheckCRLSignature = function(crl) { return this.$val.CheckCRLSignature(crl); };
+	UnhandledCriticalExtension.ptr.prototype.Error = function() {
+		var $ptr, h;
+		h = $clone(this, UnhandledCriticalExtension);
+		return "x509: unhandled critical extension";
+	};
+	UnhandledCriticalExtension.prototype.Error = function() { return this.$val.Error(); };
+	parsePublicKey = function(algo, keyData) {
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _ref, _tuple, _tuple$1, _tuple$2, _tuple$3, _tuple$4, algo, asn1Data, err, err$1, err$2, keyData, namedCurve, namedCurveOID, p, p$1, params, paramsData, paramsData$1, pub, pub$1, pub$2, rest, rest$1, rest$2, x, y, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; _tuple$3 = $f._tuple$3; _tuple$4 = $f._tuple$4; algo = $f.algo; asn1Data = $f.asn1Data; err = $f.err; err$1 = $f.err$1; err$2 = $f.err$2; keyData = $f.keyData; namedCurve = $f.namedCurve; namedCurveOID = $f.namedCurveOID; p = $f.p; p$1 = $f.p$1; params = $f.params; paramsData = $f.paramsData; paramsData$1 = $f.paramsData$1; pub = $f.pub; pub$1 = $f.pub$1; pub$2 = $f.pub$2; rest = $f.rest; rest$1 = $f.rest$1; rest$2 = $f.rest$2; x = $f.x; y = $f.y; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		p = [p];
+		asn1Data = keyData.PublicKey.RightAlign();
+		_ref = algo;
+		/* */ if (_ref === 1) { $s = 1; continue; }
+		/* */ if (_ref === 2) { $s = 2; continue; }
+		/* */ if (_ref === 3) { $s = 3; continue; }
+		/* */ $s = 4; continue;
+		/* if (_ref === 1) { */ case 1:
+			p$1 = new rsaPublicKey.ptr();
+			_r = asn1.Unmarshal(asn1Data, p$1); /* */ $s = 6; case 6: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			_tuple = _r; rest = _tuple[0]; err = _tuple[1];
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				return [$ifaceNil, err];
+			}
+			if (!((rest.$length === 0))) {
+				return [$ifaceNil, errors.New("x509: trailing data after RSA public key")];
+			}
+			if (p$1.N.Sign() <= 0) {
+				return [$ifaceNil, errors.New("x509: RSA modulus is not a positive number")];
+			}
+			if (p$1.E <= 0) {
+				return [$ifaceNil, errors.New("x509: RSA public exponent is not a positive number")];
+			}
+			pub = new rsa.PublicKey.ptr(p$1.N, p$1.E);
+			return [pub, $ifaceNil];
+			$s = 5; continue;
+		/* } else if (_ref === 2) { */ case 2:
+			p[0] = ptrType$5.nil;
+			_r$1 = asn1.Unmarshal(asn1Data, (p.$ptr || (p.$ptr = new ptrType$11(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, p)))); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple$1 = _r$1; rest$1 = _tuple$1[0]; err$1 = _tuple$1[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				return [$ifaceNil, err$1];
+			}
+			if (!((rest$1.$length === 0))) {
+				return [$ifaceNil, errors.New("x509: trailing data after DSA public key")];
+			}
+			paramsData = keyData.Algorithm.Parameters.FullBytes;
+			params = new dsaAlgorithmParameters.ptr();
+			_r$2 = asn1.Unmarshal(paramsData, params); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_tuple$2 = _r$2; rest$1 = _tuple$2[0]; err$1 = _tuple$2[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				return [$ifaceNil, err$1];
+			}
+			if (!((rest$1.$length === 0))) {
+				return [$ifaceNil, errors.New("x509: trailing data after DSA parameters")];
+			}
+			if (p[0].Sign() <= 0 || params.P.Sign() <= 0 || params.Q.Sign() <= 0 || params.G.Sign() <= 0) {
+				return [$ifaceNil, errors.New("x509: zero or negative DSA parameter")];
+			}
+			pub$1 = new dsa.PublicKey.ptr(new dsa.Parameters.ptr(params.P, params.Q, params.G), p[0]);
+			return [pub$1, $ifaceNil];
+			$s = 5; continue;
+		/* } else if (_ref === 3) { */ case 3:
+			paramsData$1 = keyData.Algorithm.Parameters.FullBytes;
+			namedCurveOID = $newDataPointer(asn1.ObjectIdentifier.nil, ptrType$6);
+			_r$3 = asn1.Unmarshal(paramsData$1, namedCurveOID); /* */ $s = 9; case 9: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			_tuple$3 = _r$3; rest$2 = _tuple$3[0]; err$2 = _tuple$3[1];
+			if (!($interfaceIsEqual(err$2, $ifaceNil))) {
+				return [$ifaceNil, err$2];
+			}
+			if (!((rest$2.$length === 0))) {
+				return [$ifaceNil, errors.New("x509: trailing data after ECDSA parameters")];
+			}
+			_r$4 = namedCurveFromOID(namedCurveOID.$get()); /* */ $s = 10; case 10: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			namedCurve = _r$4;
+			if ($interfaceIsEqual(namedCurve, $ifaceNil)) {
+				return [$ifaceNil, errors.New("x509: unsupported elliptic curve")];
+			}
+			_r$5 = elliptic.Unmarshal(namedCurve, asn1Data); /* */ $s = 11; case 11: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+			_tuple$4 = _r$5; x = _tuple$4[0]; y = _tuple$4[1];
+			if (x === ptrType$5.nil) {
+				return [$ifaceNil, errors.New("x509: failed to unmarshal elliptic curve point")];
+			}
+			pub$2 = new ecdsa.PublicKey.ptr(namedCurve, x, y);
+			return [pub$2, $ifaceNil];
+			$s = 5; continue;
+		/* } else { */ case 4:
+			return [$ifaceNil, $ifaceNil];
+		/* } */ case 5:
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: parsePublicKey }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f._tuple$3 = _tuple$3; $f._tuple$4 = _tuple$4; $f.algo = algo; $f.asn1Data = asn1Data; $f.err = err; $f.err$1 = err$1; $f.err$2 = err$2; $f.keyData = keyData; $f.namedCurve = namedCurve; $f.namedCurveOID = namedCurveOID; $f.p = p; $f.p$1 = p$1; $f.params = params; $f.paramsData = paramsData; $f.paramsData$1 = paramsData$1; $f.pub = pub; $f.pub$1 = pub$1; $f.pub$2 = pub$2; $f.rest = rest; $f.rest$1 = rest$1; $f.rest$2 = rest$2; $f.x = x; $f.y = y; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	parseSANExtension = function(value) {
+		var $ptr, _r, _r$1, _ref, _ref$1, _tuple, _tuple$1, dnsNames, emailAddresses, err, ipAddresses, rest, seq, v, value, x, x$1, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _ref$1 = $f._ref$1; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; dnsNames = $f.dnsNames; emailAddresses = $f.emailAddresses; err = $f.err; ipAddresses = $f.ipAddresses; rest = $f.rest; seq = $f.seq; v = $f.v; value = $f.value; x = $f.x; x$1 = $f.x$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		seq = [seq];
+		dnsNames = sliceType$1.nil;
+		emailAddresses = sliceType$1.nil;
+		ipAddresses = sliceType$13.nil;
+		err = $ifaceNil;
+		seq[0] = $clone(new asn1.RawValue.ptr(), asn1.RawValue);
+		rest = sliceType$4.nil;
+		_r = asn1.Unmarshal(value, seq[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; rest = _tuple[0]; err = _tuple[1];
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 2; continue; }
+		/* */ if (!((rest.$length === 0))) { $s = 3; continue; }
+		/* */ $s = 4; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 2:
+			return [dnsNames, emailAddresses, ipAddresses, err];
+			$s = 4; continue;
+		/* } else if (!((rest.$length === 0))) { */ case 3:
+			err = errors.New("x509: trailing data after X.509 extension");
+			return [dnsNames, emailAddresses, ipAddresses, err];
+		/* } */ case 4:
+		if (!seq[0].IsCompound || !((seq[0].Tag === 16)) || !((seq[0].Class === 0))) {
+			err = (x = new asn1.StructuralError.ptr("bad SAN sequence"), new x.constructor.elem(x));
+			return [dnsNames, emailAddresses, ipAddresses, err];
+		}
+		rest = seq[0].Bytes;
+		/* while (true) { */ case 5:
+			/* if (!(rest.$length > 0)) { break; } */ if(!(rest.$length > 0)) { $s = 6; continue; }
+			v = [v];
+			v[0] = $clone(new asn1.RawValue.ptr(), asn1.RawValue);
+			_r$1 = asn1.Unmarshal(rest, v[0]); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple$1 = _r$1; rest = _tuple$1[0]; err = _tuple$1[1];
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				return [dnsNames, emailAddresses, ipAddresses, err];
+			}
+			_ref = v[0].Tag;
+			if (_ref === 1) {
+				emailAddresses = $append(emailAddresses, $bytesToString(v[0].Bytes));
+			} else if (_ref === 2) {
+				dnsNames = $append(dnsNames, $bytesToString(v[0].Bytes));
+			} else if (_ref === 7) {
+				_ref$1 = v[0].Bytes.$length;
+				if (_ref$1 === 4 || _ref$1 === 16) {
+					ipAddresses = $append(ipAddresses, (x$1 = v[0].Bytes, $subslice(new net.IP(x$1.$array), x$1.$offset, x$1.$offset + x$1.$length)));
+				} else {
+					err = errors.New("x509: certificate contained IP address of length " + strconv.Itoa(v[0].Bytes.$length));
+					return [dnsNames, emailAddresses, ipAddresses, err];
+				}
+			}
+		/* } */ $s = 5; continue; case 6:
+		return [dnsNames, emailAddresses, ipAddresses, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: parseSANExtension }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._ref$1 = _ref$1; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.dnsNames = dnsNames; $f.emailAddresses = emailAddresses; $f.err = err; $f.ipAddresses = ipAddresses; $f.rest = rest; $f.seq = seq; $f.v = v; $f.value = value; $f.x = x; $f.x$1 = x$1; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	parseCertificate = function(in$1) {
+		var $ptr, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _r, _r$1, _r$10, _r$11, _r$12, _r$13, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, _ref$6, _tmp, _tmp$1, _tuple, _tuple$1, _tuple$10, _tuple$11, _tuple$12, _tuple$13, _tuple$14, _tuple$2, _tuple$3, _tuple$4, _tuple$5, _tuple$6, _tuple$7, _tuple$8, _tuple$9, a, aia, cdp, constraints, constraints$1, dp, e, err, err$1, err$10, err$11, err$12, err$2, err$3, err$4, err$5, err$6, err$7, err$8, err$9, extKeyUsage, i, i$1, in$1, issuer, keyUsage, keyid, n, ok, out, policies, policy, rest, rest$1, rest$10, rest$2, rest$3, rest$4, rest$5, rest$6, rest$7, rest$8, rest$9, subject, subtree, u, unhandled, usage, usageBits, v, x, x$1, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9, y, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _i$3 = $f._i$3; _i$4 = $f._i$4; _i$5 = $f._i$5; _r = $f._r; _r$1 = $f._r$1; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _ref$3 = $f._ref$3; _ref$4 = $f._ref$4; _ref$5 = $f._ref$5; _ref$6 = $f._ref$6; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$10 = $f._tuple$10; _tuple$11 = $f._tuple$11; _tuple$12 = $f._tuple$12; _tuple$13 = $f._tuple$13; _tuple$14 = $f._tuple$14; _tuple$2 = $f._tuple$2; _tuple$3 = $f._tuple$3; _tuple$4 = $f._tuple$4; _tuple$5 = $f._tuple$5; _tuple$6 = $f._tuple$6; _tuple$7 = $f._tuple$7; _tuple$8 = $f._tuple$8; _tuple$9 = $f._tuple$9; a = $f.a; aia = $f.aia; cdp = $f.cdp; constraints = $f.constraints; constraints$1 = $f.constraints$1; dp = $f.dp; e = $f.e; err = $f.err; err$1 = $f.err$1; err$10 = $f.err$10; err$11 = $f.err$11; err$12 = $f.err$12; err$2 = $f.err$2; err$3 = $f.err$3; err$4 = $f.err$4; err$5 = $f.err$5; err$6 = $f.err$6; err$7 = $f.err$7; err$8 = $f.err$8; err$9 = $f.err$9; extKeyUsage = $f.extKeyUsage; i = $f.i; i$1 = $f.i$1; in$1 = $f.in$1; issuer = $f.issuer; keyUsage = $f.keyUsage; keyid = $f.keyid; n = $f.n; ok = $f.ok; out = $f.out; policies = $f.policies; policy = $f.policy; rest = $f.rest; rest$1 = $f.rest$1; rest$10 = $f.rest$10; rest$2 = $f.rest$2; rest$3 = $f.rest$3; rest$4 = $f.rest$4; rest$5 = $f.rest$5; rest$6 = $f.rest$6; rest$7 = $f.rest$7; rest$8 = $f.rest$8; rest$9 = $f.rest$9; subject = $f.subject; subtree = $f.subtree; u = $f.u; unhandled = $f.unhandled; usage = $f.usage; usageBits = $f.usageBits; v = $f.v; x = $f.x; x$1 = $f.x$1; x$2 = $f.x$2; x$3 = $f.x$3; x$4 = $f.x$4; x$5 = $f.x$5; x$6 = $f.x$6; x$7 = $f.x$7; x$8 = $f.x$8; x$9 = $f.x$9; y = $f.y; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		issuer = [issuer];
+		subject = [subject];
+		out = new Certificate.ptr();
+		out.Raw = (x = in$1.Raw, $subslice(new sliceType$4(x.$array), x.$offset, x.$offset + x.$length));
+		out.RawTBSCertificate = (x$1 = in$1.TBSCertificate.Raw, $subslice(new sliceType$4(x$1.$array), x$1.$offset, x$1.$offset + x$1.$length));
+		out.RawSubjectPublicKeyInfo = (x$2 = in$1.TBSCertificate.PublicKey.Raw, $subslice(new sliceType$4(x$2.$array), x$2.$offset, x$2.$offset + x$2.$length));
+		out.RawSubject = in$1.TBSCertificate.Subject.FullBytes;
+		out.RawIssuer = in$1.TBSCertificate.Issuer.FullBytes;
+		out.Signature = in$1.SignatureValue.RightAlign();
+		out.SignatureAlgorithm = getSignatureAlgorithmFromOID(in$1.TBSCertificate.SignatureAlgorithm.Algorithm);
+		out.PublicKeyAlgorithm = getPublicKeyAlgorithmFromOID(in$1.TBSCertificate.PublicKey.Algorithm.Algorithm);
+		err = $ifaceNil;
+		_r = parsePublicKey(out.PublicKeyAlgorithm, in$1.TBSCertificate.PublicKey); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; out.PublicKey = _tuple[0]; err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [ptrType$1.nil, err];
+		}
+		if (in$1.TBSCertificate.SerialNumber.Sign() < 0) {
+			return [ptrType$1.nil, errors.New("x509: negative serial number")];
+		}
+		out.Version = in$1.TBSCertificate.Version + 1 >> 0;
+		out.SerialNumber = in$1.TBSCertificate.SerialNumber;
+		_tmp = pkix.RDNSequence.nil; _tmp$1 = pkix.RDNSequence.nil; issuer[0] = _tmp; subject[0] = _tmp$1;
+		_r$1 = asn1.Unmarshal(in$1.TBSCertificate.Subject.FullBytes, (subject.$ptr || (subject.$ptr = new ptrType$12(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, subject)))); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_tuple$1 = _r$1; rest = _tuple$1[0]; err$1 = _tuple$1[1];
+		/* */ if (!($interfaceIsEqual(err$1, $ifaceNil))) { $s = 3; continue; }
+		/* */ if (!((rest.$length === 0))) { $s = 4; continue; }
+		/* */ $s = 5; continue;
+		/* if (!($interfaceIsEqual(err$1, $ifaceNil))) { */ case 3:
+			return [ptrType$1.nil, err$1];
+			$s = 5; continue;
+		/* } else if (!((rest.$length === 0))) { */ case 4:
+			return [ptrType$1.nil, errors.New("x509: trailing data after X.509 subject")];
+		/* } */ case 5:
+		_r$2 = asn1.Unmarshal(in$1.TBSCertificate.Issuer.FullBytes, (issuer.$ptr || (issuer.$ptr = new ptrType$12(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, issuer)))); /* */ $s = 6; case 6: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		_tuple$2 = _r$2; rest$1 = _tuple$2[0]; err$2 = _tuple$2[1];
+		/* */ if (!($interfaceIsEqual(err$2, $ifaceNil))) { $s = 7; continue; }
+		/* */ if (!((rest$1.$length === 0))) { $s = 8; continue; }
+		/* */ $s = 9; continue;
+		/* if (!($interfaceIsEqual(err$2, $ifaceNil))) { */ case 7:
+			return [ptrType$1.nil, err$2];
+			$s = 9; continue;
+		/* } else if (!((rest$1.$length === 0))) { */ case 8:
+			return [ptrType$1.nil, errors.New("x509: trailing data after X.509 subject")];
+		/* } */ case 9:
+		out.Issuer.FillFromRDNSequence((issuer.$ptr || (issuer.$ptr = new ptrType$12(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, issuer))));
+		out.Subject.FillFromRDNSequence((subject.$ptr || (subject.$ptr = new ptrType$12(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, subject))));
+		$copy(out.NotBefore, in$1.TBSCertificate.Validity.NotBefore, time.Time);
+		$copy(out.NotAfter, in$1.TBSCertificate.Validity.NotAfter, time.Time);
+		_ref = in$1.TBSCertificate.Extensions;
+		_i = 0;
+		/* while (true) { */ case 10:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 11; continue; }
+			a = [a];
+			aia = [aia];
+			cdp = [cdp];
+			constraints = [constraints];
+			constraints$1 = [constraints$1];
+			keyUsage = [keyUsage];
+			keyid = [keyid];
+			policies = [policies];
+			usageBits = [usageBits];
+			e = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), pkix.Extension);
+			out.Extensions = $append(out.Extensions, e);
+			unhandled = false;
+			/* */ if ((e.Id.$length === 4) && ((x$3 = e.Id, (0 >= x$3.$length ? $throwRuntimeError("index out of range") : x$3.$array[x$3.$offset + 0])) === 2) && ((x$4 = e.Id, (1 >= x$4.$length ? $throwRuntimeError("index out of range") : x$4.$array[x$4.$offset + 1])) === 5) && ((x$5 = e.Id, (2 >= x$5.$length ? $throwRuntimeError("index out of range") : x$5.$array[x$5.$offset + 2])) === 29)) { $s = 12; continue; }
+			/* */ if (e.Id.Equal($subslice(new asn1.ObjectIdentifier(oidExtensionAuthorityInfoAccess.$array), oidExtensionAuthorityInfoAccess.$offset, oidExtensionAuthorityInfoAccess.$offset + oidExtensionAuthorityInfoAccess.$length))) { $s = 13; continue; }
+			/* */ $s = 14; continue;
+			/* if ((e.Id.$length === 4) && ((x$3 = e.Id, (0 >= x$3.$length ? $throwRuntimeError("index out of range") : x$3.$array[x$3.$offset + 0])) === 2) && ((x$4 = e.Id, (1 >= x$4.$length ? $throwRuntimeError("index out of range") : x$4.$array[x$4.$offset + 1])) === 5) && ((x$5 = e.Id, (2 >= x$5.$length ? $throwRuntimeError("index out of range") : x$5.$array[x$5.$offset + 2])) === 29)) { */ case 12:
+				_ref$1 = (x$6 = e.Id, (3 >= x$6.$length ? $throwRuntimeError("index out of range") : x$6.$array[x$6.$offset + 3]));
+				/* */ if (_ref$1 === 15) { $s = 16; continue; }
+				/* */ if (_ref$1 === 19) { $s = 17; continue; }
+				/* */ if (_ref$1 === 17) { $s = 18; continue; }
+				/* */ if (_ref$1 === 30) { $s = 19; continue; }
+				/* */ if (_ref$1 === 31) { $s = 20; continue; }
+				/* */ if (_ref$1 === 35) { $s = 21; continue; }
+				/* */ if (_ref$1 === 37) { $s = 22; continue; }
+				/* */ if (_ref$1 === 14) { $s = 23; continue; }
+				/* */ if (_ref$1 === 32) { $s = 24; continue; }
+				/* */ $s = 25; continue;
+				/* if (_ref$1 === 15) { */ case 16:
+					usageBits[0] = $clone(new asn1.BitString.ptr(), asn1.BitString);
+					_r$3 = asn1.Unmarshal(e.Value, usageBits[0]); /* */ $s = 27; case 27: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+					_tuple$3 = _r$3; rest$2 = _tuple$3[0]; err$3 = _tuple$3[1];
+					/* */ if (!($interfaceIsEqual(err$3, $ifaceNil))) { $s = 28; continue; }
+					/* */ if (!((rest$2.$length === 0))) { $s = 29; continue; }
+					/* */ $s = 30; continue;
+					/* if (!($interfaceIsEqual(err$3, $ifaceNil))) { */ case 28:
+						return [ptrType$1.nil, err$3];
+						$s = 30; continue;
+					/* } else if (!((rest$2.$length === 0))) { */ case 29:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 KeyUsage")];
+					/* } */ case 30:
+					usage = 0;
+					i = 0;
+					while (true) {
+						if (!(i < 9)) { break; }
+						if (!((usageBits[0].At(i) === 0))) {
+							usage = usage | (((y = (i >>> 0), y < 32 ? (1 << y) : 0) >> 0));
+						}
+						i = i + (1) >> 0;
+					}
+					out.KeyUsage = (usage >> 0);
+					$s = 26; continue;
+				/* } else if (_ref$1 === 19) { */ case 17:
+					constraints[0] = $clone(new basicConstraints.ptr(), basicConstraints);
+					_r$4 = asn1.Unmarshal(e.Value, constraints[0]); /* */ $s = 31; case 31: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+					_tuple$4 = _r$4; rest$3 = _tuple$4[0]; err$4 = _tuple$4[1];
+					/* */ if (!($interfaceIsEqual(err$4, $ifaceNil))) { $s = 32; continue; }
+					/* */ if (!((rest$3.$length === 0))) { $s = 33; continue; }
+					/* */ $s = 34; continue;
+					/* if (!($interfaceIsEqual(err$4, $ifaceNil))) { */ case 32:
+						return [ptrType$1.nil, err$4];
+						$s = 34; continue;
+					/* } else if (!((rest$3.$length === 0))) { */ case 33:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 BasicConstraints")];
+					/* } */ case 34:
+					out.BasicConstraintsValid = true;
+					out.IsCA = constraints[0].IsCA;
+					out.MaxPathLen = constraints[0].MaxPathLen;
+					out.MaxPathLenZero = out.MaxPathLen === 0;
+					$s = 26; continue;
+				/* } else if (_ref$1 === 17) { */ case 18:
+					_r$5 = parseSANExtension(e.Value); /* */ $s = 35; case 35: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+					_tuple$5 = _r$5; out.DNSNames = _tuple$5[0]; out.EmailAddresses = _tuple$5[1]; out.IPAddresses = _tuple$5[2]; err = _tuple$5[3];
+					if (!($interfaceIsEqual(err, $ifaceNil))) {
+						return [ptrType$1.nil, err];
+					}
+					if ((out.DNSNames.$length === 0) && (out.EmailAddresses.$length === 0) && (out.IPAddresses.$length === 0)) {
+						unhandled = true;
+					}
+					$s = 26; continue;
+				/* } else if (_ref$1 === 30) { */ case 19:
+					constraints$1[0] = $clone(new nameConstraints.ptr(), nameConstraints);
+					_r$6 = asn1.Unmarshal(e.Value, constraints$1[0]); /* */ $s = 36; case 36: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+					_tuple$6 = _r$6; rest$4 = _tuple$6[0]; err$5 = _tuple$6[1];
+					/* */ if (!($interfaceIsEqual(err$5, $ifaceNil))) { $s = 37; continue; }
+					/* */ if (!((rest$4.$length === 0))) { $s = 38; continue; }
+					/* */ $s = 39; continue;
+					/* if (!($interfaceIsEqual(err$5, $ifaceNil))) { */ case 37:
+						return [ptrType$1.nil, err$5];
+						$s = 39; continue;
+					/* } else if (!((rest$4.$length === 0))) { */ case 38:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 NameConstraints")];
+					/* } */ case 39:
+					if (constraints$1[0].Excluded.$length > 0 && e.Critical) {
+						return [out, (x$7 = new UnhandledCriticalExtension.ptr(), new x$7.constructor.elem(x$7))];
+					}
+					_ref$2 = constraints$1[0].Permitted;
+					_i$1 = 0;
+					while (true) {
+						if (!(_i$1 < _ref$2.$length)) { break; }
+						subtree = $clone(((_i$1 < 0 || _i$1 >= _ref$2.$length) ? $throwRuntimeError("index out of range") : _ref$2.$array[_ref$2.$offset + _i$1]), generalSubtree);
+						if (subtree.Name.length === 0) {
+							if (e.Critical) {
+								return [out, (x$8 = new UnhandledCriticalExtension.ptr(), new x$8.constructor.elem(x$8))];
+							}
+							_i$1++;
+							continue;
+						}
+						out.PermittedDNSDomains = $append(out.PermittedDNSDomains, subtree.Name);
+						_i$1++;
+					}
+					$s = 26; continue;
+				/* } else if (_ref$1 === 31) { */ case 20:
+					cdp[0] = sliceType$14.nil;
+					_r$7 = asn1.Unmarshal(e.Value, (cdp.$ptr || (cdp.$ptr = new ptrType$13(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, cdp)))); /* */ $s = 40; case 40: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+					_tuple$7 = _r$7; rest$5 = _tuple$7[0]; err$6 = _tuple$7[1];
+					/* */ if (!($interfaceIsEqual(err$6, $ifaceNil))) { $s = 41; continue; }
+					/* */ if (!((rest$5.$length === 0))) { $s = 42; continue; }
+					/* */ $s = 43; continue;
+					/* if (!($interfaceIsEqual(err$6, $ifaceNil))) { */ case 41:
+						return [ptrType$1.nil, err$6];
+						$s = 43; continue;
+					/* } else if (!((rest$5.$length === 0))) { */ case 42:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 CRL distribution point")];
+					/* } */ case 43:
+					_ref$3 = cdp[0];
+					_i$2 = 0;
+					/* while (true) { */ case 44:
+						/* if (!(_i$2 < _ref$3.$length)) { break; } */ if(!(_i$2 < _ref$3.$length)) { $s = 45; continue; }
+						n = [n];
+						dp = $clone(((_i$2 < 0 || _i$2 >= _ref$3.$length) ? $throwRuntimeError("index out of range") : _ref$3.$array[_ref$3.$offset + _i$2]), distributionPoint);
+						n[0] = $clone(new asn1.RawValue.ptr(), asn1.RawValue);
+						_r$8 = asn1.Unmarshal(dp.DistributionPoint.FullName.Bytes, n[0]); /* */ $s = 46; case 46: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+						_tuple$8 = _r$8; err$7 = _tuple$8[1];
+						/* */ if (!($interfaceIsEqual(err$7, $ifaceNil))) { $s = 47; continue; }
+						/* */ $s = 48; continue;
+						/* if (!($interfaceIsEqual(err$7, $ifaceNil))) { */ case 47:
+							return [ptrType$1.nil, err$7];
+						/* } */ case 48:
+						if (n[0].Tag === 6) {
+							out.CRLDistributionPoints = $append(out.CRLDistributionPoints, $bytesToString(n[0].Bytes));
+						}
+						_i$2++;
+					/* } */ $s = 44; continue; case 45:
+					$s = 26; continue;
+				/* } else if (_ref$1 === 35) { */ case 21:
+					a[0] = $clone(new authKeyId.ptr(), authKeyId);
+					_r$9 = asn1.Unmarshal(e.Value, a[0]); /* */ $s = 49; case 49: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+					_tuple$9 = _r$9; rest$6 = _tuple$9[0]; err$8 = _tuple$9[1];
+					/* */ if (!($interfaceIsEqual(err$8, $ifaceNil))) { $s = 50; continue; }
+					/* */ if (!((rest$6.$length === 0))) { $s = 51; continue; }
+					/* */ $s = 52; continue;
+					/* if (!($interfaceIsEqual(err$8, $ifaceNil))) { */ case 50:
+						return [ptrType$1.nil, err$8];
+						$s = 52; continue;
+					/* } else if (!((rest$6.$length === 0))) { */ case 51:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 authority key-id")];
+					/* } */ case 52:
+					out.AuthorityKeyId = a[0].Id;
+					$s = 26; continue;
+				/* } else if (_ref$1 === 37) { */ case 22:
+					keyUsage[0] = sliceType$15.nil;
+					_r$10 = asn1.Unmarshal(e.Value, (keyUsage.$ptr || (keyUsage.$ptr = new ptrType$14(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, keyUsage)))); /* */ $s = 53; case 53: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
+					_tuple$10 = _r$10; rest$7 = _tuple$10[0]; err$9 = _tuple$10[1];
+					/* */ if (!($interfaceIsEqual(err$9, $ifaceNil))) { $s = 54; continue; }
+					/* */ if (!((rest$7.$length === 0))) { $s = 55; continue; }
+					/* */ $s = 56; continue;
+					/* if (!($interfaceIsEqual(err$9, $ifaceNil))) { */ case 54:
+						return [ptrType$1.nil, err$9];
+						$s = 56; continue;
+					/* } else if (!((rest$7.$length === 0))) { */ case 55:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 ExtendedKeyUsage")];
+					/* } */ case 56:
+					_ref$4 = keyUsage[0];
+					_i$3 = 0;
+					while (true) {
+						if (!(_i$3 < _ref$4.$length)) { break; }
+						u = ((_i$3 < 0 || _i$3 >= _ref$4.$length) ? $throwRuntimeError("index out of range") : _ref$4.$array[_ref$4.$offset + _i$3]);
+						_tuple$11 = extKeyUsageFromOID(u); extKeyUsage = _tuple$11[0]; ok = _tuple$11[1];
+						if (ok) {
+							out.ExtKeyUsage = $append(out.ExtKeyUsage, extKeyUsage);
+						} else {
+							out.UnknownExtKeyUsage = $append(out.UnknownExtKeyUsage, u);
+						}
+						_i$3++;
+					}
+					$s = 26; continue;
+				/* } else if (_ref$1 === 14) { */ case 23:
+					keyid[0] = sliceType$4.nil;
+					_r$11 = asn1.Unmarshal(e.Value, (keyid.$ptr || (keyid.$ptr = new ptrType$15(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, keyid)))); /* */ $s = 57; case 57: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+					_tuple$12 = _r$11; rest$8 = _tuple$12[0]; err$10 = _tuple$12[1];
+					/* */ if (!($interfaceIsEqual(err$10, $ifaceNil))) { $s = 58; continue; }
+					/* */ if (!((rest$8.$length === 0))) { $s = 59; continue; }
+					/* */ $s = 60; continue;
+					/* if (!($interfaceIsEqual(err$10, $ifaceNil))) { */ case 58:
+						return [ptrType$1.nil, err$10];
+						$s = 60; continue;
+					/* } else if (!((rest$8.$length === 0))) { */ case 59:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 authority key-id")];
+					/* } */ case 60:
+					out.SubjectKeyId = keyid[0];
+					$s = 26; continue;
+				/* } else if (_ref$1 === 32) { */ case 24:
+					policies[0] = sliceType$16.nil;
+					_r$12 = asn1.Unmarshal(e.Value, (policies.$ptr || (policies.$ptr = new ptrType$16(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, policies)))); /* */ $s = 61; case 61: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
+					_tuple$13 = _r$12; rest$9 = _tuple$13[0]; err$11 = _tuple$13[1];
+					/* */ if (!($interfaceIsEqual(err$11, $ifaceNil))) { $s = 62; continue; }
+					/* */ if (!((rest$9.$length === 0))) { $s = 63; continue; }
+					/* */ $s = 64; continue;
+					/* if (!($interfaceIsEqual(err$11, $ifaceNil))) { */ case 62:
+						return [ptrType$1.nil, err$11];
+						$s = 64; continue;
+					/* } else if (!((rest$9.$length === 0))) { */ case 63:
+						return [ptrType$1.nil, errors.New("x509: trailing data after X.509 certificate policies")];
+					/* } */ case 64:
+					out.PolicyIdentifiers = $makeSlice(sliceType$15, policies[0].$length);
+					_ref$5 = policies[0];
+					_i$4 = 0;
+					while (true) {
+						if (!(_i$4 < _ref$5.$length)) { break; }
+						i$1 = _i$4;
+						policy = $clone(((_i$4 < 0 || _i$4 >= _ref$5.$length) ? $throwRuntimeError("index out of range") : _ref$5.$array[_ref$5.$offset + _i$4]), policyInformation);
+						(x$9 = out.PolicyIdentifiers, ((i$1 < 0 || i$1 >= x$9.$length) ? $throwRuntimeError("index out of range") : x$9.$array[x$9.$offset + i$1] = policy.Policy));
+						_i$4++;
+					}
+					$s = 26; continue;
+				/* } else { */ case 25:
+					unhandled = true;
+				/* } */ case 26:
+				$s = 15; continue;
+			/* } else if (e.Id.Equal($subslice(new asn1.ObjectIdentifier(oidExtensionAuthorityInfoAccess.$array), oidExtensionAuthorityInfoAccess.$offset, oidExtensionAuthorityInfoAccess.$offset + oidExtensionAuthorityInfoAccess.$length))) { */ case 13:
+				aia[0] = sliceType$17.nil;
+				_r$13 = asn1.Unmarshal(e.Value, (aia.$ptr || (aia.$ptr = new ptrType$17(function() { return this.$target[0]; }, function($v) { this.$target[0] = $v; }, aia)))); /* */ $s = 65; case 65: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
+				_tuple$14 = _r$13; rest$10 = _tuple$14[0]; err$12 = _tuple$14[1];
+				/* */ if (!($interfaceIsEqual(err$12, $ifaceNil))) { $s = 66; continue; }
+				/* */ if (!((rest$10.$length === 0))) { $s = 67; continue; }
+				/* */ $s = 68; continue;
+				/* if (!($interfaceIsEqual(err$12, $ifaceNil))) { */ case 66:
+					return [ptrType$1.nil, err$12];
+					$s = 68; continue;
+				/* } else if (!((rest$10.$length === 0))) { */ case 67:
+					return [ptrType$1.nil, errors.New("x509: trailing data after X.509 authority information")];
+				/* } */ case 68:
+				_ref$6 = aia[0];
+				_i$5 = 0;
+				while (true) {
+					if (!(_i$5 < _ref$6.$length)) { break; }
+					v = $clone(((_i$5 < 0 || _i$5 >= _ref$6.$length) ? $throwRuntimeError("index out of range") : _ref$6.$array[_ref$6.$offset + _i$5]), authorityInfoAccess);
+					if (!((v.Location.Tag === 6))) {
+						_i$5++;
+						continue;
+					}
+					if (v.Method.Equal(oidAuthorityInfoAccessOcsp)) {
+						out.OCSPServer = $append(out.OCSPServer, $bytesToString(v.Location.Bytes));
+					} else if (v.Method.Equal(oidAuthorityInfoAccessIssuers)) {
+						out.IssuingCertificateURL = $append(out.IssuingCertificateURL, $bytesToString(v.Location.Bytes));
+					}
+					_i$5++;
+				}
+				$s = 15; continue;
+			/* } else { */ case 14:
+				unhandled = true;
+			/* } */ case 15:
+			if (e.Critical && unhandled) {
+				out.UnhandledCriticalExtensions = $append(out.UnhandledCriticalExtensions, e.Id);
+			}
+			_i++;
+		/* } */ $s = 10; continue; case 11:
+		return [out, $ifaceNil];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: parseCertificate }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._i$3 = _i$3; $f._i$4 = _i$4; $f._i$5 = _i$5; $f._r = _r; $f._r$1 = _r$1; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._ref$3 = _ref$3; $f._ref$4 = _ref$4; $f._ref$5 = _ref$5; $f._ref$6 = _ref$6; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$10 = _tuple$10; $f._tuple$11 = _tuple$11; $f._tuple$12 = _tuple$12; $f._tuple$13 = _tuple$13; $f._tuple$14 = _tuple$14; $f._tuple$2 = _tuple$2; $f._tuple$3 = _tuple$3; $f._tuple$4 = _tuple$4; $f._tuple$5 = _tuple$5; $f._tuple$6 = _tuple$6; $f._tuple$7 = _tuple$7; $f._tuple$8 = _tuple$8; $f._tuple$9 = _tuple$9; $f.a = a; $f.aia = aia; $f.cdp = cdp; $f.constraints = constraints; $f.constraints$1 = constraints$1; $f.dp = dp; $f.e = e; $f.err = err; $f.err$1 = err$1; $f.err$10 = err$10; $f.err$11 = err$11; $f.err$12 = err$12; $f.err$2 = err$2; $f.err$3 = err$3; $f.err$4 = err$4; $f.err$5 = err$5; $f.err$6 = err$6; $f.err$7 = err$7; $f.err$8 = err$8; $f.err$9 = err$9; $f.extKeyUsage = extKeyUsage; $f.i = i; $f.i$1 = i$1; $f.in$1 = in$1; $f.issuer = issuer; $f.keyUsage = keyUsage; $f.keyid = keyid; $f.n = n; $f.ok = ok; $f.out = out; $f.policies = policies; $f.policy = policy; $f.rest = rest; $f.rest$1 = rest$1; $f.rest$10 = rest$10; $f.rest$2 = rest$2; $f.rest$3 = rest$3; $f.rest$4 = rest$4; $f.rest$5 = rest$5; $f.rest$6 = rest$6; $f.rest$7 = rest$7; $f.rest$8 = rest$8; $f.rest$9 = rest$9; $f.subject = subject; $f.subtree = subtree; $f.u = u; $f.unhandled = unhandled; $f.usage = usage; $f.usageBits = usageBits; $f.v = v; $f.x = x; $f.x$1 = x$1; $f.x$2 = x$2; $f.x$3 = x$3; $f.x$4 = x$4; $f.x$5 = x$5; $f.x$6 = x$6; $f.x$7 = x$7; $f.x$8 = x$8; $f.x$9 = x$9; $f.y = y; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	ParseCertificate = function(asn1Data) {
+		var $ptr, _r, _r$1, _tuple, asn1Data, cert, err, rest, x, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _tuple = $f._tuple; asn1Data = $f.asn1Data; cert = $f.cert; err = $f.err; rest = $f.rest; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		cert = [cert];
+		cert[0] = $clone(new certificate.ptr(), certificate);
+		_r = asn1.Unmarshal(asn1Data, cert[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; rest = _tuple[0]; err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [ptrType$1.nil, err];
+		}
+		if (rest.$length > 0) {
+			return [ptrType$1.nil, (x = new asn1.SyntaxError.ptr("trailing data"), new x.constructor.elem(x))];
+		}
+		_r$1 = parseCertificate(cert[0]); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		return _r$1;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ParseCertificate }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f.asn1Data = asn1Data; $f.cert = cert; $f.err = err; $f.rest = rest; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.ParseCertificate = ParseCertificate;
+	signingParamsForPublicKey = function(pub, requestedSigAlgo) {
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _ref, _ref$1, _ref$2, _tmp, _tmp$1, details, err, found, hashFunc, pub, pub$1, pub$2, pub$3, pubType, requestedSigAlgo, sigAlgo, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; details = $f.details; err = $f.err; found = $f.found; hashFunc = $f.hashFunc; pub = $f.pub; pub$1 = $f.pub$1; pub$2 = $f.pub$2; pub$3 = $f.pub$3; pubType = $f.pubType; requestedSigAlgo = $f.requestedSigAlgo; sigAlgo = $f.sigAlgo; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		hashFunc = 0;
+		sigAlgo = new pkix.AlgorithmIdentifier.ptr();
+		err = $ifaceNil;
+		pubType = 0;
+		_ref = pub;
+		/* */ if ($assertType(_ref, ptrType$8, true)[1]) { $s = 1; continue; }
+		/* */ if ($assertType(_ref, ptrType$9, true)[1]) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if ($assertType(_ref, ptrType$8, true)[1]) { */ case 1:
+			pub$1 = _ref.$val;
+			pubType = 1;
+			hashFunc = 5;
+			sigAlgo.Algorithm = oidSignatureSHA256WithRSA;
+			$copy(sigAlgo.Parameters, new asn1.RawValue.ptr(0, 5, false, sliceType$4.nil, sliceType$4.nil), asn1.RawValue);
+			$s = 4; continue;
+		/* } else if ($assertType(_ref, ptrType$9, true)[1]) { */ case 2:
+			pub$2 = _ref.$val;
+			pubType = 3;
+			_ref$1 = pub$2.Curve;
+			_r = elliptic.P224(); /* */ $s = 10; case 10: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			_r$1 = elliptic.P256(); /* */ $s = 11; case 11: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			/* */ if ($interfaceIsEqual(_ref$1, _r) || $interfaceIsEqual(_ref$1, _r$1)) { $s = 5; continue; }
+			_r$2 = elliptic.P384(); /* */ $s = 12; case 12: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			/* */ if ($interfaceIsEqual(_ref$1, _r$2)) { $s = 6; continue; }
+			_r$3 = elliptic.P521(); /* */ $s = 13; case 13: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			/* */ if ($interfaceIsEqual(_ref$1, _r$3)) { $s = 7; continue; }
+			/* */ $s = 8; continue;
+			/* if ($interfaceIsEqual(_ref$1, _r) || $interfaceIsEqual(_ref$1, _r$1)) { */ case 5:
+				hashFunc = 5;
+				sigAlgo.Algorithm = oidSignatureECDSAWithSHA256;
+				$s = 9; continue;
+			/* } else if ($interfaceIsEqual(_ref$1, _r$2)) { */ case 6:
+				hashFunc = 6;
+				sigAlgo.Algorithm = oidSignatureECDSAWithSHA384;
+				$s = 9; continue;
+			/* } else if ($interfaceIsEqual(_ref$1, _r$3)) { */ case 7:
+				hashFunc = 7;
+				sigAlgo.Algorithm = oidSignatureECDSAWithSHA512;
+				$s = 9; continue;
+			/* } else { */ case 8:
+				err = errors.New("x509: unknown elliptic curve");
+			/* } */ case 9:
+			$s = 4; continue;
+		/* } else { */ case 3:
+			pub$3 = _ref;
+			err = errors.New("x509: only RSA and ECDSA keys supported");
+		/* } */ case 4:
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [hashFunc, sigAlgo, err];
+		}
+		if (requestedSigAlgo === 0) {
+			return [hashFunc, sigAlgo, err];
+		}
+		found = false;
+		_ref$2 = signatureAlgorithmDetails;
+		_i = 0;
+		while (true) {
+			if (!(_i < _ref$2.$length)) { break; }
+			details = $clone(((_i < 0 || _i >= _ref$2.$length) ? $throwRuntimeError("index out of range") : _ref$2.$array[_ref$2.$offset + _i]), structType);
+			if (details.algo === requestedSigAlgo) {
+				if (!((details.pubKeyAlgo === pubType))) {
+					err = errors.New("x509: requested SignatureAlgorithm does not match private key type");
+					return [hashFunc, sigAlgo, err];
+				}
+				_tmp = details.oid; _tmp$1 = details.hash; sigAlgo.Algorithm = _tmp; hashFunc = _tmp$1;
+				if (hashFunc === 0) {
+					err = errors.New("x509: cannot sign with hash function requested");
+					return [hashFunc, sigAlgo, err];
+				}
+				found = true;
+				break;
+			}
+			_i++;
+		}
+		if (!found) {
+			err = errors.New("x509: unknown SignatureAlgorithm");
+		}
+		return [hashFunc, sigAlgo, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: signingParamsForPublicKey }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f.details = details; $f.err = err; $f.found = found; $f.hashFunc = hashFunc; $f.pub = pub; $f.pub$1 = pub$1; $f.pub$2 = pub$2; $f.pub$3 = pub$3; $f.pubType = pubType; $f.requestedSigAlgo = requestedSigAlgo; $f.sigAlgo = sigAlgo; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.ptr.prototype.CreateCRL = function(rand, priv, revokedCerts, now, expiry) {
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _tmp, _tmp$1, _tmp$2, _tmp$3, _tuple, _tuple$1, _tuple$2, _tuple$3, _tuple$4, _tuple$5, aki, c, crlBytes, digest, err, expiry, h, hashFunc, key, now, ok, priv, rand, revokedCerts, signature, signatureAlgorithm, tbsCertList, tbsCertListContents, x, x$1, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; _tuple$3 = $f._tuple$3; _tuple$4 = $f._tuple$4; _tuple$5 = $f._tuple$5; aki = $f.aki; c = $f.c; crlBytes = $f.crlBytes; digest = $f.digest; err = $f.err; expiry = $f.expiry; h = $f.h; hashFunc = $f.hashFunc; key = $f.key; now = $f.now; ok = $f.ok; priv = $f.priv; rand = $f.rand; revokedCerts = $f.revokedCerts; signature = $f.signature; signatureAlgorithm = $f.signatureAlgorithm; tbsCertList = $f.tbsCertList; tbsCertListContents = $f.tbsCertListContents; x = $f.x; x$1 = $f.x$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		crlBytes = sliceType$4.nil;
+		err = $ifaceNil;
+		expiry = $clone(expiry, time.Time);
+		now = $clone(now, time.Time);
+		c = this;
+		_tuple = $assertType(priv, crypto.Signer, true); key = _tuple[0]; ok = _tuple[1];
+		if (!ok) {
+			_tmp = sliceType$4.nil; _tmp$1 = errors.New("x509: certificate private key does not implement crypto.Signer"); crlBytes = _tmp; err = _tmp$1;
+			return [crlBytes, err];
+		}
+		_r = key.Public(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r$1 = signingParamsForPublicKey(_r, 0); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_tuple$1 = _r$1; hashFunc = _tuple$1[0]; signatureAlgorithm = $clone(_tuple$1[1], pkix.AlgorithmIdentifier); err = _tuple$1[2];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			_tmp$2 = sliceType$4.nil; _tmp$3 = err; crlBytes = _tmp$2; err = _tmp$3;
+			return [crlBytes, err];
+		}
+		tbsCertList = new pkix.TBSCertificateList.ptr(asn1.RawContent.nil, 1, $clone(signatureAlgorithm, pkix.AlgorithmIdentifier), c.Subject.ToRDNSequence(), $clone(now.UTC(), time.Time), $clone(expiry.UTC(), time.Time), revokedCerts, sliceType$20.nil);
+		/* */ if (c.SubjectKeyId.$length > 0) { $s = 3; continue; }
+		/* */ $s = 4; continue;
+		/* if (c.SubjectKeyId.$length > 0) { */ case 3:
+			aki = $clone(new pkix.Extension.ptr(), pkix.Extension);
+			aki.Id = $subslice(new asn1.ObjectIdentifier(oidExtensionAuthorityKeyId.$array), oidExtensionAuthorityKeyId.$offset, oidExtensionAuthorityKeyId.$offset + oidExtensionAuthorityKeyId.$length);
+			_r$2 = asn1.Marshal((x = new authKeyId.ptr(c.SubjectKeyId), new x.constructor.elem(x))); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_tuple$2 = _r$2; aki.Value = _tuple$2[0]; err = _tuple$2[1];
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				return [crlBytes, err];
+			}
+			tbsCertList.Extensions = $append(tbsCertList.Extensions, aki);
+		/* } */ case 4:
+		_r$3 = asn1.Marshal(new tbsCertList.constructor.elem(tbsCertList)); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+		_tuple$3 = _r$3; tbsCertListContents = _tuple$3[0]; err = _tuple$3[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [crlBytes, err];
+		}
+		_r$4 = new crypto.Hash(hashFunc).New(); /* */ $s = 7; case 7: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		h = _r$4;
+		_r$5 = h.Write(tbsCertListContents); /* */ $s = 8; case 8: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+		_r$5;
+		_r$6 = h.Sum(sliceType$4.nil); /* */ $s = 9; case 9: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+		digest = _r$6;
+		signature = sliceType$4.nil;
+		_r$7 = key.Sign(rand, digest, new crypto.Hash(hashFunc)); /* */ $s = 10; case 10: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+		_tuple$4 = _r$7; signature = _tuple$4[0]; err = _tuple$4[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [crlBytes, err];
+		}
+		_r$8 = asn1.Marshal((x$1 = new pkix.CertificateList.ptr($clone(tbsCertList, pkix.TBSCertificateList), $clone(signatureAlgorithm, pkix.AlgorithmIdentifier), new asn1.BitString.ptr(signature, signature.$length * 8 >> 0)), new x$1.constructor.elem(x$1))); /* */ $s = 11; case 11: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+		_tuple$5 = _r$8; crlBytes = _tuple$5[0]; err = _tuple$5[1];
+		return [crlBytes, err];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: Certificate.ptr.prototype.CreateCRL }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f._tuple$3 = _tuple$3; $f._tuple$4 = _tuple$4; $f._tuple$5 = _tuple$5; $f.aki = aki; $f.c = c; $f.crlBytes = crlBytes; $f.digest = digest; $f.err = err; $f.expiry = expiry; $f.h = h; $f.hashFunc = hashFunc; $f.key = key; $f.now = now; $f.ok = ok; $f.priv = priv; $f.rand = rand; $f.revokedCerts = revokedCerts; $f.signature = signature; $f.signatureAlgorithm = signatureAlgorithm; $f.tbsCertList = tbsCertList; $f.tbsCertListContents = tbsCertListContents; $f.x = x; $f.x$1 = x$1; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Certificate.prototype.CreateCRL = function(rand, priv, revokedCerts, now, expiry) { return this.$val.CreateCRL(rand, priv, revokedCerts, now, expiry); };
+	ptrType.methods = [{prop: "findVerifiedParents", name: "findVerifiedParents", pkg: "crypto/x509", typ: $funcType([ptrType$1], [sliceType$5, ptrType$1, $error], false)}, {prop: "AddCert", name: "AddCert", pkg: "", typ: $funcType([ptrType$1], [], false)}, {prop: "AppendCertsFromPEM", name: "AppendCertsFromPEM", pkg: "", typ: $funcType([sliceType$4], [$Bool], false)}, {prop: "Subjects", name: "Subjects", pkg: "", typ: $funcType([], [sliceType$7], false)}];
+	CertificateInvalidError.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
+	HostnameError.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
+	UnknownAuthorityError.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
+	SystemRootsError.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
+	ptrType$1.methods = [{prop: "systemVerify", name: "systemVerify", pkg: "crypto/x509", typ: $funcType([ptrType$22], [sliceType$11, $error], false)}, {prop: "isValid", name: "isValid", pkg: "crypto/x509", typ: $funcType([$Int, sliceType$6, ptrType$22], [$error], false)}, {prop: "Verify", name: "Verify", pkg: "", typ: $funcType([VerifyOptions], [sliceType$11, $error], false)}, {prop: "buildChains", name: "buildChains", pkg: "crypto/x509", typ: $funcType([mapType$1, sliceType$6, ptrType$22], [sliceType$11, $error], false)}, {prop: "VerifyHostname", name: "VerifyHostname", pkg: "", typ: $funcType([$String], [$error], false)}, {prop: "Equal", name: "Equal", pkg: "", typ: $funcType([ptrType$1], [$Bool], false)}, {prop: "CheckSignatureFrom", name: "CheckSignatureFrom", pkg: "", typ: $funcType([ptrType$1], [$error], false)}, {prop: "CheckSignature", name: "CheckSignature", pkg: "", typ: $funcType([SignatureAlgorithm, sliceType$4, sliceType$4], [$error], false)}, {prop: "CheckCRLSignature", name: "CheckCRLSignature", pkg: "", typ: $funcType([ptrType$19], [$error], false)}, {prop: "CreateCRL", name: "CreateCRL", pkg: "", typ: $funcType([io.Reader, $emptyInterface, sliceType$22, time.Time, time.Time], [sliceType$4, $error], false)}];
+	ConstraintViolationError.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
+	UnhandledCriticalExtension.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}];
+	CertPool.init([{prop: "bySubjectKeyId", name: "bySubjectKeyId", pkg: "crypto/x509", typ: mapType, tag: ""}, {prop: "byName", name: "byName", pkg: "crypto/x509", typ: mapType, tag: ""}, {prop: "certs", name: "certs", pkg: "crypto/x509", typ: sliceType$6, tag: ""}]);
+	rsaPublicKey.init([{prop: "N", name: "N", pkg: "", typ: ptrType$5, tag: ""}, {prop: "E", name: "E", pkg: "", typ: $Int, tag: ""}]);
+	CertificateInvalidError.init([{prop: "Cert", name: "Cert", pkg: "", typ: ptrType$1, tag: ""}, {prop: "Reason", name: "Reason", pkg: "", typ: InvalidReason, tag: ""}]);
+	HostnameError.init([{prop: "Certificate", name: "Certificate", pkg: "", typ: ptrType$1, tag: ""}, {prop: "Host", name: "Host", pkg: "", typ: $String, tag: ""}]);
+	UnknownAuthorityError.init([{prop: "cert", name: "cert", pkg: "crypto/x509", typ: ptrType$1, tag: ""}, {prop: "hintErr", name: "hintErr", pkg: "crypto/x509", typ: $error, tag: ""}, {prop: "hintCert", name: "hintCert", pkg: "crypto/x509", typ: ptrType$1, tag: ""}]);
+	SystemRootsError.init([]);
+	VerifyOptions.init([{prop: "DNSName", name: "DNSName", pkg: "", typ: $String, tag: ""}, {prop: "Intermediates", name: "Intermediates", pkg: "", typ: ptrType, tag: ""}, {prop: "Roots", name: "Roots", pkg: "", typ: ptrType, tag: ""}, {prop: "CurrentTime", name: "CurrentTime", pkg: "", typ: time.Time, tag: ""}, {prop: "KeyUsages", name: "KeyUsages", pkg: "", typ: sliceType$12, tag: ""}]);
+	certificate.init([{prop: "Raw", name: "Raw", pkg: "", typ: asn1.RawContent, tag: ""}, {prop: "TBSCertificate", name: "TBSCertificate", pkg: "", typ: tbsCertificate, tag: ""}, {prop: "SignatureAlgorithm", name: "SignatureAlgorithm", pkg: "", typ: pkix.AlgorithmIdentifier, tag: ""}, {prop: "SignatureValue", name: "SignatureValue", pkg: "", typ: asn1.BitString, tag: ""}]);
+	tbsCertificate.init([{prop: "Raw", name: "Raw", pkg: "", typ: asn1.RawContent, tag: ""}, {prop: "Version", name: "Version", pkg: "", typ: $Int, tag: "asn1:\"optional,explicit,default:1,tag:0\""}, {prop: "SerialNumber", name: "SerialNumber", pkg: "", typ: ptrType$5, tag: ""}, {prop: "SignatureAlgorithm", name: "SignatureAlgorithm", pkg: "", typ: pkix.AlgorithmIdentifier, tag: ""}, {prop: "Issuer", name: "Issuer", pkg: "", typ: asn1.RawValue, tag: ""}, {prop: "Validity", name: "Validity", pkg: "", typ: validity, tag: ""}, {prop: "Subject", name: "Subject", pkg: "", typ: asn1.RawValue, tag: ""}, {prop: "PublicKey", name: "PublicKey", pkg: "", typ: publicKeyInfo, tag: ""}, {prop: "UniqueId", name: "UniqueId", pkg: "", typ: asn1.BitString, tag: "asn1:\"optional,tag:1\""}, {prop: "SubjectUniqueId", name: "SubjectUniqueId", pkg: "", typ: asn1.BitString, tag: "asn1:\"optional,tag:2\""}, {prop: "Extensions", name: "Extensions", pkg: "", typ: sliceType$20, tag: "asn1:\"optional,explicit,tag:3\""}]);
+	dsaAlgorithmParameters.init([{prop: "P", name: "P", pkg: "", typ: ptrType$5, tag: ""}, {prop: "Q", name: "Q", pkg: "", typ: ptrType$5, tag: ""}, {prop: "G", name: "G", pkg: "", typ: ptrType$5, tag: ""}]);
+	dsaSignature.init([{prop: "R", name: "R", pkg: "", typ: ptrType$5, tag: ""}, {prop: "S", name: "S", pkg: "", typ: ptrType$5, tag: ""}]);
+	ecdsaSignature.init([{prop: "R", name: "R", pkg: "", typ: ptrType$5, tag: ""}, {prop: "S", name: "S", pkg: "", typ: ptrType$5, tag: ""}]);
+	validity.init([{prop: "NotBefore", name: "NotBefore", pkg: "", typ: time.Time, tag: ""}, {prop: "NotAfter", name: "NotAfter", pkg: "", typ: time.Time, tag: ""}]);
+	publicKeyInfo.init([{prop: "Raw", name: "Raw", pkg: "", typ: asn1.RawContent, tag: ""}, {prop: "Algorithm", name: "Algorithm", pkg: "", typ: pkix.AlgorithmIdentifier, tag: ""}, {prop: "PublicKey", name: "PublicKey", pkg: "", typ: asn1.BitString, tag: ""}]);
+	authKeyId.init([{prop: "Id", name: "Id", pkg: "", typ: sliceType$4, tag: "asn1:\"optional,tag:0\""}]);
+	Certificate.init([{prop: "Raw", name: "Raw", pkg: "", typ: sliceType$4, tag: ""}, {prop: "RawTBSCertificate", name: "RawTBSCertificate", pkg: "", typ: sliceType$4, tag: ""}, {prop: "RawSubjectPublicKeyInfo", name: "RawSubjectPublicKeyInfo", pkg: "", typ: sliceType$4, tag: ""}, {prop: "RawSubject", name: "RawSubject", pkg: "", typ: sliceType$4, tag: ""}, {prop: "RawIssuer", name: "RawIssuer", pkg: "", typ: sliceType$4, tag: ""}, {prop: "Signature", name: "Signature", pkg: "", typ: sliceType$4, tag: ""}, {prop: "SignatureAlgorithm", name: "SignatureAlgorithm", pkg: "", typ: SignatureAlgorithm, tag: ""}, {prop: "PublicKeyAlgorithm", name: "PublicKeyAlgorithm", pkg: "", typ: PublicKeyAlgorithm, tag: ""}, {prop: "PublicKey", name: "PublicKey", pkg: "", typ: $emptyInterface, tag: ""}, {prop: "Version", name: "Version", pkg: "", typ: $Int, tag: ""}, {prop: "SerialNumber", name: "SerialNumber", pkg: "", typ: ptrType$5, tag: ""}, {prop: "Issuer", name: "Issuer", pkg: "", typ: pkix.Name, tag: ""}, {prop: "Subject", name: "Subject", pkg: "", typ: pkix.Name, tag: ""}, {prop: "NotBefore", name: "NotBefore", pkg: "", typ: time.Time, tag: ""}, {prop: "NotAfter", name: "NotAfter", pkg: "", typ: time.Time, tag: ""}, {prop: "KeyUsage", name: "KeyUsage", pkg: "", typ: KeyUsage, tag: ""}, {prop: "Extensions", name: "Extensions", pkg: "", typ: sliceType$20, tag: ""}, {prop: "ExtraExtensions", name: "ExtraExtensions", pkg: "", typ: sliceType$20, tag: ""}, {prop: "UnhandledCriticalExtensions", name: "UnhandledCriticalExtensions", pkg: "", typ: sliceType$15, tag: ""}, {prop: "ExtKeyUsage", name: "ExtKeyUsage", pkg: "", typ: sliceType$12, tag: ""}, {prop: "UnknownExtKeyUsage", name: "UnknownExtKeyUsage", pkg: "", typ: sliceType$15, tag: ""}, {prop: "BasicConstraintsValid", name: "BasicConstraintsValid", pkg: "", typ: $Bool, tag: ""}, {prop: "IsCA", name: "IsCA", pkg: "", typ: $Bool, tag: ""}, {prop: "MaxPathLen", name: "MaxPathLen", pkg: "", typ: $Int, tag: ""}, {prop: "MaxPathLenZero", name: "MaxPathLenZero", pkg: "", typ: $Bool, tag: ""}, {prop: "SubjectKeyId", name: "SubjectKeyId", pkg: "", typ: sliceType$4, tag: ""}, {prop: "AuthorityKeyId", name: "AuthorityKeyId", pkg: "", typ: sliceType$4, tag: ""}, {prop: "OCSPServer", name: "OCSPServer", pkg: "", typ: sliceType$1, tag: ""}, {prop: "IssuingCertificateURL", name: "IssuingCertificateURL", pkg: "", typ: sliceType$1, tag: ""}, {prop: "DNSNames", name: "DNSNames", pkg: "", typ: sliceType$1, tag: ""}, {prop: "EmailAddresses", name: "EmailAddresses", pkg: "", typ: sliceType$1, tag: ""}, {prop: "IPAddresses", name: "IPAddresses", pkg: "", typ: sliceType$13, tag: ""}, {prop: "PermittedDNSDomainsCritical", name: "PermittedDNSDomainsCritical", pkg: "", typ: $Bool, tag: ""}, {prop: "PermittedDNSDomains", name: "PermittedDNSDomains", pkg: "", typ: sliceType$1, tag: ""}, {prop: "CRLDistributionPoints", name: "CRLDistributionPoints", pkg: "", typ: sliceType$1, tag: ""}, {prop: "PolicyIdentifiers", name: "PolicyIdentifiers", pkg: "", typ: sliceType$15, tag: ""}]);
+	ConstraintViolationError.init([]);
+	UnhandledCriticalExtension.init([]);
+	basicConstraints.init([{prop: "IsCA", name: "IsCA", pkg: "", typ: $Bool, tag: "asn1:\"optional\""}, {prop: "MaxPathLen", name: "MaxPathLen", pkg: "", typ: $Int, tag: "asn1:\"optional,default:-1\""}]);
+	policyInformation.init([{prop: "Policy", name: "Policy", pkg: "", typ: asn1.ObjectIdentifier, tag: ""}]);
+	nameConstraints.init([{prop: "Permitted", name: "Permitted", pkg: "", typ: sliceType$21, tag: "asn1:\"optional,tag:0\""}, {prop: "Excluded", name: "Excluded", pkg: "", typ: sliceType$21, tag: "asn1:\"optional,tag:1\""}]);
+	generalSubtree.init([{prop: "Name", name: "Name", pkg: "", typ: $String, tag: "asn1:\"tag:2,optional,ia5\""}]);
+	authorityInfoAccess.init([{prop: "Method", name: "Method", pkg: "", typ: asn1.ObjectIdentifier, tag: ""}, {prop: "Location", name: "Location", pkg: "", typ: asn1.RawValue, tag: ""}]);
+	distributionPoint.init([{prop: "DistributionPoint", name: "DistributionPoint", pkg: "", typ: distributionPointName, tag: "asn1:\"optional,tag:0\""}, {prop: "Reason", name: "Reason", pkg: "", typ: asn1.BitString, tag: "asn1:\"optional,tag:1\""}, {prop: "CRLIssuer", name: "CRLIssuer", pkg: "", typ: asn1.RawValue, tag: "asn1:\"optional,tag:2\""}]);
+	distributionPointName.init([{prop: "FullName", name: "FullName", pkg: "", typ: asn1.RawValue, tag: "asn1:\"optional,tag:0\""}, {prop: "RelativeName", name: "RelativeName", pkg: "", typ: pkix.RDNSequence, tag: "asn1:\"optional,tag:1\""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -30296,8 +32253,48 @@ $packages["crypto/x509"] = (function() {
 		$r = sync.$init(); /* */ $s = 28; case 28: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = time.$init(); /* */ $s = 29; case 29: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = utf8.$init(); /* */ $s = 30; case 30: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		once = new sync.Once.ptr();
+		systemRoots = ptrType.nil;
 		$pkg.IncorrectPasswordError = errors.New("x509: decryption password incorrect");
+		oidSignatureMD2WithRSA = new asn1.ObjectIdentifier([1, 2, 840, 113549, 1, 1, 2]);
+		oidSignatureMD5WithRSA = new asn1.ObjectIdentifier([1, 2, 840, 113549, 1, 1, 4]);
+		oidSignatureSHA1WithRSA = new asn1.ObjectIdentifier([1, 2, 840, 113549, 1, 1, 5]);
+		oidSignatureSHA256WithRSA = new asn1.ObjectIdentifier([1, 2, 840, 113549, 1, 1, 11]);
+		oidSignatureSHA384WithRSA = new asn1.ObjectIdentifier([1, 2, 840, 113549, 1, 1, 12]);
+		oidSignatureSHA512WithRSA = new asn1.ObjectIdentifier([1, 2, 840, 113549, 1, 1, 13]);
+		oidSignatureDSAWithSHA1 = new asn1.ObjectIdentifier([1, 2, 840, 10040, 4, 3]);
+		oidSignatureDSAWithSHA256 = new asn1.ObjectIdentifier([2, 16, 840, 1, 101, 4, 3, 2]);
+		oidSignatureECDSAWithSHA1 = new asn1.ObjectIdentifier([1, 2, 840, 10045, 4, 1]);
+		oidSignatureECDSAWithSHA256 = new asn1.ObjectIdentifier([1, 2, 840, 10045, 4, 3, 2]);
+		oidSignatureECDSAWithSHA384 = new asn1.ObjectIdentifier([1, 2, 840, 10045, 4, 3, 3]);
+		oidSignatureECDSAWithSHA512 = new asn1.ObjectIdentifier([1, 2, 840, 10045, 4, 3, 4]);
+		signatureAlgorithmDetails = new sliceType$2([new structType.ptr(1, oidSignatureMD2WithRSA, 1, 0), new structType.ptr(2, oidSignatureMD5WithRSA, 1, 2), new structType.ptr(3, oidSignatureSHA1WithRSA, 1, 3), new structType.ptr(4, oidSignatureSHA256WithRSA, 1, 5), new structType.ptr(5, oidSignatureSHA384WithRSA, 1, 6), new structType.ptr(6, oidSignatureSHA512WithRSA, 1, 7), new structType.ptr(7, oidSignatureDSAWithSHA1, 2, 3), new structType.ptr(8, oidSignatureDSAWithSHA256, 2, 5), new structType.ptr(9, oidSignatureECDSAWithSHA1, 3, 3), new structType.ptr(10, oidSignatureECDSAWithSHA256, 3, 5), new structType.ptr(11, oidSignatureECDSAWithSHA384, 3, 6), new structType.ptr(12, oidSignatureECDSAWithSHA512, 3, 7)]);
+		oidPublicKeyRSA = new asn1.ObjectIdentifier([1, 2, 840, 113549, 1, 1, 1]);
+		oidPublicKeyDSA = new asn1.ObjectIdentifier([1, 2, 840, 10040, 4, 1]);
+		oidPublicKeyECDSA = new asn1.ObjectIdentifier([1, 2, 840, 10045, 2, 1]);
+		oidNamedCurveP224 = new asn1.ObjectIdentifier([1, 3, 132, 0, 33]);
+		oidNamedCurveP256 = new asn1.ObjectIdentifier([1, 2, 840, 10045, 3, 1, 7]);
+		oidNamedCurveP384 = new asn1.ObjectIdentifier([1, 3, 132, 0, 34]);
+		oidNamedCurveP521 = new asn1.ObjectIdentifier([1, 3, 132, 0, 35]);
+		oidExtKeyUsageAny = new asn1.ObjectIdentifier([2, 5, 29, 37, 0]);
+		oidExtKeyUsageServerAuth = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 1]);
+		oidExtKeyUsageClientAuth = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 2]);
+		oidExtKeyUsageCodeSigning = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 3]);
+		oidExtKeyUsageEmailProtection = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 4]);
+		oidExtKeyUsageIPSECEndSystem = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 5]);
+		oidExtKeyUsageIPSECTunnel = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 6]);
+		oidExtKeyUsageIPSECUser = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 7]);
+		oidExtKeyUsageTimeStamping = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 8]);
+		oidExtKeyUsageOCSPSigning = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 3, 9]);
+		oidExtKeyUsageMicrosoftServerGatedCrypto = new asn1.ObjectIdentifier([1, 3, 6, 1, 4, 1, 311, 10, 3, 3]);
+		oidExtKeyUsageNetscapeServerGatedCrypto = new asn1.ObjectIdentifier([2, 16, 840, 1, 113730, 4, 1]);
+		extKeyUsageOIDs = new sliceType$3([new structType$1.ptr(0, oidExtKeyUsageAny), new structType$1.ptr(1, oidExtKeyUsageServerAuth), new structType$1.ptr(2, oidExtKeyUsageClientAuth), new structType$1.ptr(3, oidExtKeyUsageCodeSigning), new structType$1.ptr(4, oidExtKeyUsageEmailProtection), new structType$1.ptr(5, oidExtKeyUsageIPSECEndSystem), new structType$1.ptr(6, oidExtKeyUsageIPSECTunnel), new structType$1.ptr(7, oidExtKeyUsageIPSECUser), new structType$1.ptr(8, oidExtKeyUsageTimeStamping), new structType$1.ptr(9, oidExtKeyUsageOCSPSigning), new structType$1.ptr(10, oidExtKeyUsageMicrosoftServerGatedCrypto), new structType$1.ptr(11, oidExtKeyUsageNetscapeServerGatedCrypto)]);
 		$pkg.ErrUnsupportedAlgorithm = errors.New("x509: cannot verify signature: algorithm unimplemented");
+		entrustBrokenSPKI = new sliceType$4([48, 130, 1, 34, 48, 13, 6, 9, 42, 134, 72, 134, 247, 13, 1, 1, 1, 5, 0, 3, 130, 1, 15, 0, 48, 130, 1, 10, 2, 130, 1, 1, 0, 151, 163, 45, 60, 158, 222, 5, 218, 19, 194, 17, 141, 157, 142, 227, 127, 199, 75, 126, 90, 159, 179, 255, 98, 171, 115, 200, 40, 107, 186, 16, 100, 130, 135, 19, 205, 87, 24, 255, 40, 206, 192, 230, 14, 6, 145, 80, 41, 131, 209, 242, 195, 42, 219, 216, 219, 78, 4, 204, 0, 235, 139, 182, 150, 220, 188, 170, 250, 82, 119, 4, 193, 219, 25, 228, 174, 156, 253, 60, 139, 3, 239, 77, 188, 26, 3, 101, 249, 193, 177, 63, 114, 134, 242, 56, 170, 25, 174, 16, 136, 120, 40, 218, 117, 195, 61, 2, 130, 2, 156, 185, 193, 101, 119, 118, 36, 76, 152, 247, 109, 49, 56, 251, 219, 254, 219, 55, 2, 118, 161, 24, 151, 166, 204, 222, 32, 9, 73, 54, 36, 105, 66, 246, 228, 55, 98, 241, 89, 109, 169, 60, 237, 52, 156, 163, 142, 219, 220, 58, 215, 247, 10, 111, 239, 46, 216, 213, 147, 90, 122, 237, 8, 73, 104, 226, 65, 227, 90, 144, 193, 134, 85, 252, 81, 67, 157, 224, 178, 196, 103, 180, 203, 50, 49, 37, 240, 84, 159, 75, 209, 111, 219, 212, 221, 252, 175, 94, 108, 120, 144, 149, 222, 202, 58, 72, 185, 121, 60, 155, 25, 214, 117, 5, 160, 249, 136, 215, 193, 232, 165, 9, 228, 26, 21, 220, 135, 35, 170, 178, 117, 140, 99, 37, 135, 216, 248, 61, 166, 194, 204, 102, 255, 165, 102, 104, 85, 2, 3, 1, 0, 1]);
+		oidExtensionAuthorityKeyId = new sliceType$5([2, 5, 29, 35]);
+		oidExtensionAuthorityInfoAccess = new sliceType$5([1, 3, 6, 1, 5, 5, 7, 1, 1]);
+		oidAuthorityInfoAccessOcsp = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 48, 1]);
+		oidAuthorityInfoAccessIssuers = new asn1.ObjectIdentifier([1, 3, 6, 1, 5, 5, 7, 48, 2]);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -30804,7 +32801,7 @@ $packages["log"] = (function() {
 	return $pkg;
 })();
 $packages["golang.org/x/crypto/ssh"] = (function() {
-	var $pkg = {}, $init, bufio, bytes, crypto, aes, cipher, dsa, ecdsa, elliptic, hmac, rand, rc4, rsa, sha1, sha256, sha512, subtle, x509, asn1, base64, binary, pem, errors, fmt, hash, io, ioutil, log, big, rand$1, net, reflect, sort, strconv, strings, sync, atomic, time, Signature, Certificate, genericCertData, optionsTuple, optionsTupleValue, openSSHCertSigner, kexResult, handshakeMagics, dhGroup, ecdh, PublicKey, Signer, rsaPublicKey, rsaPrivateKey, dsaPublicKey, dsaPrivateKey, ecdsaPublicKey, ecdsaPrivateKey, macMode, truncatingMAC, kexDHInitMsg, kexECDHInitMsg, kexECDHReplyMsg, kexDHReplyMsg, Permissions, packetConn, sliceType, sliceType$1, ptrType, structType, sliceType$2, ptrType$3, ptrType$4, structType$1, arrayType, ptrType$25, ptrType$26, structType$4, ptrType$27, structType$6, ptrType$28, ptrType$29, ptrType$30, structType$7, structType$8, ptrType$31, ptrType$32, ptrType$33, ptrType$34, ptrType$36, ptrType$44, ptrType$56, ptrType$57, ptrType$58, ptrType$59, ptrType$60, ptrType$61, funcType$7, mapType$2, certAlgoNames, errUndecided, errDecidedAlready, kexAlgoMap, macModes, errShortRead, bigOne, comma, emptyNameList, bigIntType, portRandomizer, _map, _key, _map$1, _key$1, _map$3, _key$3, marshalStringList, marshalTuples, NewCertSigner, unexpectedMessageError, parseError, appendU32, appendU64, appendInt, unmarshalECKey, validateECPublicKey, init, supportedEllipticCurve, ecHash, NewSignerFromKey, typeTag, fieldError, Unmarshal, Marshal, marshalStruct, parseString, parseNameList, parseInt, parseUint32, parseUint64, intLength, marshalInt, writeInt, writeString, signAndMarshal;
+	var $pkg = {}, $init, bufio, bytes, crypto, aes, cipher, dsa, ecdsa, elliptic, hmac, rand, rc4, rsa, sha1, sha256, sha512, subtle, x509, asn1, base64, binary, pem, errors, fmt, hash, io, ioutil, log, big, rand$1, net, reflect, sort, strconv, strings, sync, atomic, time, Signature, Certificate, genericCertData, optionsTuple, optionsTupleValue, kexResult, handshakeMagics, dhGroup, ecdh, PublicKey, Signer, rsaPublicKey, dsaPublicKey, ecdsaPublicKey, macMode, truncatingMAC, kexDHInitMsg, kexECDHInitMsg, kexECDHReplyMsg, kexDHReplyMsg, Permissions, packetConn, sliceType, sliceType$1, ptrType, structType, sliceType$2, ptrType$3, ptrType$4, structType$1, arrayType, ptrType$25, ptrType$26, structType$4, ptrType$27, structType$6, ptrType$28, ptrType$29, ptrType$30, structType$7, structType$8, ptrType$31, ptrType$36, ptrType$56, ptrType$57, ptrType$58, funcType$7, mapType$2, certAlgoNames, errUndecided, errDecidedAlready, kexAlgoMap, macModes, errShortRead, bigOne, comma, emptyNameList, bigIntType, portRandomizer, _map, _key, _map$1, _key$1, _map$3, _key$3, marshalStringList, marshalTuples, unexpectedMessageError, parseError, appendU32, appendU64, appendInt, unmarshalECKey, validateECPublicKey, init, supportedEllipticCurve, ecHash, NewPublicKey, typeTag, fieldError, Unmarshal, Marshal, marshalStruct, parseString, parseNameList, parseInt, parseUint32, parseUint64, intLength, marshalInt, writeInt, writeString, signAndMarshal;
 	bufio = $packages["bufio"];
 	bytes = $packages["bytes"];
 	crypto = $packages["crypto"];
@@ -30928,16 +32925,6 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		}
 		this.Value = Value_;
 	});
-	openSSHCertSigner = $pkg.openSSHCertSigner = $newType(0, $kindStruct, "ssh.openSSHCertSigner", "openSSHCertSigner", "golang.org/x/crypto/ssh", function(pub_, signer_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.pub = ptrType$3.nil;
-			this.signer = $ifaceNil;
-			return;
-		}
-		this.pub = pub_;
-		this.signer = signer_;
-	});
 	kexResult = $pkg.kexResult = $newType(0, $kindStruct, "ssh.kexResult", "kexResult", "golang.org/x/crypto/ssh", function(H_, K_, HostKey_, Signature_, Hash_, SessionID_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -31000,14 +32987,6 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		this.N = N_;
 		this.E = E_;
 	});
-	rsaPrivateKey = $pkg.rsaPrivateKey = $newType(0, $kindStruct, "ssh.rsaPrivateKey", "rsaPrivateKey", "golang.org/x/crypto/ssh", function(PrivateKey_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.PrivateKey = ptrType$32.nil;
-			return;
-		}
-		this.PrivateKey = PrivateKey_;
-	});
 	dsaPublicKey = $pkg.dsaPublicKey = $newType(0, $kindStruct, "ssh.dsaPublicKey", "dsaPublicKey", "golang.org/x/crypto/ssh", function(Parameters_, Y_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -31017,14 +32996,6 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		}
 		this.Parameters = Parameters_;
 		this.Y = Y_;
-	});
-	dsaPrivateKey = $pkg.dsaPrivateKey = $newType(0, $kindStruct, "ssh.dsaPrivateKey", "dsaPrivateKey", "golang.org/x/crypto/ssh", function(PrivateKey_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.PrivateKey = ptrType$33.nil;
-			return;
-		}
-		this.PrivateKey = PrivateKey_;
 	});
 	ecdsaPublicKey = $pkg.ecdsaPublicKey = $newType(0, $kindStruct, "ssh.ecdsaPublicKey", "ecdsaPublicKey", "golang.org/x/crypto/ssh", function(Curve_, X_, Y_) {
 		this.$val = this;
@@ -31037,14 +33008,6 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		this.Curve = Curve_;
 		this.X = X_;
 		this.Y = Y_;
-	});
-	ecdsaPrivateKey = $pkg.ecdsaPrivateKey = $newType(0, $kindStruct, "ssh.ecdsaPrivateKey", "ecdsaPrivateKey", "golang.org/x/crypto/ssh", function(PrivateKey_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.PrivateKey = ptrType$34.nil;
-			return;
-		}
-		this.PrivateKey = PrivateKey_;
 	});
 	macMode = $pkg.macMode = $newType(0, $kindStruct, "ssh.macMode", "macMode", "golang.org/x/crypto/ssh", function(keySize_, new$1_) {
 		this.$val = this;
@@ -31137,17 +33100,10 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 	structType$7 = $structType([{prop: "Name", name: "Name", pkg: "", typ: $String, tag: ""}, {prop: "ID", name: "ID", pkg: "", typ: $String, tag: ""}, {prop: "Key", name: "Key", pkg: "", typ: sliceType$1, tag: ""}]);
 	structType$8 = $structType([{prop: "R", name: "R", pkg: "", typ: ptrType, tag: ""}, {prop: "S", name: "S", pkg: "", typ: ptrType, tag: ""}]);
 	ptrType$31 = $ptrType(ecdsa.PublicKey);
-	ptrType$32 = $ptrType(rsa.PrivateKey);
-	ptrType$33 = $ptrType(dsa.PrivateKey);
-	ptrType$34 = $ptrType(ecdsa.PrivateKey);
 	ptrType$36 = $ptrType(ptrType);
-	ptrType$44 = $ptrType(openSSHCertSigner);
 	ptrType$56 = $ptrType(handshakeMagics);
 	ptrType$57 = $ptrType(dhGroup);
 	ptrType$58 = $ptrType(ecdh);
-	ptrType$59 = $ptrType(rsaPrivateKey);
-	ptrType$60 = $ptrType(dsaPrivateKey);
-	ptrType$61 = $ptrType(ecdsaPrivateKey);
 	funcType$7 = $funcType([sliceType$1], [hash.Hash], false);
 	mapType$2 = $mapType($String, $String);
 	marshalStringList = function(namelist) {
@@ -31209,39 +33165,6 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		return ret;
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: marshalTuples }; } $f.$ptr = $ptr; $f._entry = _entry; $f._entry$1 = _entry$1; $f._i = _i; $f._i$1 = _i$1; $f._keys = _keys; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._ref$1 = _ref$1; $f.key = key; $f.key$1 = key$1; $f.keys$1 = keys$1; $f.ret = ret; $f.s = s; $f.tups = tups; $f.value = value; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	NewCertSigner = function(cert, signer) {
-		var $ptr, _arg, _arg$1, _r, _r$1, _r$2, _r$3, cert, signer, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; cert = $f.cert; signer = $f.signer; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = cert.Key.Marshal(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_arg = _r;
-		_r$1 = signer.PublicKey(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_r$2 = _r$1.Marshal(); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		_arg$1 = _r$2;
-		_r$3 = bytes.Compare(_arg, _arg$1); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		/* */ if (!((_r$3 === 0))) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (!((_r$3 === 0))) { */ case 1:
-			return [$ifaceNil, errors.New("ssh: signer and cert have different public key")];
-		/* } */ case 2:
-		return [new openSSHCertSigner.ptr(cert, signer), $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: NewCertSigner }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f.cert = cert; $f.signer = signer; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.NewCertSigner = NewCertSigner;
-	openSSHCertSigner.ptr.prototype.Sign = function(rand$2, data) {
-		var $ptr, _r, data, rand$2, s, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; data = $f.data; rand$2 = $f.rand$2; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		s = this;
-		_r = s.signer.Sign(rand$2, data); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		return _r;
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: openSSHCertSigner.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f.data = data; $f.rand$2 = rand$2; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	openSSHCertSigner.prototype.Sign = function(rand$2, data) { return this.$val.Sign(rand$2, data); };
-	openSSHCertSigner.ptr.prototype.PublicKey = function() {
-		var $ptr, s;
-		s = this;
-		return s.pub;
-	};
-	openSSHCertSigner.prototype.PublicKey = function() { return this.$val.PublicKey(); };
 	Certificate.ptr.prototype.SignCert = function(rand$2, authority) {
 		var $ptr, _arg, _arg$1, _r, _r$1, _r$2, _r$3, _tuple, _tuple$1, authority, c, err, err$1, rand$2, sig, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; authority = $f.authority; c = $f.c; err = $f.err; err$1 = $f.err$1; rand$2 = $f.rand$2; sig = $f.sig; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -31742,32 +33665,6 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: rsaPublicKey.ptr.prototype.Verify }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f.data = data; $f.digest = digest; $f.h = h; $f.r = r; $f.sig = sig; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	rsaPublicKey.prototype.Verify = function(data, sig) { return this.$val.Verify(data, sig); };
-	rsaPrivateKey.ptr.prototype.PublicKey = function() {
-		var $ptr, r;
-		r = this;
-		return $pointerOfStructConversion(r.PrivateKey.PublicKey, ptrType$26);
-	};
-	rsaPrivateKey.prototype.PublicKey = function() { return this.$val.PublicKey(); };
-	rsaPrivateKey.ptr.prototype.Sign = function(rand$2, data) {
-		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _tuple, blob, data, digest, err, h, r, rand$2, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _tuple = $f._tuple; blob = $f.blob; data = $f.data; digest = $f.digest; err = $f.err; h = $f.h; r = $f.r; rand$2 = $f.rand$2; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		r = this;
-		_r = new crypto.Hash(3).New(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		h = _r;
-		_r$1 = h.Write(data); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_r$1;
-		_r$2 = h.Sum(sliceType$1.nil); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		digest = _r$2;
-		_r$3 = rsa.SignPKCS1v15(rand$2, r.PrivateKey, 3, digest); /* */ $s = 4; case 4: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		_tuple = _r$3; blob = _tuple[0]; err = _tuple[1];
-		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			return [ptrType$4.nil, err];
-		}
-		_r$4 = r.PublicKey().Type(); /* */ $s = 5; case 5: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-		return [new Signature.ptr(_r$4, blob), $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: rsaPrivateKey.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._tuple = _tuple; $f.blob = blob; $f.data = data; $f.digest = digest; $f.err = err; $f.h = h; $f.r = r; $f.rand$2 = rand$2; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	rsaPrivateKey.prototype.Sign = function(rand$2, data) { return this.$val.Sign(rand$2, data); };
 	dsaPublicKey.ptr.prototype.Type = function() {
 		var $ptr, r;
 		r = this;
@@ -31813,37 +33710,6 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: dsaPublicKey.ptr.prototype.Verify }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f.data = data; $f.digest = digest; $f.h = h; $f.k = k; $f.r = r; $f.s = s; $f.sig = sig; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	dsaPublicKey.prototype.Verify = function(data, sig) { return this.$val.Verify(data, sig); };
-	dsaPrivateKey.ptr.prototype.PublicKey = function() {
-		var $ptr, k;
-		k = this;
-		return $pointerOfStructConversion(k.PrivateKey.PublicKey, ptrType$29);
-	};
-	dsaPrivateKey.prototype.PublicKey = function() { return this.$val.PublicKey(); };
-	dsaPrivateKey.ptr.prototype.Sign = function(rand$2, data) {
-		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _tuple, data, digest, err, h, k, r, rand$2, rb, s, sb, sig, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _tuple = $f._tuple; data = $f.data; digest = $f.digest; err = $f.err; h = $f.h; k = $f.k; r = $f.r; rand$2 = $f.rand$2; rb = $f.rb; s = $f.s; sb = $f.sb; sig = $f.sig; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		k = this;
-		_r = new crypto.Hash(3).New(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		h = _r;
-		_r$1 = h.Write(data); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_r$1;
-		_r$2 = h.Sum(sliceType$1.nil); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		digest = _r$2;
-		_r$3 = dsa.Sign(rand$2, k.PrivateKey, digest); /* */ $s = 4; case 4: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		_tuple = _r$3; r = _tuple[0]; s = _tuple[1]; err = _tuple[2];
-		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			return [ptrType$4.nil, err];
-		}
-		sig = $makeSlice(sliceType$1, 40);
-		rb = r.Bytes();
-		sb = s.Bytes();
-		$copySlice($subslice(sig, (20 - rb.$length >> 0), 20), rb);
-		$copySlice($subslice(sig, (40 - sb.$length >> 0)), sb);
-		_r$4 = k.PublicKey().Type(); /* */ $s = 5; case 5: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-		return [new Signature.ptr(_r$4, sig), $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: dsaPrivateKey.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._tuple = _tuple; $f.data = data; $f.digest = digest; $f.err = err; $f.h = h; $f.k = k; $f.r = r; $f.rand$2 = rand$2; $f.rb = rb; $f.s = s; $f.sb = sb; $f.sig = sig; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	dsaPrivateKey.prototype.Sign = function(rand$2, data) { return this.$val.Sign(rand$2, data); };
 	ecdsaPublicKey.ptr.prototype.Type = function() {
 		var $ptr, _r, key, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; key = $f.key; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -31957,62 +33823,32 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ecdsaPublicKey.ptr.prototype.Verify }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f.data = data; $f.digest = digest; $f.ecSig = ecSig; $f.err = err; $f.h = h; $f.key = key; $f.sig = sig; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	ecdsaPublicKey.prototype.Verify = function(data, sig) { return this.$val.Verify(data, sig); };
-	ecdsaPrivateKey.ptr.prototype.PublicKey = function() {
-		var $ptr, k;
-		k = this;
-		return $pointerOfStructConversion(k.PrivateKey.PublicKey, ptrType$30);
-	};
-	ecdsaPrivateKey.prototype.PublicKey = function() { return this.$val.PublicKey(); };
-	ecdsaPrivateKey.ptr.prototype.Sign = function(rand$2, data) {
-		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _tuple, data, digest, err, h, k, r, rand$2, rest, s, sig, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _tuple = $f._tuple; data = $f.data; digest = $f.digest; err = $f.err; h = $f.h; k = $f.k; r = $f.r; rand$2 = $f.rand$2; rest = $f.rest; s = $f.s; sig = $f.sig; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		k = this;
-		_r = ecHash(k.PrivateKey.PublicKey.Curve); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_r$1 = new crypto.Hash(_r).New(); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		h = _r$1;
-		_r$2 = h.Write(data); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		_r$2;
-		_r$3 = h.Sum(sliceType$1.nil); /* */ $s = 4; case 4: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		digest = _r$3;
-		_r$4 = ecdsa.Sign(rand$2, k.PrivateKey, digest); /* */ $s = 5; case 5: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-		_tuple = _r$4; r = _tuple[0]; s = _tuple[1]; err = _tuple[2];
-		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			return [ptrType$4.nil, err];
-		}
-		sig = $makeSlice(sliceType$1, (intLength(r) + intLength(s) >> 0));
-		rest = marshalInt(sig, r);
-		marshalInt(rest, s);
-		_r$5 = k.PublicKey().Type(); /* */ $s = 6; case 6: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-		return [new Signature.ptr(_r$5, sig), $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ecdsaPrivateKey.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._tuple = _tuple; $f.data = data; $f.digest = digest; $f.err = err; $f.h = h; $f.k = k; $f.r = r; $f.rand$2 = rand$2; $f.rest = rest; $f.s = s; $f.sig = sig; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	ecdsaPrivateKey.prototype.Sign = function(rand$2, data) { return this.$val.Sign(rand$2, data); };
-	NewSignerFromKey = function(k) {
+	NewPublicKey = function(k) {
 		var $ptr, _r, _r$1, _ref, k, sshKey, t, t$1, t$2, t$3, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; k = $f.k; sshKey = $f.sshKey; t = $f.t; t$1 = $f.t$1; t$2 = $f.t$2; t$3 = $f.t$3; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		sshKey = $ifaceNil;
 		_ref = k;
-		/* */ if ($assertType(_ref, ptrType$32, true)[1]) { $s = 1; continue; }
-		/* */ if ($assertType(_ref, ptrType$33, true)[1]) { $s = 2; continue; }
-		/* */ if ($assertType(_ref, ptrType$34, true)[1]) { $s = 3; continue; }
+		/* */ if ($assertType(_ref, ptrType$27, true)[1]) { $s = 1; continue; }
+		/* */ if ($assertType(_ref, ptrType$31, true)[1]) { $s = 2; continue; }
+		/* */ if ($assertType(_ref, ptrType$28, true)[1]) { $s = 3; continue; }
 		/* */ $s = 4; continue;
-		/* if ($assertType(_ref, ptrType$32, true)[1]) { */ case 1:
+		/* if ($assertType(_ref, ptrType$27, true)[1]) { */ case 1:
 			t = _ref.$val;
-			sshKey = new rsaPrivateKey.ptr(t);
+			sshKey = $pointerOfStructConversion(t, ptrType$26);
 			$s = 5; continue;
-		/* } else if ($assertType(_ref, ptrType$33, true)[1]) { */ case 2:
+		/* } else if ($assertType(_ref, ptrType$31, true)[1]) { */ case 2:
 			t$1 = _ref.$val;
-			sshKey = new dsaPrivateKey.ptr(t$1);
-			$s = 5; continue;
-		/* } else if ($assertType(_ref, ptrType$34, true)[1]) { */ case 3:
-			t$2 = _ref.$val;
-			_r = supportedEllipticCurve(t$2.PublicKey.Curve); /* */ $s = 8; case 8: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			_r = supportedEllipticCurve(t$1.Curve); /* */ $s = 8; case 8: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			/* */ if (!_r) { $s = 6; continue; }
 			/* */ $s = 7; continue;
 			/* if (!_r) { */ case 6:
 				return [$ifaceNil, errors.New("ssh: only P256, P384 and P521 EC keys are supported.")];
 			/* } */ case 7:
-			sshKey = new ecdsaPrivateKey.ptr(t$2);
+			sshKey = $pointerOfStructConversion(t$1, ptrType$30);
+			$s = 5; continue;
+		/* } else if ($assertType(_ref, ptrType$28, true)[1]) { */ case 3:
+			t$2 = _ref.$val;
+			sshKey = $pointerOfStructConversion(t$2, ptrType$29);
 			$s = 5; continue;
 		/* } else { */ case 4:
 			t$3 = _ref;
@@ -32020,9 +33856,9 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 			return [$ifaceNil, _r$1];
 		/* } */ case 5:
 		return [sshKey, $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: NewSignerFromKey }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f.k = k; $f.sshKey = sshKey; $f.t = t; $f.t$1 = t$1; $f.t$2 = t$2; $f.t$3 = t$3; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: NewPublicKey }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f.k = k; $f.sshKey = sshKey; $f.t = t; $f.t$1 = t$1; $f.t$2 = t$2; $f.t$3 = t$3; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	$pkg.NewSignerFromKey = NewSignerFromKey;
+	$pkg.NewPublicKey = NewPublicKey;
 	truncatingMAC.ptr.prototype.Write = function(data) {
 		var $ptr, _r, data, t, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; data = $f.data; t = $f.t; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -32631,23 +34467,18 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: signAndMarshal }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f.data = data; $f.err = err; $f.k = k; $f.rand$2 = rand$2; $f.sig = sig; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	ptrType$3.methods = [{prop: "SignCert", name: "SignCert", pkg: "", typ: $funcType([io.Reader, Signer], [$error], false)}, {prop: "bytesForSigning", name: "bytesForSigning", pkg: "golang.org/x/crypto/ssh", typ: $funcType([], [sliceType$1], false)}, {prop: "Marshal", name: "Marshal", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Verify", name: "Verify", pkg: "", typ: $funcType([sliceType$1, ptrType$4], [$error], false)}];
-	ptrType$44.methods = [{prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$4, $error], false)}, {prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [PublicKey], false)}];
 	ptrType$56.methods = [{prop: "write", name: "write", pkg: "golang.org/x/crypto/ssh", typ: $funcType([io.Writer], [], false)}];
 	ptrType$57.methods = [{prop: "diffieHellman", name: "diffieHellman", pkg: "golang.org/x/crypto/ssh", typ: $funcType([ptrType, ptrType], [ptrType, $error], false)}, {prop: "Client", name: "Client", pkg: "", typ: $funcType([packetConn, io.Reader, ptrType$56], [ptrType$25, $error], false)}, {prop: "Server", name: "Server", pkg: "", typ: $funcType([packetConn, io.Reader, ptrType$56, Signer], [ptrType$25, $error], false)}];
 	ptrType$58.methods = [{prop: "Client", name: "Client", pkg: "", typ: $funcType([packetConn, io.Reader, ptrType$56], [ptrType$25, $error], false)}, {prop: "Server", name: "Server", pkg: "", typ: $funcType([packetConn, io.Reader, ptrType$56, Signer], [ptrType$25, $error], false)}];
 	ptrType$26.methods = [{prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Marshal", name: "Marshal", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Verify", name: "Verify", pkg: "", typ: $funcType([sliceType$1, ptrType$4], [$error], false)}];
-	ptrType$59.methods = [{prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$4, $error], false)}];
 	ptrType$29.methods = [{prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Marshal", name: "Marshal", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Verify", name: "Verify", pkg: "", typ: $funcType([sliceType$1, ptrType$4], [$error], false)}];
-	ptrType$60.methods = [{prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$4, $error], false)}];
 	ptrType$30.methods = [{prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}, {prop: "nistID", name: "nistID", pkg: "golang.org/x/crypto/ssh", typ: $funcType([], [$String], false)}, {prop: "Marshal", name: "Marshal", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Verify", name: "Verify", pkg: "", typ: $funcType([sliceType$1, ptrType$4], [$error], false)}];
-	ptrType$61.methods = [{prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$4, $error], false)}];
 	truncatingMAC.methods = [{prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}, {prop: "Sum", name: "Sum", pkg: "", typ: $funcType([sliceType$1], [sliceType$1], false)}, {prop: "Reset", name: "Reset", pkg: "", typ: $funcType([], [], false)}, {prop: "Size", name: "Size", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "BlockSize", name: "BlockSize", pkg: "", typ: $funcType([], [$Int], false)}];
 	Signature.init([{prop: "Format", name: "Format", pkg: "", typ: $String, tag: ""}, {prop: "Blob", name: "Blob", pkg: "", typ: sliceType$1, tag: ""}]);
 	Certificate.init([{prop: "Nonce", name: "Nonce", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Key", name: "Key", pkg: "", typ: PublicKey, tag: ""}, {prop: "Serial", name: "Serial", pkg: "", typ: $Uint64, tag: ""}, {prop: "CertType", name: "CertType", pkg: "", typ: $Uint32, tag: ""}, {prop: "KeyId", name: "KeyId", pkg: "", typ: $String, tag: ""}, {prop: "ValidPrincipals", name: "ValidPrincipals", pkg: "", typ: sliceType, tag: ""}, {prop: "ValidAfter", name: "ValidAfter", pkg: "", typ: $Uint64, tag: ""}, {prop: "ValidBefore", name: "ValidBefore", pkg: "", typ: $Uint64, tag: ""}, {prop: "Permissions", name: "", pkg: "", typ: Permissions, tag: ""}, {prop: "Reserved", name: "Reserved", pkg: "", typ: sliceType$1, tag: ""}, {prop: "SignatureKey", name: "SignatureKey", pkg: "", typ: PublicKey, tag: ""}, {prop: "Signature", name: "Signature", pkg: "", typ: ptrType$4, tag: ""}]);
 	genericCertData.init([{prop: "Serial", name: "Serial", pkg: "", typ: $Uint64, tag: ""}, {prop: "CertType", name: "CertType", pkg: "", typ: $Uint32, tag: ""}, {prop: "KeyId", name: "KeyId", pkg: "", typ: $String, tag: ""}, {prop: "ValidPrincipals", name: "ValidPrincipals", pkg: "", typ: sliceType$1, tag: ""}, {prop: "ValidAfter", name: "ValidAfter", pkg: "", typ: $Uint64, tag: ""}, {prop: "ValidBefore", name: "ValidBefore", pkg: "", typ: $Uint64, tag: ""}, {prop: "CriticalOptions", name: "CriticalOptions", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Extensions", name: "Extensions", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Reserved", name: "Reserved", pkg: "", typ: sliceType$1, tag: ""}, {prop: "SignatureKey", name: "SignatureKey", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Signature", name: "Signature", pkg: "", typ: sliceType$1, tag: ""}]);
 	optionsTuple.init([{prop: "Key", name: "Key", pkg: "", typ: $String, tag: ""}, {prop: "Value", name: "Value", pkg: "", typ: sliceType$1, tag: ""}]);
 	optionsTupleValue.init([{prop: "Value", name: "Value", pkg: "", typ: $String, tag: ""}]);
-	openSSHCertSigner.init([{prop: "pub", name: "pub", pkg: "golang.org/x/crypto/ssh", typ: ptrType$3, tag: ""}, {prop: "signer", name: "signer", pkg: "golang.org/x/crypto/ssh", typ: Signer, tag: ""}]);
 	kexResult.init([{prop: "H", name: "H", pkg: "", typ: sliceType$1, tag: ""}, {prop: "K", name: "K", pkg: "", typ: sliceType$1, tag: ""}, {prop: "HostKey", name: "HostKey", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Signature", name: "Signature", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Hash", name: "Hash", pkg: "", typ: crypto.Hash, tag: ""}, {prop: "SessionID", name: "SessionID", pkg: "", typ: sliceType$1, tag: ""}]);
 	handshakeMagics.init([{prop: "clientVersion", name: "clientVersion", pkg: "golang.org/x/crypto/ssh", typ: sliceType$1, tag: ""}, {prop: "serverVersion", name: "serverVersion", pkg: "golang.org/x/crypto/ssh", typ: sliceType$1, tag: ""}, {prop: "clientKexInit", name: "clientKexInit", pkg: "golang.org/x/crypto/ssh", typ: sliceType$1, tag: ""}, {prop: "serverKexInit", name: "serverKexInit", pkg: "golang.org/x/crypto/ssh", typ: sliceType$1, tag: ""}]);
 	dhGroup.init([{prop: "g", name: "g", pkg: "golang.org/x/crypto/ssh", typ: ptrType, tag: ""}, {prop: "p", name: "p", pkg: "golang.org/x/crypto/ssh", typ: ptrType, tag: ""}]);
@@ -32655,11 +34486,8 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 	PublicKey.init([{prop: "Marshal", name: "Marshal", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Verify", name: "Verify", pkg: "", typ: $funcType([sliceType$1, ptrType$4], [$error], false)}]);
 	Signer.init([{prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$4, $error], false)}]);
 	rsaPublicKey.init([{prop: "N", name: "N", pkg: "", typ: ptrType, tag: ""}, {prop: "E", name: "E", pkg: "", typ: $Int, tag: ""}]);
-	rsaPrivateKey.init([{prop: "PrivateKey", name: "", pkg: "", typ: ptrType$32, tag: ""}]);
 	dsaPublicKey.init([{prop: "Parameters", name: "", pkg: "", typ: dsa.Parameters, tag: ""}, {prop: "Y", name: "Y", pkg: "", typ: ptrType, tag: ""}]);
-	dsaPrivateKey.init([{prop: "PrivateKey", name: "", pkg: "", typ: ptrType$33, tag: ""}]);
 	ecdsaPublicKey.init([{prop: "Curve", name: "", pkg: "", typ: elliptic.Curve, tag: ""}, {prop: "X", name: "X", pkg: "", typ: ptrType, tag: ""}, {prop: "Y", name: "Y", pkg: "", typ: ptrType, tag: ""}]);
-	ecdsaPrivateKey.init([{prop: "PrivateKey", name: "", pkg: "", typ: ptrType$34, tag: ""}]);
 	macMode.init([{prop: "keySize", name: "keySize", pkg: "golang.org/x/crypto/ssh", typ: $Int, tag: ""}, {prop: "new$1", name: "new", pkg: "golang.org/x/crypto/ssh", typ: funcType$7, tag: ""}]);
 	truncatingMAC.init([{prop: "length", name: "length", pkg: "golang.org/x/crypto/ssh", typ: $Int, tag: ""}, {prop: "hmac", name: "hmac", pkg: "golang.org/x/crypto/ssh", typ: hash.Hash, tag: ""}]);
 	kexDHInitMsg.init([{prop: "X", name: "X", pkg: "", typ: ptrType, tag: "sshtype:\"30\""}]);
@@ -32744,7 +34572,7 @@ $packages["golang.org/x/crypto/ssh"] = (function() {
 	return $pkg;
 })();
 $packages["golang.org/x/crypto/ssh/agent"] = (function() {
-	var $pkg = {}, $init, bytes, dsa, ecdsa, elliptic, rand, rsa, subtle, base64, binary, errors, fmt, ssh, io, log, big, net, sync, Agent, AddedKey, identitiesAnswerAgentMsg, signRequestAgentMsg, signResponseAgentMsg, Key, wireKey, rsaKeyMsg, privKey, keyring, server, agentV1IdentityMsg, agentRemoveIdentityMsg, agentLockMsg, sliceType, ptrType, sliceType$1, arrayType, sliceType$2, ptrType$4, ptrType$9, ptrType$10, sliceType$3, sliceType$4, structType$1, structType$2, sliceType$5, ptrType$14, ptrType$15, errLocked, NewKeyring, marshalKey, ServeAgent;
+	var $pkg = {}, $init, bytes, dsa, ecdsa, elliptic, rand, rsa, subtle, base64, binary, errors, fmt, ssh, io, log, big, net, sync, Agent, AddedKey, identitiesAnswerAgentMsg, signRequestAgentMsg, signResponseAgentMsg, Key, wireKey, rsaKeyMsg, server, agentV1IdentityMsg, agentRemoveIdentityMsg, agentLockMsg, sliceType, ptrType, sliceType$1, arrayType, sliceType$2, ptrType$4, ptrType$9, ptrType$10, sliceType$3, structType$1, structType$2, sliceType$5, ptrType$15, errLocked, marshalKey, ServeAgent;
 	bytes = $packages["bytes"];
 	dsa = $packages["crypto/dsa"];
 	ecdsa = $packages["crypto/ecdsa"];
@@ -32855,30 +34683,6 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 		this.Comments = Comments_;
 		this.Constraints = Constraints_;
 	});
-	privKey = $pkg.privKey = $newType(0, $kindStruct, "agent.privKey", "privKey", "golang.org/x/crypto/ssh/agent", function(signer_, comment_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.signer = $ifaceNil;
-			this.comment = "";
-			return;
-		}
-		this.signer = signer_;
-		this.comment = comment_;
-	});
-	keyring = $pkg.keyring = $newType(0, $kindStruct, "agent.keyring", "keyring", "golang.org/x/crypto/ssh/agent", function(mu_, keys_, locked_, passphrase_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.mu = new sync.Mutex.ptr();
-			this.keys = sliceType$4.nil;
-			this.locked = false;
-			this.passphrase = sliceType$1.nil;
-			return;
-		}
-		this.mu = mu_;
-		this.keys = keys_;
-		this.locked = locked_;
-		this.passphrase = passphrase_;
-	});
 	server = $pkg.server = $newType(0, $kindStruct, "agent.server", "server", "golang.org/x/crypto/ssh/agent", function(agent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -32920,11 +34724,9 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 	ptrType$9 = $ptrType(big.Int);
 	ptrType$10 = $ptrType(ssh.Certificate);
 	sliceType$3 = $sliceType(ssh.Signer);
-	sliceType$4 = $sliceType(privKey);
 	structType$1 = $structType([{prop: "Blob", name: "Blob", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Comment", name: "Comment", pkg: "", typ: $String, tag: ""}]);
 	structType$2 = $structType([{prop: "Type", name: "Type", pkg: "", typ: $String, tag: "sshtype:\"17\""}, {prop: "Rest", name: "Rest", pkg: "", typ: sliceType$1, tag: "ssh:\"rest\""}]);
 	sliceType$5 = $sliceType(ptrType$9);
-	ptrType$14 = $ptrType(keyring);
 	ptrType$15 = $ptrType(server);
 	Key.ptr.prototype.String = function() {
 		var $ptr, k, s;
@@ -32954,207 +34756,6 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 		return errors.New("agent: agent key does not know how to verify");
 	};
 	Key.prototype.Verify = function(data, sig) { return this.$val.Verify(data, sig); };
-	NewKeyring = function() {
-		var $ptr;
-		return new keyring.ptr(new sync.Mutex.ptr(), sliceType$4.nil, false, sliceType$1.nil);
-	};
-	$pkg.NewKeyring = NewKeyring;
-	keyring.ptr.prototype.RemoveAll = function() {
-		var $ptr, r, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; r = $f.r; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (r.locked) {
-			return errLocked;
-		}
-		r.keys = sliceType$4.nil;
-		return $ifaceNil;
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.RemoveAll }; } $f.$ptr = $ptr; $f.r = r; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.RemoveAll = function() { return this.$val.RemoveAll(); };
-	keyring.ptr.prototype.Remove = function(key) {
-		var $ptr, _r, _r$1, _r$2, _r$3, found, i, key, r, want, x, x$1, x$2, x$3, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; found = $f.found; i = $f.i; key = $f.key; r = $f.r; want = $f.want; x = $f.x; x$1 = $f.x$1; x$2 = $f.x$2; x$3 = $f.x$3; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (r.locked) {
-			return errLocked;
-		}
-		_r = key.Marshal(); /* */ $s = 2; case 2: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		want = _r;
-		found = false;
-		i = 0;
-		/* while (true) { */ case 3:
-			/* if (!(i < r.keys.$length)) { break; } */ if(!(i < r.keys.$length)) { $s = 4; continue; }
-			_r$1 = (x = r.keys, ((i < 0 || i >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + i])).signer.PublicKey(); /* */ $s = 8; case 8: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_r$2 = _r$1.Marshal(); /* */ $s = 9; case 9: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			_r$3 = bytes.Equal(_r$2, want); /* */ $s = 10; case 10: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			/* */ if (_r$3) { $s = 5; continue; }
-			/* */ $s = 6; continue;
-			/* if (_r$3) { */ case 5:
-				found = true;
-				$copy((x$3 = r.keys, ((i < 0 || i >= x$3.$length) ? $throwRuntimeError("index out of range") : x$3.$array[x$3.$offset + i])), (x$1 = r.keys, x$2 = r.keys.$length - 1 >> 0, ((x$2 < 0 || x$2 >= x$1.$length) ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + x$2])), privKey);
-				r.keys = $subslice(r.keys, (r.keys.$length - 1 >> 0));
-				/* continue; */ $s = 3; continue;
-				$s = 7; continue;
-			/* } else { */ case 6:
-				i = i + (1) >> 0;
-			/* } */ case 7:
-		/* } */ $s = 3; continue; case 4:
-		if (!found) {
-			return errors.New("agent: key not found");
-		}
-		return $ifaceNil;
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.Remove }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f.found = found; $f.i = i; $f.key = key; $f.r = r; $f.want = want; $f.x = x; $f.x$1 = x$1; $f.x$2 = x$2; $f.x$3 = x$3; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.Remove = function(key) { return this.$val.Remove(key); };
-	keyring.ptr.prototype.Lock = function(passphrase) {
-		var $ptr, passphrase, r, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; passphrase = $f.passphrase; r = $f.r; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (r.locked) {
-			return errLocked;
-		}
-		r.locked = true;
-		r.passphrase = passphrase;
-		return $ifaceNil;
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.Lock }; } $f.$ptr = $ptr; $f.passphrase = passphrase; $f.r = r; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.Lock = function(passphrase) { return this.$val.Lock(passphrase); };
-	keyring.ptr.prototype.Unlock = function(passphrase) {
-		var $ptr, _r, passphrase, r, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; passphrase = $f.passphrase; r = $f.r; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (!r.locked) {
-			return errors.New("agent: not locked");
-		}
-		/* */ if (!((passphrase.$length === r.passphrase.$length)) || !((1 === subtle.ConstantTimeCompare(passphrase, r.passphrase)))) { $s = 2; continue; }
-		/* */ $s = 3; continue;
-		/* if (!((passphrase.$length === r.passphrase.$length)) || !((1 === subtle.ConstantTimeCompare(passphrase, r.passphrase)))) { */ case 2:
-			_r = fmt.Errorf("agent: incorrect passphrase", new sliceType([])); /* */ $s = 4; case 4: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			return _r;
-		/* } */ case 3:
-		r.locked = false;
-		r.passphrase = sliceType$1.nil;
-		return $ifaceNil;
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.Unlock }; } $f.$ptr = $ptr; $f._r = _r; $f.passphrase = passphrase; $f.r = r; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.Unlock = function(passphrase) { return this.$val.Unlock(passphrase); };
-	keyring.ptr.prototype.List = function() {
-		var $ptr, _i, _r, _r$1, _r$2, _ref, ids, k, pub, r, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _ref = $f._ref; ids = $f.ids; k = $f.k; pub = $f.pub; r = $f.r; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (r.locked) {
-			return [sliceType$2.nil, $ifaceNil];
-		}
-		ids = sliceType$2.nil;
-		_ref = r.keys;
-		_i = 0;
-		/* while (true) { */ case 2:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
-			k = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), privKey);
-			_r = k.signer.PublicKey(); /* */ $s = 4; case 4: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			pub = _r;
-			_r$1 = pub.Type(); /* */ $s = 5; case 5: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_r$2 = pub.Marshal(); /* */ $s = 6; case 6: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			ids = $append(ids, new Key.ptr(_r$1, _r$2, k.comment));
-			_i++;
-		/* } */ $s = 2; continue; case 3:
-		return [ids, $ifaceNil];
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return [sliceType$2.nil, $ifaceNil]; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.List }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._ref = _ref; $f.ids = ids; $f.k = k; $f.pub = pub; $f.r = r; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.List = function() { return this.$val.List(); };
-	keyring.ptr.prototype.Add = function(key) {
-		var $ptr, _r, _r$1, _tuple, _tuple$1, cert, err, key, r, signer, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; cert = $f.cert; err = $f.err; key = $f.key; r = $f.r; signer = $f.signer; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		key = $clone(key, AddedKey);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (r.locked) {
-			return errLocked;
-		}
-		_r = ssh.NewSignerFromKey(key.PrivateKey); /* */ $s = 2; case 2: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_tuple = _r; signer = _tuple[0]; err = _tuple[1];
-		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			return err;
-		}
-		cert = key.Certificate;
-		/* */ if (!(cert === ptrType$10.nil)) { $s = 3; continue; }
-		/* */ $s = 4; continue;
-		/* if (!(cert === ptrType$10.nil)) { */ case 3:
-			_r$1 = ssh.NewCertSigner(cert, signer); /* */ $s = 5; case 5: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_tuple$1 = _r$1; signer = _tuple$1[0]; err = _tuple$1[1];
-			if (!($interfaceIsEqual(err, $ifaceNil))) {
-				return err;
-			}
-		/* } */ case 4:
-		r.keys = $append(r.keys, new privKey.ptr(signer, key.Comment));
-		return $ifaceNil;
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.Add }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.cert = cert; $f.err = err; $f.key = key; $f.r = r; $f.signer = signer; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.Add = function(key) { return this.$val.Add(key); };
-	keyring.ptr.prototype.Sign = function(key, data) {
-		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, data, k, key, r, wanted, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; data = $f.data; k = $f.k; key = $f.key; r = $f.r; wanted = $f.wanted; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (r.locked) {
-			return [ptrType$4.nil, errLocked];
-		}
-		_r = key.Marshal(); /* */ $s = 2; case 2: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		wanted = _r;
-		_ref = r.keys;
-		_i = 0;
-		/* while (true) { */ case 3:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 4; continue; }
-			k = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), privKey);
-			_r$1 = k.signer.PublicKey(); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_r$2 = _r$1.Marshal(); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			_r$3 = bytes.Equal(_r$2, wanted); /* */ $s = 9; case 9: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			/* */ if (_r$3) { $s = 5; continue; }
-			/* */ $s = 6; continue;
-			/* if (_r$3) { */ case 5:
-				_r$4 = k.signer.Sign(rand.Reader, data); /* */ $s = 10; case 10: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-				return _r$4;
-			/* } */ case 6:
-			_i++;
-		/* } */ $s = 3; continue; case 4:
-		return [ptrType$4.nil, errors.New("not found")];
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return [ptrType$4.nil, $ifaceNil]; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f.data = data; $f.k = k; $f.key = key; $f.r = r; $f.wanted = wanted; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.Sign = function(key, data) { return this.$val.Sign(key, data); };
-	keyring.ptr.prototype.Signers = function() {
-		var $ptr, _i, _ref, k, r, s, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _ref = $f._ref; k = $f.k; r = $f.r; s = $f.s; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		r = this;
-		$r = r.mu.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(r.mu, "Unlock"), []]);
-		if (r.locked) {
-			return [sliceType$3.nil, errLocked];
-		}
-		s = $makeSlice(sliceType$3, 0, r.keys.$length);
-		_ref = r.keys;
-		_i = 0;
-		while (true) {
-			if (!(_i < _ref.$length)) { break; }
-			k = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), privKey);
-			s = $append(s, k.signer);
-			_i++;
-		}
-		return [s, $ifaceNil];
-		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; return [sliceType$3.nil, $ifaceNil]; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: keyring.ptr.prototype.Signers }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f.k = k; $f.r = r; $f.s = s; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	keyring.prototype.Signers = function() { return this.$val.Signers(); };
 	server.ptr.prototype.processRequestBytes = function(reqData) {
 		var $ptr, _r, _r$1, _tuple, err, rep, reqData, s, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _tuple = $f._tuple; err = $f.err; rep = $f.rep; reqData = $f.reqData; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -33407,7 +35008,6 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 	};
 	$pkg.ServeAgent = ServeAgent;
 	ptrType.methods = [{prop: "String", name: "String", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Marshal", name: "Marshal", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Verify", name: "Verify", pkg: "", typ: $funcType([sliceType$1, ptrType$4], [$error], false)}];
-	ptrType$14.methods = [{prop: "RemoveAll", name: "RemoveAll", pkg: "", typ: $funcType([], [$error], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([ssh.PublicKey], [$error], false)}, {prop: "Lock", name: "Lock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "Unlock", name: "Unlock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "List", name: "List", pkg: "", typ: $funcType([], [sliceType$2, $error], false)}, {prop: "Add", name: "Add", pkg: "", typ: $funcType([AddedKey], [$error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ssh.PublicKey, sliceType$1], [ptrType$4, $error], false)}, {prop: "Signers", name: "Signers", pkg: "", typ: $funcType([], [sliceType$3, $error], false)}];
 	ptrType$15.methods = [{prop: "processRequestBytes", name: "processRequestBytes", pkg: "golang.org/x/crypto/ssh/agent", typ: $funcType([sliceType$1], [sliceType$1], false)}, {prop: "processRequest", name: "processRequest", pkg: "golang.org/x/crypto/ssh/agent", typ: $funcType([sliceType$1], [$emptyInterface, $error], false)}, {prop: "insertIdentity", name: "insertIdentity", pkg: "golang.org/x/crypto/ssh/agent", typ: $funcType([sliceType$1], [$error], false)}];
 	Agent.init([{prop: "Add", name: "Add", pkg: "", typ: $funcType([AddedKey], [$error], false)}, {prop: "List", name: "List", pkg: "", typ: $funcType([], [sliceType$2, $error], false)}, {prop: "Lock", name: "Lock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([ssh.PublicKey], [$error], false)}, {prop: "RemoveAll", name: "RemoveAll", pkg: "", typ: $funcType([], [$error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ssh.PublicKey, sliceType$1], [ptrType$4, $error], false)}, {prop: "Signers", name: "Signers", pkg: "", typ: $funcType([], [sliceType$3, $error], false)}, {prop: "Unlock", name: "Unlock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}]);
 	AddedKey.init([{prop: "PrivateKey", name: "PrivateKey", pkg: "", typ: $emptyInterface, tag: ""}, {prop: "Certificate", name: "Certificate", pkg: "", typ: ptrType$10, tag: ""}, {prop: "Comment", name: "Comment", pkg: "", typ: $String, tag: ""}, {prop: "LifetimeSecs", name: "LifetimeSecs", pkg: "", typ: $Uint32, tag: ""}, {prop: "ConfirmBeforeUse", name: "ConfirmBeforeUse", pkg: "", typ: $Bool, tag: ""}]);
@@ -33417,8 +35017,6 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 	Key.init([{prop: "Format", name: "Format", pkg: "", typ: $String, tag: ""}, {prop: "Blob", name: "Blob", pkg: "", typ: sliceType$1, tag: ""}, {prop: "Comment", name: "Comment", pkg: "", typ: $String, tag: ""}]);
 	wireKey.init([{prop: "Format", name: "Format", pkg: "", typ: $String, tag: ""}, {prop: "Rest", name: "Rest", pkg: "", typ: sliceType$1, tag: "ssh:\"rest\""}]);
 	rsaKeyMsg.init([{prop: "Type", name: "Type", pkg: "", typ: $String, tag: "sshtype:\"17\""}, {prop: "N", name: "N", pkg: "", typ: ptrType$9, tag: ""}, {prop: "E", name: "E", pkg: "", typ: ptrType$9, tag: ""}, {prop: "D", name: "D", pkg: "", typ: ptrType$9, tag: ""}, {prop: "Iqmp", name: "Iqmp", pkg: "", typ: ptrType$9, tag: ""}, {prop: "P", name: "P", pkg: "", typ: ptrType$9, tag: ""}, {prop: "Q", name: "Q", pkg: "", typ: ptrType$9, tag: ""}, {prop: "Comments", name: "Comments", pkg: "", typ: $String, tag: ""}, {prop: "Constraints", name: "Constraints", pkg: "", typ: sliceType$1, tag: "ssh:\"rest\""}]);
-	privKey.init([{prop: "signer", name: "signer", pkg: "golang.org/x/crypto/ssh/agent", typ: ssh.Signer, tag: ""}, {prop: "comment", name: "comment", pkg: "golang.org/x/crypto/ssh/agent", typ: $String, tag: ""}]);
-	keyring.init([{prop: "mu", name: "mu", pkg: "golang.org/x/crypto/ssh/agent", typ: sync.Mutex, tag: ""}, {prop: "keys", name: "keys", pkg: "golang.org/x/crypto/ssh/agent", typ: sliceType$4, tag: ""}, {prop: "locked", name: "locked", pkg: "golang.org/x/crypto/ssh/agent", typ: $Bool, tag: ""}, {prop: "passphrase", name: "passphrase", pkg: "golang.org/x/crypto/ssh/agent", typ: sliceType$1, tag: ""}]);
 	server.init([{prop: "agent", name: "agent", pkg: "golang.org/x/crypto/ssh/agent", typ: Agent, tag: ""}]);
 	agentV1IdentityMsg.init([{prop: "Numkeys", name: "Numkeys", pkg: "", typ: $Uint32, tag: "sshtype:\"2\""}]);
 	agentRemoveIdentityMsg.init([{prop: "KeyBlob", name: "KeyBlob", pkg: "", typ: sliceType$1, tag: "sshtype:\"18\""}]);
@@ -33450,16 +35048,55 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 	return $pkg;
 })();
 $packages["main"] = (function() {
-	var $pkg = {}, $init, x509, binary, pem, errors, js, ssh, agent, io, log, PlatformKeysAgent, AgentPort, ptrType, sliceType, ptrType$1, sliceType$1, sliceType$2, chanType, sliceType$3, funcType, ptrType$2, ptrType$3, funcType$1, funcType$2, sliceType$4, ptrType$4, ptrType$5, funcType$3, ptrType$6, ptrType$7, k, init, NewAgentPort, main;
+	var $pkg = {}, $init, bytes, rand, x509, asn1, binary, errors, fmt, js, ssh, agent, io, log, big, strings, PKHashAlgorithm, PKKeyAlgorithm, PKMatch, PlatformKeysAgent, AgentPort, PKSigner, ptrType, sliceType, sliceType$1, ptrType$1, ptrType$2, ptrType$3, sliceType$2, ptrType$4, chanType, funcType, ptrType$5, sliceType$3, sliceType$4, chanType$1, sliceType$5, funcType$1, ptrType$6, ptrType$7, funcType$2, funcType$3, sliceType$6, funcType$4, chanType$2, chanType$3, funcType$5, ptrType$8, structType, ptrType$9, ptrType$10, ptrType$11, NewPlatformKeysAgent, algorithm, NewAgentPort, main, NewPKSigner;
+	bytes = $packages["bytes"];
+	rand = $packages["crypto/rand"];
 	x509 = $packages["crypto/x509"];
+	asn1 = $packages["encoding/asn1"];
 	binary = $packages["encoding/binary"];
-	pem = $packages["encoding/pem"];
 	errors = $packages["errors"];
+	fmt = $packages["fmt"];
 	js = $packages["github.com/gopherjs/gopherjs/js"];
 	ssh = $packages["golang.org/x/crypto/ssh"];
 	agent = $packages["golang.org/x/crypto/ssh/agent"];
 	io = $packages["io"];
 	log = $packages["log"];
+	big = $packages["math/big"];
+	strings = $packages["strings"];
+	PKHashAlgorithm = $pkg.PKHashAlgorithm = $newType(0, $kindStruct, "main.PKHashAlgorithm", "PKHashAlgorithm", "main", function(Object_, Name_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Object = null;
+			this.Name = "";
+			return;
+		}
+		this.Object = Object_;
+		this.Name = Name_;
+	});
+	PKKeyAlgorithm = $pkg.PKKeyAlgorithm = $newType(0, $kindStruct, "main.PKKeyAlgorithm", "PKKeyAlgorithm", "main", function(Object_, Name_, Hash_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Object = null;
+			this.Name = "";
+			this.Hash = ptrType$2.nil;
+			return;
+		}
+		this.Object = Object_;
+		this.Name = Name_;
+		this.Hash = Hash_;
+	});
+	PKMatch = $pkg.PKMatch = $newType(0, $kindStruct, "main.PKMatch", "PKMatch", "main", function(Object_, Certificate_, KeyAlgorithm_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Object = null;
+			this.Certificate = sliceType$1.nil;
+			this.KeyAlgorithm = ptrType$3.nil;
+			return;
+		}
+		this.Object = Object_;
+		this.Certificate = Certificate_;
+		this.KeyAlgorithm = KeyAlgorithm_;
+	});
 	PlatformKeysAgent = $pkg.PlatformKeysAgent = $newType(0, $kindStruct, "main.PlatformKeysAgent", "PlatformKeysAgent", "main", function(pk_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -33472,10 +35109,10 @@ $packages["main"] = (function() {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.p = null;
-			this.inReader = ptrType$2.nil;
-			this.inWriter = ptrType$3.nil;
-			this.outReader = ptrType$2.nil;
-			this.outWriter = ptrType$3.nil;
+			this.inReader = ptrType$6.nil;
+			this.inWriter = ptrType$7.nil;
+			this.outReader = ptrType$6.nil;
+			this.outWriter = ptrType$7.nil;
 			return;
 		}
 		this.p = p_;
@@ -33484,46 +35121,186 @@ $packages["main"] = (function() {
 		this.outReader = outReader_;
 		this.outWriter = outWriter_;
 	});
+	PKSigner = $pkg.PKSigner = $newType(0, $kindStruct, "main.PKSigner", "PKSigner", "main", function(pk_, publicKey_, algo_, privateKey_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.pk = null;
+			this.publicKey = $ifaceNil;
+			this.algo = ptrType$3.nil;
+			this.privateKey = null;
+			return;
+		}
+		this.pk = pk_;
+		this.publicKey = publicKey_;
+		this.algo = algo_;
+		this.privateKey = privateKey_;
+	});
 	ptrType = $ptrType(agent.Key);
 	sliceType = $sliceType(ptrType);
+	sliceType$1 = $sliceType($Uint8);
 	ptrType$1 = $ptrType(ssh.Signature);
-	sliceType$1 = $sliceType(ssh.Signer);
-	sliceType$2 = $sliceType($emptyInterface);
-	chanType = $chanType(sliceType$2, false, false);
-	sliceType$3 = $sliceType($String);
-	funcType = $funcType([sliceType$2], [], false);
-	ptrType$2 = $ptrType(io.PipeReader);
-	ptrType$3 = $ptrType(io.PipeWriter);
-	funcType$1 = $funcType([], [], false);
-	funcType$2 = $funcType([js.M], [], false);
-	sliceType$4 = $sliceType($Uint8);
-	ptrType$4 = $ptrType(ssh.Certificate);
-	ptrType$5 = $ptrType(js.Object);
-	funcType$3 = $funcType([ptrType$5], [], false);
-	ptrType$6 = $ptrType(PlatformKeysAgent);
-	ptrType$7 = $ptrType(AgentPort);
+	ptrType$2 = $ptrType(PKHashAlgorithm);
+	ptrType$3 = $ptrType(PKKeyAlgorithm);
+	sliceType$2 = $sliceType(ssh.Signer);
+	ptrType$4 = $ptrType(js.Object);
+	chanType = $chanType(ptrType$4, false, false);
+	funcType = $funcType([ptrType$4, ptrType$4], [], false);
+	ptrType$5 = $ptrType(x509.Certificate);
+	sliceType$3 = $sliceType(ptrType$5);
+	sliceType$4 = $sliceType(PKMatch);
+	chanType$1 = $chanType(sliceType$4, false, false);
+	sliceType$5 = $sliceType($String);
+	funcType$1 = $funcType([sliceType$4], [], false);
+	ptrType$6 = $ptrType(io.PipeReader);
+	ptrType$7 = $ptrType(io.PipeWriter);
+	funcType$2 = $funcType([], [], false);
+	funcType$3 = $funcType([js.M], [], false);
+	sliceType$6 = $sliceType($emptyInterface);
+	funcType$4 = $funcType([ptrType$4], [], false);
+	chanType$2 = $chanType($error, false, false);
+	chanType$3 = $chanType(sliceType$1, false, false);
+	funcType$5 = $funcType([$emptyInterface], [], false);
+	ptrType$8 = $ptrType(big.Int);
+	structType = $structType([{prop: "R", name: "R", pkg: "", typ: ptrType$8, tag: ""}, {prop: "S", name: "S", pkg: "", typ: ptrType$8, tag: ""}]);
+	ptrType$9 = $ptrType(PlatformKeysAgent);
+	ptrType$10 = $ptrType(AgentPort);
+	ptrType$11 = $ptrType(PKSigner);
+	NewPlatformKeysAgent = function() {
+		var $ptr, pk;
+		pk = $global.chrome.platformKeys;
+		return new PlatformKeysAgent.ptr(pk);
+	};
+	$pkg.NewPlatformKeysAgent = NewPlatformKeysAgent;
 	PlatformKeysAgent.ptr.prototype.List = function() {
-		var $ptr, _r, a, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; a = $f.a; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _ref, _tuple, _tuple$1, a, cert, certs, err, err$1, keys, pubkey, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; keys = $f.keys; pubkey = $f.pubkey; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
 		_r = a.listCertificates(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_r;
-		return [sliceType.nil, $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.List }; } $f.$ptr = $ptr; $f._r = _r; $f.a = a; $f.$s = $s; $f.$r = $r; return $f;
+		_tuple = _r; certs = _tuple[0]; err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [sliceType.nil, err];
+		}
+		keys = $makeSlice(sliceType, 0, certs.$length);
+		_ref = certs;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			cert = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			_r$1 = ssh.NewPublicKey(cert.PublicKey); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple$1 = _r$1; pubkey = _tuple$1[0]; err$1 = _tuple$1[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				return [sliceType.nil, err$1];
+			}
+			_r$2 = pubkey.Type(); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_r$3 = pubkey.Marshal(); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			keys = $append(keys, new agent.Key.ptr(_r$2, _r$3, ""));
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		return [keys, $ifaceNil];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.List }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.keys = keys; $f.pubkey = pubkey; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	PlatformKeysAgent.prototype.List = function() { return this.$val.List(); };
 	PlatformKeysAgent.ptr.prototype.Sign = function(key, data) {
-		var $ptr, a, data, key;
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _ref, _tuple, a, data, err, key, signer, signers, wanted, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _ref = $f._ref; _tuple = $f._tuple; a = $f.a; data = $f.data; err = $f.err; key = $f.key; signer = $f.signer; signers = $f.signers; wanted = $f.wanted; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
-		return [ptrType$1.nil, $ifaceNil];
+		_r = key.Marshal(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		wanted = _r;
+		_r$1 = a.Signers(); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_tuple = _r$1; signers = _tuple[0]; err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [ptrType$1.nil, err];
+		}
+		_ref = signers;
+		_i = 0;
+		/* while (true) { */ case 3:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 4; continue; }
+			signer = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			_r$2 = signer.PublicKey(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_r$3 = _r$2.Marshal(); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			_r$4 = bytes.Equal(_r$3, wanted); /* */ $s = 9; case 9: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			/* */ if (_r$4) { $s = 5; continue; }
+			/* */ $s = 6; continue;
+			/* if (_r$4) { */ case 5:
+				_r$5 = signer.Sign(rand.Reader, data); /* */ $s = 10; case 10: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+				return _r$5;
+			/* } */ case 6:
+			_i++;
+		/* } */ $s = 3; continue; case 4:
+		return [ptrType$1.nil, $pkg.ErrNotFound];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._ref = _ref; $f._tuple = _tuple; $f.a = a; $f.data = data; $f.err = err; $f.key = key; $f.signer = signer; $f.signers = signers; $f.wanted = wanted; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	PlatformKeysAgent.prototype.Sign = function(key, data) { return this.$val.Sign(key, data); };
+	algorithm = function(cert) {
+		var $ptr, _ref, cert;
+		_ref = cert.PublicKeyAlgorithm;
+		if (_ref === 1) {
+			return new PKKeyAlgorithm.ptr(null, "RSASSA-PKCS1-v1_5", new PKHashAlgorithm.ptr(null, "SHA-1"));
+		} else if (_ref === 3) {
+			return new PKKeyAlgorithm.ptr(null, "ECDSA", ptrType$2.nil);
+		} else {
+			return ptrType$3.nil;
+		}
+	};
 	PlatformKeysAgent.ptr.prototype.Signers = function() {
-		var $ptr, a;
+		var $ptr, _i, _r, _r$1, _r$2, _ref, _tmp, _tmp$1, _tmp$2, _tmp$3, _tuple, _tuple$1, a, algo, cert, certs, err, err$1, privkey, res, signer, signers, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _ref = $f._ref; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; algo = $f.algo; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; privkey = $f.privkey; res = $f.res; signer = $f.signer; signers = $f.signers; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		err = [err];
+		signers = sliceType$2.nil;
+		err[0] = $ifaceNil;
 		a = this;
-		return [sliceType$1.nil, $ifaceNil];
+		$deferred.push([(function(err) { return function() {
+			var $ptr, r;
+			r = $recover();
+			if (!($interfaceIsEqual(r, $ifaceNil))) {
+				err[0] = $assertType(r, $error);
+			}
+		}; })(err), []]);
+		_r = a.listCertificates(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; certs = _tuple[0]; err[0] = _tuple[1];
+		if (!($interfaceIsEqual(err[0], $ifaceNil))) {
+			_tmp = sliceType$2.nil; _tmp$1 = err[0]; signers = _tmp; err[0] = _tmp$1;
+			return [signers, err[0]];
+		}
+		_ref = certs;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			res = [res];
+			cert = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			algo = algorithm(cert);
+			res[0] = new chanType(1);
+			a.pk.getKeyPair(js.NewArrayBuffer(cert.Raw), $externalize(algo, ptrType$3), $externalize((function(err, res) { return function(pubKey, privKey) {
+				var $ptr, privKey, pubKey;
+				$go((function(err, res) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(res[0], privKey); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(err, res), []);
+			}; })(err, res), funcType));
+			_r$1 = $recv(res[0]); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			privkey = _r$1[0];
+			_r$2 = NewPKSigner(a.pk, cert, algo, privkey); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_tuple$1 = _r$2; signer = _tuple$1[0]; err$1 = _tuple$1[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				_tmp$2 = sliceType$2.nil; _tmp$3 = err$1; signers = _tmp$2; err[0] = _tmp$3;
+				return [signers, err[0]];
+			}
+			signers = $append(signers, signer);
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		return [signers, err[0]];
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [signers, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.Signers }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.algo = algo; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.privkey = privkey; $f.res = res; $f.signer = signer; $f.signers = signers; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
 	};
 	PlatformKeysAgent.prototype.Signers = function() { return this.$val.Signers(); };
+	PlatformKeysAgent.ptr.prototype.Add = function(key) {
+		var $ptr, a, key;
+		key = $clone(key, agent.AddedKey);
+		a = this;
+		return $pkg.ErrUnsupported;
+	};
+	PlatformKeysAgent.prototype.Add = function(key) { return this.$val.Add(key); };
 	PlatformKeysAgent.ptr.prototype.Remove = function(key) {
 		var $ptr, a, key;
 		a = this;
@@ -33549,28 +35326,51 @@ $packages["main"] = (function() {
 	};
 	PlatformKeysAgent.prototype.Unlock = function(passphrase) { return this.$val.Unlock(passphrase); };
 	PlatformKeysAgent.ptr.prototype.listCertificates = function() {
-		var $ptr, _key, _key$1, _map, _map$1, _r, a, certs, req, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _key = $f._key; _key$1 = $f._key$1; _map = $f._map; _map$1 = $f._map$1; _r = $f._r; a = $f.a; certs = $f.certs; req = $f.req; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		certs = [certs];
+		var $ptr, _i, _key, _key$1, _map, _map$1, _r, _r$1, _ref, _tmp, _tmp$1, _tuple, a, cert, certs, err, err$1, m, matches, req, results, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key = $f._key; _key$1 = $f._key$1; _map = $f._map; _map$1 = $f._map$1; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tuple = $f._tuple; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; m = $f.m; matches = $f.matches; req = $f.req; results = $f.results; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		err = [err];
+		results = [results];
+		certs = sliceType$3.nil;
+		err[0] = $ifaceNil;
 		a = this;
-		certs[0] = new chanType(1);
-		req = (_map = new $Map(), _key = "request", _map[$String.keyFor(_key)] = { k: _key, v: new js.M((_map$1 = new $Map(), _key$1 = "certificateTypes", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new sliceType$3([]) }, _key$1 = "certificateAuthorities", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new js.S([]) }, _map$1)) }, _key = "interactive", _map[$String.keyFor(_key)] = { k: _key, v: new $Bool(false) }, _map);
-		a.pk.selectClientCertificates($externalize(req, js.M), $externalize((function(certs) { return function $b(matches) {
-			var $ptr, matches, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; matches = $f.matches; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-			$r = $send(certs[0], matches); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.matches = matches; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(certs), funcType));
-		_r = $recv(certs[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		return _r[0];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._key = _key; $f._key$1 = _key$1; $f._map = _map; $f._map$1 = _map$1; $f._r = _r; $f.a = a; $f.certs = certs; $f.req = req; $f.$s = $s; $f.$r = $r; return $f;
+		$deferred.push([(function(err, results) { return function() {
+			var $ptr, r;
+			r = $recover();
+			if (!($interfaceIsEqual(r, $ifaceNil))) {
+				err[0] = $assertType(r, $error);
+			}
+		}; })(err, results), []]);
+		results[0] = new chanType$1(1);
+		req = (_map = new $Map(), _key = "request", _map[$String.keyFor(_key)] = { k: _key, v: new js.M((_map$1 = new $Map(), _key$1 = "certificateTypes", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new sliceType$5([]) }, _key$1 = "certificateAuthorities", _map$1[$String.keyFor(_key$1)] = { k: _key$1, v: new js.S([]) }, _map$1)) }, _key = "interactive", _map[$String.keyFor(_key)] = { k: _key, v: new $Bool(false) }, _map);
+		a.pk.selectClientCertificates($externalize(req, js.M), $externalize((function(err, results) { return function(matches) {
+			var $ptr, matches;
+			$go((function(err, results) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(results[0], matches); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(err, results), []);
+		}; })(err, results), funcType$1));
+		_r = $recv(results[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		matches = _r[0];
+		_ref = matches;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			m = $clone(((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]), PKMatch);
+			_r$1 = x509.ParseCertificate($internalize(m.Object.certificate, sliceType$1)); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple = _r$1; cert = _tuple[0]; err$1 = _tuple[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				_tmp = sliceType$3.nil; _tmp$1 = err$1; certs = _tmp; err[0] = _tmp$1;
+				return [certs, err[0]];
+			}
+			certs = $append(certs, cert);
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		return [certs, err[0]];
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [certs, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._i = _i; $f._key = _key; $f._key$1 = _key$1; $f._map = _map; $f._map$1 = _map$1; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tuple = _tuple; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.m = m; $f.matches = matches; $f.req = req; $f.results = results; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
 	};
 	PlatformKeysAgent.prototype.listCertificates = function() { return this.$val.listCertificates(); };
-	init = function() {
-		var $ptr, pk;
-		pk = $global.chrome.platformKeys;
-		$global.agent = js.MakeWrapper(new PlatformKeysAgent.ptr(pk));
-	};
 	NewAgentPort = function(p) {
 		var $ptr, _tuple, _tuple$1, ap, ir, iw, or, ow, p;
 		_tuple = io.Pipe(); ir = _tuple[0]; iw = _tuple[1];
@@ -33579,11 +35379,11 @@ $packages["main"] = (function() {
 		ap.p.onDisconnect.addListener($externalize((function() {
 			var $ptr;
 			$go($methodVal(ap, "OnDisconnect"), []);
-		}), funcType$1));
+		}), funcType$2));
 		ap.p.onMessage.addListener($externalize((function(msg) {
 			var $ptr, msg;
 			$go($methodVal(ap, "OnMessage"), [msg]);
-		}), funcType$2));
+		}), funcType$3));
 		$go($methodVal(ap, "SendMessages"), []);
 		return ap;
 	};
@@ -33601,15 +35401,15 @@ $packages["main"] = (function() {
 		var $ptr, _entry, _i, _r, _ref, _tuple, _tuple$1, _tuple$2, ap, d, err, framed, i, msg, n, ok, ok$1, raw, x, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _i = $f._i; _r = $f._r; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; ap = $f.ap; d = $f.d; err = $f.err; framed = $f.framed; i = $f.i; msg = $f.msg; n = $f.n; ok = $f.ok; ok$1 = $f.ok$1; raw = $f.raw; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		ap = this;
-		_tuple = $assertType((_entry = msg[$String.keyFor("data")], _entry !== undefined ? _entry.v : $ifaceNil), sliceType$2, true); d = _tuple[0]; ok = _tuple[1];
+		_tuple = $assertType((_entry = msg[$String.keyFor("data")], _entry !== undefined ? _entry.v : $ifaceNil), sliceType$6, true); d = _tuple[0]; ok = _tuple[1];
 		/* */ if (!ok) { $s = 1; continue; }
 		/* */ $s = 2; continue;
 		/* if (!ok) { */ case 1:
-			$r = log.Printf("Message did not contain Array data field: %v", new sliceType$2([new js.M(msg)])); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = log.Printf("Message did not contain Array data field: %v", new sliceType$6([new js.M(msg)])); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			ap.p.disconnect();
 			return;
 		/* } */ case 2:
-		framed = $makeSlice(sliceType$4, (4 + d.$length >> 0));
+		framed = $makeSlice(sliceType$1, (4 + d.$length >> 0));
 		binary.BigEndian.PutUint32(framed, (d.$length >>> 0));
 		_ref = d;
 		_i = 0;
@@ -33621,22 +35421,21 @@ $packages["main"] = (function() {
 			/* */ if (!ok$1) { $s = 6; continue; }
 			/* */ $s = 7; continue;
 			/* if (!ok$1) { */ case 6:
-				$r = log.Printf("Message contained non-numeric data: %v", new sliceType$2([new js.M(msg)])); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = log.Printf("Message contained non-numeric data: %v", new sliceType$6([new js.M(msg)])); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				ap.p.disconnect();
 				return;
 			/* } */ case 7:
 			(x = i + 4 >> 0, ((x < 0 || x >= framed.$length) ? $throwRuntimeError("index out of range") : framed.$array[framed.$offset + x] = (n >> 0)));
 			_i++;
 		/* } */ $s = 4; continue; case 5:
-		$r = log.Printf("Received: %v", new sliceType$2([framed])); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_r = ap.inWriter.Write(framed); /* */ $s = 10; case 10: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = ap.inWriter.Write(framed); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_tuple$2 = _r; err = _tuple$2[1];
-		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 11; continue; }
-		/* */ $s = 12; continue;
-		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 11:
-			$r = log.Printf("Error writing to pipe: %v", new sliceType$2([err])); /* */ $s = 13; case 13: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 10; continue; }
+		/* */ $s = 11; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 10:
+			$r = log.Printf("Error writing to pipe: %v", new sliceType$6([err])); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			ap.p.disconnect();
-		/* } */ case 12:
+		/* } */ case 11:
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: AgentPort.ptr.prototype.OnMessage }; } $f.$ptr = $ptr; $f._entry = _entry; $f._i = _i; $f._r = _r; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.ap = ap; $f.d = d; $f.err = err; $f.framed = framed; $f.i = i; $f.msg = msg; $f.n = n; $f.ok = ok; $f.ok$1 = ok$1; $f.raw = raw; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	AgentPort.prototype.OnMessage = function(msg) { return this.$val.OnMessage(msg); };
@@ -33657,25 +35456,25 @@ $packages["main"] = (function() {
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key = $f._key; _map = $f._map; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; ap = $f.ap; b = $f.b; data = $f.data; encoded = $f.encoded; err = $f.err; i = $f.i; l = $f.l; length = $f.length; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		ap = this;
 		/* while (true) { */ case 1:
-			l = $makeSlice(sliceType$4, 4);
+			l = $makeSlice(sliceType$1, 4);
 			_r = io.ReadFull(ap.outReader, l); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			_tuple = _r; err = _tuple[1];
 			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 4; continue; }
 			/* */ $s = 5; continue;
 			/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 4:
-				$r = log.Printf("Error reading from pipe: %v", new sliceType$2([err])); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = log.Printf("Error reading from pipe: %v", new sliceType$6([err])); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_r$1 = ap.outReader.Close(); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 				_r$1;
 				return;
 			/* } */ case 5:
 			length = binary.BigEndian.Uint32(l);
-			data = $makeSlice(sliceType$4, length);
+			data = $makeSlice(sliceType$1, length);
 			_r$2 = io.ReadFull(ap.outReader, data); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 			_tuple$1 = _r$2; err = _tuple$1[1];
 			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 9; continue; }
 			/* */ $s = 10; continue;
 			/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 9:
-				$r = log.Printf("Error reading from pipe: %v", new sliceType$2([err])); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = log.Printf("Error reading from pipe: %v", new sliceType$6([err])); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_r$3 = ap.outReader.Close(); /* */ $s = 12; case 12: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 				_r$3;
 				return;
@@ -33690,7 +35489,6 @@ $packages["main"] = (function() {
 				((i < 0 || i >= encoded.$length) ? $throwRuntimeError("index out of range") : encoded.$array[encoded.$offset + i] = new $Float64(b));
 				_i++;
 			}
-			$r = log.Printf("Sending: %v", new sliceType$2([encoded])); /* */ $s = 13; case 13: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			ap.p.postMessage($externalize((_map = new $Map(), _key = "data", _map[$String.keyFor(_key)] = { k: _key, v: encoded }, _map), js.M));
 		/* } */ $s = 1; continue; case 2:
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: AgentPort.ptr.prototype.SendMessages }; } $f.$ptr = $ptr; $f._i = _i; $f._key = _key; $f._map = _map; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.ap = ap; $f.b = b; $f.data = data; $f.encoded = encoded; $f.err = err; $f.i = i; $f.l = l; $f.length = length; $f.$s = $s; $f.$r = $r; return $f;
@@ -33709,62 +35507,140 @@ $packages["main"] = (function() {
 	};
 	AgentPort.prototype.Write = function(p) { return this.$val.Write(p); };
 	main = function() {
-		var $ptr, _r, _r$1, _r$2, _tuple, _tuple$1, a, blk, err, key, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; blk = $f.blk; err = $f.err; key = $f.key; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		a = [a];
-		a[0] = agent.NewKeyring();
-		$global.agent = $externalize(a[0], agent.Agent);
-		_r = pem.Decode(new sliceType$4($stringToBytes(k))); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_tuple = _r; blk = _tuple[0];
-		_r$1 = x509.ParsePKCS1PrivateKey(blk.Bytes); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_tuple$1 = _r$1; key = _tuple$1[0]; err = _tuple$1[1];
-		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 3; continue; }
-		/* */ $s = 4; continue;
-		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 3:
-			$r = log.Printf("Error! %v", new sliceType$2([err])); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* } */ case 4:
-		_r$2 = a[0].Add(new agent.AddedKey.ptr(key, ptrType$4.nil, "", 0, false)); /* */ $s = 6; case 6: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		err = _r$2;
-		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 7; continue; }
-		/* */ $s = 8; continue;
-		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 7:
-			$r = log.Printf("Error! %v", new sliceType$2([err])); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* } */ case 8:
-		$r = log.Printf("Keys loaded!", new sliceType$2([])); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$global.chrome.runtime.onConnectExternal.addListener($externalize((function(a) { return function(port) {
+		var $ptr, pka;
+		pka = NewPlatformKeysAgent();
+		$global.agent = js.MakeWrapper(pka);
+		$global.chrome.runtime.onConnectExternal.addListener($externalize((function(port) {
 			var $ptr, port;
-			$go((function(a) { return function $b() {
-				var $ptr, _r$3, p, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$3 = $f._r$3; p = $f.p; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$go((function $b() {
+				var $ptr, _r, p, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; p = $f.p; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 				p = NewAgentPort(port);
-				_r$3 = agent.ServeAgent(a[0], p); /* */ $s = 1; case 1: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-				_r$3;
-				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$3 = _r$3; $f.p = p; $f.$s = $s; $f.$r = $r; return $f;
-			}; })(a), []);
-		}; })(a), funcType$3));
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: main }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.blk = blk; $f.err = err; $f.key = key; $f.$s = $s; $f.$r = $r; return $f;
+				_r = agent.ServeAgent(pka, p); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				_r;
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.p = p; $f.$s = $s; $f.$r = $r; return $f;
+			}), []);
+		}), funcType$4));
 	};
-	ptrType$6.methods = [{prop: "List", name: "List", pkg: "", typ: $funcType([], [sliceType, $error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ssh.PublicKey, sliceType$4], [ptrType$1, $error], false)}, {prop: "Signers", name: "Signers", pkg: "", typ: $funcType([], [sliceType$1, $error], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([ssh.PublicKey], [$error], false)}, {prop: "RemoveAll", name: "RemoveAll", pkg: "", typ: $funcType([], [$error], false)}, {prop: "Lock", name: "Lock", pkg: "", typ: $funcType([sliceType$4], [$error], false)}, {prop: "Unlock", name: "Unlock", pkg: "", typ: $funcType([sliceType$4], [$error], false)}, {prop: "listCertificates", name: "listCertificates", pkg: "main", typ: $funcType([], [sliceType$2], false)}];
-	ptrType$7.methods = [{prop: "OnDisconnect", name: "OnDisconnect", pkg: "", typ: $funcType([], [], false)}, {prop: "OnMessage", name: "OnMessage", pkg: "", typ: $funcType([js.M], [], false)}, {prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType$4], [$Int, $error], false)}, {prop: "SendMessages", name: "SendMessages", pkg: "", typ: $funcType([], [], false)}, {prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType$4], [$Int, $error], false)}];
-	PlatformKeysAgent.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType$5, tag: ""}]);
-	AgentPort.init([{prop: "p", name: "p", pkg: "main", typ: ptrType$5, tag: ""}, {prop: "inReader", name: "inReader", pkg: "main", typ: ptrType$2, tag: ""}, {prop: "inWriter", name: "inWriter", pkg: "main", typ: ptrType$3, tag: ""}, {prop: "outReader", name: "outReader", pkg: "main", typ: ptrType$2, tag: ""}, {prop: "outWriter", name: "outWriter", pkg: "main", typ: ptrType$3, tag: ""}]);
+	NewPKSigner = function(pk, cert, algo, privkey) {
+		var $ptr, _r, _tuple, algo, cert, err, pk, privkey, pubkey, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; algo = $f.algo; cert = $f.cert; err = $f.err; pk = $f.pk; privkey = $f.privkey; pubkey = $f.pubkey; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r = ssh.NewPublicKey(cert.PublicKey); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r; pubkey = _tuple[0]; err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			return [$ifaceNil, err];
+		}
+		return [new PKSigner.ptr(pk, pubkey, algo, privkey), $ifaceNil];
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: NewPKSigner }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.algo = algo; $f.cert = cert; $f.err = err; $f.pk = pk; $f.privkey = privkey; $f.pubkey = pubkey; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.NewPKSigner = NewPKSigner;
+	PKSigner.ptr.prototype.PublicKey = function() {
+		var $ptr, pks;
+		pks = this;
+		return pks.publicKey;
+	};
+	PKSigner.prototype.PublicKey = function() { return this.$val.PublicKey(); };
+	PKSigner.ptr.prototype.Sign = function(rand$1, data) {
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _selection, _tmp, _tmp$1, _tmp$2, _tmp$3, _tmp$4, _tmp$5, _tuple, asn1Sig, crypto, data, err, err$1, err$2, errChan, pks, promise, rand$1, res, resChan, sig, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _selection = $f._selection; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tmp$4 = $f._tmp$4; _tmp$5 = $f._tmp$5; _tuple = $f._tuple; asn1Sig = $f.asn1Sig; crypto = $f.crypto; data = $f.data; err = $f.err; err$1 = $f.err$1; err$2 = $f.err$2; errChan = $f.errChan; pks = $f.pks; promise = $f.promise; rand$1 = $f.rand$1; res = $f.res; resChan = $f.resChan; sig = $f.sig; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		err = [err];
+		errChan = [errChan];
+		resChan = [resChan];
+		sig = ptrType$1.nil;
+		err[0] = $ifaceNil;
+		pks = this;
+		$deferred.push([(function(err, errChan, resChan) { return function() {
+			var $ptr, r;
+			r = $recover();
+			if (!($interfaceIsEqual(r, $ifaceNil))) {
+				err[0] = $assertType(r, $error);
+			}
+		}; })(err, errChan, resChan), []]);
+		crypto = pks.pk.subtleCrypto();
+		promise = crypto.sign($externalize(pks.algo, ptrType$3), pks.privateKey, js.NewArrayBuffer(data));
+		errChan[0] = new chanType$2(1);
+		resChan[0] = new chanType$3(1);
+		promise.then($externalize((function(err, errChan, resChan) { return function(result) {
+			var $ptr, result;
+			$go((function(err, errChan, resChan) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(resChan[0], $assertType($internalize(new ($global.Uint8Array)(result), $emptyInterface), sliceType$1)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(err, errChan, resChan), []);
+		}; })(err, errChan, resChan), funcType$4));
+		promise.catch($externalize((function(err, errChan, resChan) { return function(err$1) {
+			var $ptr, err$1;
+			$go((function(err, errChan, resChan) { return function $b() {
+				var $ptr, _r, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				_r = fmt.Errorf("%s", new sliceType$6([err$1])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				$r = $send(errChan[0], _r); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(err, errChan, resChan), []);
+		}; })(err, errChan, resChan), funcType$5));
+		res = sliceType$1.nil;
+		_r = $select([[resChan[0]], [errChan[0]]]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_selection = _r;
+		switch (0) { default: if (_selection[0] === 0) {
+			res = _selection[1][0];
+			break;
+		} else if (_selection[0] === 1) {
+			err$1 = _selection[1][0];
+			_tmp = ptrType$1.nil; _tmp$1 = err$1; sig = _tmp; err[0] = _tmp$1;
+			return [sig, err[0]];
+		} }
+		_r$1 = pks.publicKey.Type(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_r$2 = strings.HasPrefix(_r$1, "ecdsa-"); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		/* */ if (_r$2) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if (_r$2) { */ case 2:
+			asn1Sig = new structType.ptr(ptrType$8.nil, ptrType$8.nil);
+			_r$3 = asn1.Unmarshal(res, asn1Sig); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			_tuple = _r$3; err$2 = _tuple[1];
+			if (!($interfaceIsEqual(err$2, $ifaceNil))) {
+				_tmp$2 = ptrType$1.nil; _tmp$3 = err$2; sig = _tmp$2; err[0] = _tmp$3;
+				return [sig, err[0]];
+			}
+			_r$4 = ssh.Marshal(asn1Sig); /* */ $s = 7; case 7: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			res = _r$4;
+		/* } */ case 3:
+		_r$5 = pks.publicKey.Type(); /* */ $s = 8; case 8: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+		_tmp$4 = new ssh.Signature.ptr(_r$5, res); _tmp$5 = $ifaceNil; sig = _tmp$4; err[0] = _tmp$5;
+		return [sig, err[0]];
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if (!$curGoroutine.asleep) { return  [sig, err[0]]; } if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: PKSigner.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._selection = _selection; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tmp$4 = _tmp$4; $f._tmp$5 = _tmp$5; $f._tuple = _tuple; $f.asn1Sig = asn1Sig; $f.crypto = crypto; $f.data = data; $f.err = err; $f.err$1 = err$1; $f.err$2 = err$2; $f.errChan = errChan; $f.pks = pks; $f.promise = promise; $f.rand$1 = rand$1; $f.res = res; $f.resChan = resChan; $f.sig = sig; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+	};
+	PKSigner.prototype.Sign = function(rand$1, data) { return this.$val.Sign(rand$1, data); };
+	ptrType$9.methods = [{prop: "List", name: "List", pkg: "", typ: $funcType([], [sliceType, $error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ssh.PublicKey, sliceType$1], [ptrType$1, $error], false)}, {prop: "Signers", name: "Signers", pkg: "", typ: $funcType([], [sliceType$2, $error], false)}, {prop: "Add", name: "Add", pkg: "", typ: $funcType([agent.AddedKey], [$error], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([ssh.PublicKey], [$error], false)}, {prop: "RemoveAll", name: "RemoveAll", pkg: "", typ: $funcType([], [$error], false)}, {prop: "Lock", name: "Lock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "Unlock", name: "Unlock", pkg: "", typ: $funcType([sliceType$1], [$error], false)}, {prop: "listCertificates", name: "listCertificates", pkg: "main", typ: $funcType([], [sliceType$3, $error], false)}];
+	ptrType$10.methods = [{prop: "OnDisconnect", name: "OnDisconnect", pkg: "", typ: $funcType([], [], false)}, {prop: "OnMessage", name: "OnMessage", pkg: "", typ: $funcType([js.M], [], false)}, {prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}, {prop: "SendMessages", name: "SendMessages", pkg: "", typ: $funcType([], [], false)}, {prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType$1], [$Int, $error], false)}];
+	ptrType$11.methods = [{prop: "PublicKey", name: "PublicKey", pkg: "", typ: $funcType([], [ssh.PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType$1], [ptrType$1, $error], false)}];
+	PKHashAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$4, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}]);
+	PKKeyAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$4, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}, {prop: "Hash", name: "Hash", pkg: "", typ: ptrType$2, tag: "js:\"hash\""}]);
+	PKMatch.init([{prop: "Object", name: "", pkg: "", typ: ptrType$4, tag: ""}, {prop: "Certificate", name: "Certificate", pkg: "", typ: sliceType$1, tag: "js:\"certificate\""}, {prop: "KeyAlgorithm", name: "KeyAlgorithm", pkg: "", typ: ptrType$3, tag: "js:\"keyAlgorithm\""}]);
+	PlatformKeysAgent.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType$4, tag: ""}]);
+	AgentPort.init([{prop: "p", name: "p", pkg: "main", typ: ptrType$4, tag: ""}, {prop: "inReader", name: "inReader", pkg: "main", typ: ptrType$6, tag: ""}, {prop: "inWriter", name: "inWriter", pkg: "main", typ: ptrType$7, tag: ""}, {prop: "outReader", name: "outReader", pkg: "main", typ: ptrType$6, tag: ""}, {prop: "outWriter", name: "outWriter", pkg: "main", typ: ptrType$7, tag: ""}]);
+	PKSigner.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType$4, tag: ""}, {prop: "publicKey", name: "publicKey", pkg: "main", typ: ssh.PublicKey, tag: ""}, {prop: "algo", name: "algo", pkg: "main", typ: ptrType$3, tag: ""}, {prop: "privateKey", name: "privateKey", pkg: "main", typ: ptrType$4, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = x509.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = binary.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = pem.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = errors.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = js.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = ssh.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = agent.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = io.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = log.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$pkg.ErrUnsupported = errors.New("Unsupported operation");
+		$r = bytes.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = rand.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = x509.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = asn1.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = binary.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = errors.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = fmt.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = js.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = ssh.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = agent.$init(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = io.$init(); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = log.$init(); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = big.$init(); /* */ $s = 13; case 13: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = strings.$init(); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$pkg.ErrUnsupported = errors.New("unsupported operation");
+		$pkg.ErrNotFound = errors.New("not found");
 		$pkg.ErrInvalidMsg = errors.New("Invalid message frame");
-		k = "-----BEGIN RSA PRIVATE KEY-----\nMIICXgIBAAKBgQDxJveJPA5r8E3xWoHJSGzt37qfslwLgdUty7Awqa5PxRxkGts1\nijIywziPKlnKo9HBj3DtHfK7szoFq3MgsOuXYkdOR224tjaXxCZqBSV3ST3gICIr\nVVl97f+NqSg9cSfxlROwZlil0wSgBD7tatBrrfpYO3uPUajqMjqr9IiXOwIDAQAB\nAoGBAJKrlJqPQGY9/enxlkaKGlaDYMqIfJszGCmGXV77lN1HkYEBJJpntyhQvDG3\nHG23PXhwecp+EIhA9eVE5fzYHjECZIbLvLIEcUjelvYIYlXVkuBzDpTnIMSn1U8h\nPe6KcIraOLYPkknDK/FNJGAKKE3KazEU4FBHWXW+N8A9KqXBAkEA/5zIbIHJgbcx\ndnhFtMTwrpmHoGq84IL26AMdwiHjIhU36/WvQkgxF+nElLgNGU4kBpKpmmQb5bKK\n9geQ32r2WQJBAPGEkjxrCW1amm3YWKyZ+tn9HfcAQzwnwqVT+CU2mY4YrU/L0hM8\nMoTCgasKJOTqWZ6PtdJu1y2GVM6fX30kL7MCQQC4ZrPUS6FCWhVt4QBwk68KVqoY\nWUhfMzvKTw010tqX6PTJ3hkMWSZJmRR/MXQJsGye7Uk7n0Lc53wGV5j1BKYpAkA4\nJd3pdejnJ10nlFhpKBMNgq7osYLwBT5XOUJDRIJGaq5AEt5v4lrMSnviy6TwIxta\npYZbubEEwGoO7zY/3Z3JAkEA0OzujATYs7BaYlfLJgt5teQgHDb2OjtGTphk4zAu\nN25nKkaa7VoB031y5r2fLrPyajCl1VfPWXN8cP4QlYvUZw==\n-----END RSA PRIVATE KEY-----";
-		init();
-		$r = main(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		main();
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
