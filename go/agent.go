@@ -118,7 +118,7 @@ func (a *MacGyverAgent) listCertificates() ([]*x509.Certificate, error) {
 
 	certs := make([]*x509.Certificate, 0, len(matches))
 	for _, m := range matches {
-		cert, err := x509.ParseCertificate(m.Certificate)
+		cert, err := x509.ParseCertificate(m)
 		if err != nil {
 			return nil, err
 		}

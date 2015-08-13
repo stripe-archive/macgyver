@@ -8,6 +8,8 @@ import (
 	"crypto/x509"
 	"errors"
 	"io"
+
+	"github.com/gopherjs/gopherjs/js"
 )
 
 var ErrUnsupportedHash = errors.New("unsupported hash")
@@ -71,19 +73,19 @@ func (pks *PKSigner) Sign(rand io.Reader, msg []byte, opts crypto.SignerOpts) (s
 
 	hash := hashNames[opts.HashFunc()]
 
-	var algorithm *PKKeyAlgorithm
+	var algorithm js.M
 	switch k := pks.Public().(type) {
 	case *rsa.PublicKey:
 		if pssOpts, ok := opts.(*rsa.PSSOptions); ok {
-			algorithm = &PKKeyAlgorithm{
-				Name:       "RSA-PSS",
-				SaltLength: pssOpts.SaltLength,
-				Hash:       &PKHashAlgorithm{Name: hash},
+			algorithm = js.M{
+				"name":       "RSA-PSS",
+				"saltLength": pssOpts.SaltLength,
+				"hash":       js.M{"name": hash},
 			}
 		} else {
-			algorithm = &PKKeyAlgorithm{
-				Name: "RSASSA-PKCS1-v1_5",
-				Hash: &PKHashAlgorithm{Name: "none"},
+			algorithm = js.M{
+				"name": "RSASSA-PKCS1-v1_5",
+				"hash": js.M{"name": "none"},
 			}
 
 			prefix, ok := hashPrefixes[opts.HashFunc()]
@@ -99,10 +101,10 @@ func (pks *PKSigner) Sign(rand io.Reader, msg []byte, opts crypto.SignerOpts) (s
 			return nil, ErrUnsupported
 		}
 
-		algorithm = &PKKeyAlgorithm{
-			Name:       "ECDSA",
-			Hash:       &PKHashAlgorithm{Name: hash},
-			NamedCurve: curveName,
+		algorithm = js.M{
+			"name":       "ECDSA",
+			"hash":       js.M{"name": hash},
+			"namedCurve": curveName,
 		}
 	}
 
