@@ -35190,7 +35190,7 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 	return $pkg;
 })();
 $packages["main"] = (function() {
-	var $pkg = {}, $init, bytes, crypto, ecdsa, elliptic, rand, rsa, x509, binary, errors, fmt, js, ssh, ssh$1, agent, io, log, MacGyverAgent, AgentPort, PKHashAlgorithm, PKKeyAlgorithm, PKMatch, PlatformKeys, pkKeyPair, PKSigner, sliceType, ptrType, ptrType$1, sliceType$1, ptrType$2, sliceType$2, sliceType$3, ptrType$3, sliceType$4, ptrType$4, ptrType$5, funcType, funcType$1, sliceType$5, ptrType$6, funcType$2, sliceType$6, chanType, funcType$3, chanType$1, ptrType$7, funcType$4, chanType$2, chanType$3, funcType$5, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, hashPrefixes, hashNames, curveNames, _map, _key, _map$1, _key$1, _map$2, _key$2, _r, _r$1, _r$2, NewMacGyverAgent, NewAgentPort, main, NewPKSigner;
+	var $pkg = {}, $init, bytes, crypto, ecdsa, elliptic, rand, rsa, x509, binary, errors, fmt, js, ssh, ssh$1, agent, io, log, MacGyverAgent, AgentPort, PKHashAlgorithm, PKKeyAlgorithm, PKMatch, PlatformKeys, pkKeyPair, PKSigner, sliceType, ptrType, ptrType$1, sliceType$1, ptrType$2, sliceType$2, sliceType$3, ptrType$3, sliceType$4, ptrType$4, ptrType$5, funcType, funcType$1, sliceType$5, ptrType$6, funcType$2, sliceType$6, chanType, funcType$3, chanType$1, ptrType$7, funcType$4, chanType$2, chanType$3, funcType$5, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, hashPrefixes, hashNames, curveNames, _map, _key, _map$1, _key$1, _map$2, _key$2, _map$3, _key$3, _r, _r$1, _r$2, NewMacGyverAgent, NewAgentPort, main, NewPKSigner;
 	bytes = $packages["bytes"];
 	crypto = $packages["crypto"];
 	ecdsa = $packages["crypto/ecdsa"];
@@ -35457,10 +35457,10 @@ $packages["main"] = (function() {
 	};
 	MacGyverAgent.prototype.Unlock = function(passphrase) { return this.$val.Unlock(passphrase); };
 	MacGyverAgent.ptr.prototype.listCertificates = function() {
-		var $ptr, _i, _key$3, _key$4, _map$3, _map$4, _r$3, _r$4, _ref, _tuple, _tuple$1, a, cert, certs, err, err$1, m, matches, req, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key$3 = $f._key$3; _key$4 = $f._key$4; _map$3 = $f._map$3; _map$4 = $f._map$4; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; m = $f.m; matches = $f.matches; req = $f.req; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _key$4, _key$5, _map$4, _map$5, _r$3, _r$4, _ref, _tuple, _tuple$1, a, cert, certs, err, err$1, m, matches, req, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key$4 = $f._key$4; _key$5 = $f._key$5; _map$4 = $f._map$4; _map$5 = $f._map$5; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; m = $f.m; matches = $f.matches; req = $f.req; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
-		req = (_map$3 = new $Map(), _key$3 = "request", _map$3[$String.keyFor(_key$3)] = { k: _key$3, v: new js.M((_map$4 = new $Map(), _key$4 = "certificateTypes", _map$4[$String.keyFor(_key$4)] = { k: _key$4, v: new sliceType$3([]) }, _key$4 = "certificateAuthorities", _map$4[$String.keyFor(_key$4)] = { k: _key$4, v: new js.S([]) }, _map$4)) }, _key$3 = "interactive", _map$3[$String.keyFor(_key$3)] = { k: _key$3, v: new $Bool(false) }, _map$3);
+		req = (_map$4 = new $Map(), _key$4 = "request", _map$4[$String.keyFor(_key$4)] = { k: _key$4, v: new js.M((_map$5 = new $Map(), _key$5 = "certificateTypes", _map$5[$String.keyFor(_key$5)] = { k: _key$5, v: new sliceType$3([]) }, _key$5 = "certificateAuthorities", _map$5[$String.keyFor(_key$5)] = { k: _key$5, v: new js.S([]) }, _map$5)) }, _key$4 = "interactive", _map$4[$String.keyFor(_key$4)] = { k: _key$4, v: new $Bool(false) }, _map$4);
 		_r$3 = a.pk.SelectClientCertificates(req); /* */ $s = 1; case 1: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 		_tuple = _r$3; matches = _tuple[0]; err = _tuple[1];
 		if (!($interfaceIsEqual(err, $ifaceNil))) {
@@ -35481,7 +35481,7 @@ $packages["main"] = (function() {
 			_i++;
 		/* } */ $s = 2; continue; case 3:
 		return [certs, $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: MacGyverAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._i = _i; $f._key$3 = _key$3; $f._key$4 = _key$4; $f._map$3 = _map$3; $f._map$4 = _map$4; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.m = m; $f.matches = matches; $f.req = req; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: MacGyverAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._i = _i; $f._key$4 = _key$4; $f._key$5 = _key$5; $f._map$4 = _map$4; $f._map$5 = _map$5; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.m = m; $f.matches = matches; $f.req = req; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	MacGyverAgent.prototype.listCertificates = function() { return this.$val.listCertificates(); };
 	NewAgentPort = function(p) {
@@ -35565,8 +35565,8 @@ $packages["main"] = (function() {
 	};
 	AgentPort.prototype.Read = function(p) { return this.$val.Read(p); };
 	AgentPort.ptr.prototype.SendMessages = function() {
-		var $ptr, _i, _key$3, _map$3, _r$3, _r$4, _r$5, _r$6, _ref, _tuple, _tuple$1, ap, b, data, encoded, err, i, l, length, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key$3 = $f._key$3; _map$3 = $f._map$3; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; ap = $f.ap; b = $f.b; data = $f.data; encoded = $f.encoded; err = $f.err; i = $f.i; l = $f.l; length = $f.length; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _key$4, _map$4, _r$3, _r$4, _r$5, _r$6, _ref, _tuple, _tuple$1, ap, b, data, encoded, err, i, l, length, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key$4 = $f._key$4; _map$4 = $f._map$4; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; ap = $f.ap; b = $f.b; data = $f.data; encoded = $f.encoded; err = $f.err; i = $f.i; l = $f.l; length = $f.length; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		ap = this;
 		/* while (true) { */ case 1:
 			l = $makeSlice(sliceType, 4);
@@ -35602,9 +35602,9 @@ $packages["main"] = (function() {
 				((i < 0 || i >= encoded.$length) ? $throwRuntimeError("index out of range") : encoded.$array[encoded.$offset + i] = new $Float64(b));
 				_i++;
 			}
-			ap.p.postMessage($externalize((_map$3 = new $Map(), _key$3 = "data", _map$3[$String.keyFor(_key$3)] = { k: _key$3, v: encoded }, _map$3), js.M));
+			ap.p.postMessage($externalize((_map$4 = new $Map(), _key$4 = "data", _map$4[$String.keyFor(_key$4)] = { k: _key$4, v: encoded }, _map$4), js.M));
 		/* } */ $s = 1; continue; case 2:
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: AgentPort.ptr.prototype.SendMessages }; } $f.$ptr = $ptr; $f._i = _i; $f._key$3 = _key$3; $f._map$3 = _map$3; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.ap = ap; $f.b = b; $f.data = data; $f.encoded = encoded; $f.err = err; $f.i = i; $f.l = l; $f.length = length; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: AgentPort.ptr.prototype.SendMessages }; } $f.$ptr = $ptr; $f._i = _i; $f._key$4 = _key$4; $f._map$4 = _map$4; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.ap = ap; $f.b = b; $f.data = data; $f.encoded = encoded; $f.err = err; $f.i = i; $f.l = l; $f.length = length; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	AgentPort.prototype.SendMessages = function() { return this.$val.SendMessages(); };
 	AgentPort.ptr.prototype.Write = function(p) {
@@ -35620,18 +35620,26 @@ $packages["main"] = (function() {
 	};
 	AgentPort.prototype.Write = function(p) { return this.$val.Write(p); };
 	main = function() {
-		var $ptr, pka;
-		pka = NewMacGyverAgent();
-		$global.agent = js.MakeWrapper(pka);
+		var $ptr, mga;
+		mga = NewMacGyverAgent();
+		$global.agent = js.MakeWrapper(mga);
 		$global.chrome.runtime.onConnectExternal.addListener($externalize((function(port) {
 			var $ptr, port;
 			$go((function $b() {
-				var $ptr, _r$3, p, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$3 = $f._r$3; p = $f.p; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				var $ptr, _entry, _r$3, p, sender, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _r$3 = $f._r$3; p = $f.p; sender = $f.sender; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				sender = $internalize(port.sender.id, $String);
+				/* */ if (!(_entry = $pkg.AllowedClients[$String.keyFor(sender)], _entry !== undefined ? _entry.v : false)) { $s = 1; continue; }
+				/* */ $s = 2; continue;
+				/* if (!(_entry = $pkg.AllowedClients[$String.keyFor(sender)], _entry !== undefined ? _entry.v : false)) { */ case 1:
+					$r = log.Printf("Received a connection from an unknown extension: %v", new sliceType$5([new $String(sender)])); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					port.disconnect();
+					return;
+				/* } */ case 2:
 				p = NewAgentPort(port);
-				_r$3 = agent.ServeAgent(pka, p); /* */ $s = 1; case 1: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+				_r$3 = agent.ServeAgent(mga, p); /* */ $s = 4; case 4: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 				_r$3;
-				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$3 = _r$3; $f.p = p; $f.$s = $s; $f.$r = $r; return $f;
+				/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._entry = _entry; $f._r$3 = _r$3; $f.p = p; $f.sender = sender; $f.$s = $s; $f.$r = $r; return $f;
 			}), []);
 		}), funcType$2));
 	};
@@ -35850,13 +35858,14 @@ $packages["main"] = (function() {
 		$pkg.ErrUnsupported = errors.New("unsupported operation");
 		$pkg.ErrNotFound = errors.New("not found");
 		$pkg.ErrInvalidMsg = errors.New("invalid message frame");
+		$pkg.AllowedClients = (_map = new $Map(), _key = "pnhechapfaindjhompbnflcldabbghjo", _map[$String.keyFor(_key)] = { k: _key, v: true }, _key = "okddffdblfhhnmhodogpojmfkjmhinfp", _map[$String.keyFor(_key)] = { k: _key, v: true }, _map);
 		$pkg.ErrUnsupportedHash = errors.New("unsupported hash");
-		hashPrefixes = (_map = new $Map(), _key = 3, _map[crypto.Hash.keyFor(_key)] = { k: _key, v: new sliceType([48, 33, 48, 9, 6, 5, 43, 14, 3, 2, 26, 5, 0, 4, 20]) }, _key = 5, _map[crypto.Hash.keyFor(_key)] = { k: _key, v: new sliceType([48, 49, 48, 13, 6, 9, 96, 134, 72, 1, 101, 3, 4, 2, 1, 5, 0, 4, 32]) }, _key = 6, _map[crypto.Hash.keyFor(_key)] = { k: _key, v: new sliceType([48, 65, 48, 13, 6, 9, 96, 134, 72, 1, 101, 3, 4, 2, 2, 5, 0, 4, 48]) }, _key = 7, _map[crypto.Hash.keyFor(_key)] = { k: _key, v: new sliceType([48, 81, 48, 13, 6, 9, 96, 134, 72, 1, 101, 3, 4, 2, 3, 5, 0, 4, 64]) }, _key = 0, _map[crypto.Hash.keyFor(_key)] = { k: _key, v: new sliceType([]) }, _map);
-		hashNames = (_map$1 = new $Map(), _key$1 = 3, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: "SHA-1" }, _key$1 = 5, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: "SHA-256" }, _key$1 = 6, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: "SHA-384" }, _key$1 = 7, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: "SHA-512" }, _key$1 = 0, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: "none" }, _map$1);
+		hashPrefixes = (_map$1 = new $Map(), _key$1 = 3, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: new sliceType([48, 33, 48, 9, 6, 5, 43, 14, 3, 2, 26, 5, 0, 4, 20]) }, _key$1 = 5, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: new sliceType([48, 49, 48, 13, 6, 9, 96, 134, 72, 1, 101, 3, 4, 2, 1, 5, 0, 4, 32]) }, _key$1 = 6, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: new sliceType([48, 65, 48, 13, 6, 9, 96, 134, 72, 1, 101, 3, 4, 2, 2, 5, 0, 4, 48]) }, _key$1 = 7, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: new sliceType([48, 81, 48, 13, 6, 9, 96, 134, 72, 1, 101, 3, 4, 2, 3, 5, 0, 4, 64]) }, _key$1 = 0, _map$1[crypto.Hash.keyFor(_key$1)] = { k: _key$1, v: new sliceType([]) }, _map$1);
+		hashNames = (_map$2 = new $Map(), _key$2 = 3, _map$2[crypto.Hash.keyFor(_key$2)] = { k: _key$2, v: "SHA-1" }, _key$2 = 5, _map$2[crypto.Hash.keyFor(_key$2)] = { k: _key$2, v: "SHA-256" }, _key$2 = 6, _map$2[crypto.Hash.keyFor(_key$2)] = { k: _key$2, v: "SHA-384" }, _key$2 = 7, _map$2[crypto.Hash.keyFor(_key$2)] = { k: _key$2, v: "SHA-512" }, _key$2 = 0, _map$2[crypto.Hash.keyFor(_key$2)] = { k: _key$2, v: "none" }, _map$2);
 		_r = elliptic.P256(); /* */ $s = 17; case 17: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r$1 = elliptic.P384(); /* */ $s = 18; case 18: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		_r$2 = elliptic.P521(); /* */ $s = 19; case 19: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		curveNames = (_map$2 = new $Map(), _key$2 = _r, _map$2[elliptic.Curve.keyFor(_key$2)] = { k: _key$2, v: "P-256" }, _key$2 = _r$1, _map$2[elliptic.Curve.keyFor(_key$2)] = { k: _key$2, v: "P-384" }, _key$2 = _r$2, _map$2[elliptic.Curve.keyFor(_key$2)] = { k: _key$2, v: "P-521" }, _map$2);
+		curveNames = (_map$3 = new $Map(), _key$3 = _r, _map$3[elliptic.Curve.keyFor(_key$3)] = { k: _key$3, v: "P-256" }, _key$3 = _r$1, _map$3[elliptic.Curve.keyFor(_key$3)] = { k: _key$3, v: "P-384" }, _key$3 = _r$2, _map$3[elliptic.Curve.keyFor(_key$3)] = { k: _key$3, v: "P-521" }, _map$3);
 		main();
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
