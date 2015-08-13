@@ -1,7 +1,7 @@
 {
-  "name": "platformKeyAgent",
+  "name": "Agent MacGyver",
   "version": "0.0.1",
-  "description": "Provides an SSH agent interface using the platformKey API",
+  "description": "Using nothing more than a Swiss Army knife and a ball of string, glues together an SSH agent using the platformKey API",
   "manifest_version": 2,
   "background": {
     "scripts": [

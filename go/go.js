@@ -35190,7 +35190,7 @@ $packages["golang.org/x/crypto/ssh/agent"] = (function() {
 	return $pkg;
 })();
 $packages["main"] = (function() {
-	var $pkg = {}, $init, bytes, crypto, ecdsa, elliptic, rand, rsa, x509, binary, errors, fmt, js, ssh, ssh$1, agent, io, log, PlatformKeysAgent, AgentPort, PKHashAlgorithm, PKKeyAlgorithm, PKMatch, PlatformKeys, pkKeyPair, PKSigner, sliceType, ptrType, ptrType$1, sliceType$1, ptrType$2, sliceType$2, sliceType$3, ptrType$3, sliceType$4, ptrType$4, ptrType$5, funcType, funcType$1, sliceType$5, ptrType$6, funcType$2, sliceType$6, chanType, funcType$3, chanType$1, ptrType$7, funcType$4, chanType$2, chanType$3, funcType$5, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, hashPrefixes, hashNames, curveNames, _map, _key, _map$1, _key$1, _map$2, _key$2, _r, _r$1, _r$2, NewPlatformKeysAgent, NewAgentPort, main, NewPKSigner;
+	var $pkg = {}, $init, bytes, crypto, ecdsa, elliptic, rand, rsa, x509, binary, errors, fmt, js, ssh, ssh$1, agent, io, log, MacGyverAgent, AgentPort, PKHashAlgorithm, PKKeyAlgorithm, PKMatch, PlatformKeys, pkKeyPair, PKSigner, sliceType, ptrType, ptrType$1, sliceType$1, ptrType$2, sliceType$2, sliceType$3, ptrType$3, sliceType$4, ptrType$4, ptrType$5, funcType, funcType$1, sliceType$5, ptrType$6, funcType$2, sliceType$6, chanType, funcType$3, chanType$1, ptrType$7, funcType$4, chanType$2, chanType$3, funcType$5, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, hashPrefixes, hashNames, curveNames, _map, _key, _map$1, _key$1, _map$2, _key$2, _r, _r$1, _r$2, NewMacGyverAgent, NewAgentPort, main, NewPKSigner;
 	bytes = $packages["bytes"];
 	crypto = $packages["crypto"];
 	ecdsa = $packages["crypto/ecdsa"];
@@ -35207,7 +35207,7 @@ $packages["main"] = (function() {
 	agent = $packages["golang.org/x/crypto/ssh/agent"];
 	io = $packages["io"];
 	log = $packages["log"];
-	PlatformKeysAgent = $pkg.PlatformKeysAgent = $newType(0, $kindStruct, "main.PlatformKeysAgent", "PlatformKeysAgent", "main", function(pk_) {
+	MacGyverAgent = $pkg.MacGyverAgent = $newType(0, $kindStruct, "main.MacGyverAgent", "MacGyverAgent", "main", function(pk_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.pk = ptrType.nil;
@@ -35326,16 +35326,16 @@ $packages["main"] = (function() {
 	ptrType$9 = $ptrType(ecdsa.PublicKey);
 	ptrType$10 = $ptrType(rsa.PSSOptions);
 	ptrType$11 = $ptrType(PKHashAlgorithm);
-	ptrType$12 = $ptrType(PlatformKeysAgent);
+	ptrType$12 = $ptrType(MacGyverAgent);
 	ptrType$13 = $ptrType(AgentPort);
 	ptrType$14 = $ptrType(PKSigner);
-	NewPlatformKeysAgent = function() {
+	NewMacGyverAgent = function() {
 		var $ptr, pk;
 		pk = $global.chrome.platformKeys;
-		return new PlatformKeysAgent.ptr(new PlatformKeys.ptr(pk));
+		return new MacGyverAgent.ptr(new PlatformKeys.ptr(pk));
 	};
-	$pkg.NewPlatformKeysAgent = NewPlatformKeysAgent;
-	PlatformKeysAgent.ptr.prototype.List = function() {
+	$pkg.NewMacGyverAgent = NewMacGyverAgent;
+	MacGyverAgent.ptr.prototype.List = function() {
 		var $ptr, _i, _r$3, _r$4, _r$5, _r$6, _ref, _tuple, _tuple$1, a, cert, certs, err, err$1, keys, pubkey, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; keys = $f.keys; pubkey = $f.pubkey; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
@@ -35361,10 +35361,10 @@ $packages["main"] = (function() {
 			_i++;
 		/* } */ $s = 2; continue; case 3:
 		return [keys, $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.List }; } $f.$ptr = $ptr; $f._i = _i; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.keys = keys; $f.pubkey = pubkey; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: MacGyverAgent.ptr.prototype.List }; } $f.$ptr = $ptr; $f._i = _i; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.keys = keys; $f.pubkey = pubkey; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	PlatformKeysAgent.prototype.List = function() { return this.$val.List(); };
-	PlatformKeysAgent.ptr.prototype.Sign = function(key, data) {
+	MacGyverAgent.prototype.List = function() { return this.$val.List(); };
+	MacGyverAgent.ptr.prototype.Sign = function(key, data) {
 		var $ptr, _i, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _ref, _tuple, a, data, err, key, signer, signers, wanted, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _ref = $f._ref; _tuple = $f._tuple; a = $f.a; data = $f.data; err = $f.err; key = $f.key; signer = $f.signer; signers = $f.signers; wanted = $f.wanted; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
@@ -35392,10 +35392,10 @@ $packages["main"] = (function() {
 			_i++;
 		/* } */ $s = 3; continue; case 4:
 		return [ptrType$2.nil, $pkg.ErrNotFound];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._i = _i; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._ref = _ref; $f._tuple = _tuple; $f.a = a; $f.data = data; $f.err = err; $f.key = key; $f.signer = signer; $f.signers = signers; $f.wanted = wanted; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: MacGyverAgent.ptr.prototype.Sign }; } $f.$ptr = $ptr; $f._i = _i; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._ref = _ref; $f._tuple = _tuple; $f.a = a; $f.data = data; $f.err = err; $f.key = key; $f.signer = signer; $f.signers = signers; $f.wanted = wanted; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	PlatformKeysAgent.prototype.Sign = function(key, data) { return this.$val.Sign(key, data); };
-	PlatformKeysAgent.ptr.prototype.Signers = function() {
+	MacGyverAgent.prototype.Sign = function(key, data) { return this.$val.Sign(key, data); };
+	MacGyverAgent.ptr.prototype.Signers = function() {
 		var $ptr, _i, _r$3, _r$4, _ref, _tmp, _tmp$1, _tmp$2, _tmp$3, _tuple, _tuple$1, a, cert, certs, err, err$1, signer, signers, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tmp$2 = $f._tmp$2; _tmp$3 = $f._tmp$3; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; signer = $f.signer; signers = $f.signers; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		signers = sliceType$2.nil;
@@ -35422,41 +35422,41 @@ $packages["main"] = (function() {
 			_i++;
 		/* } */ $s = 2; continue; case 3:
 		return [signers, err];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.Signers }; } $f.$ptr = $ptr; $f._i = _i; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.signer = signer; $f.signers = signers; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: MacGyverAgent.ptr.prototype.Signers }; } $f.$ptr = $ptr; $f._i = _i; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tmp$2 = _tmp$2; $f._tmp$3 = _tmp$3; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.signer = signer; $f.signers = signers; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	PlatformKeysAgent.prototype.Signers = function() { return this.$val.Signers(); };
-	PlatformKeysAgent.ptr.prototype.Add = function(key) {
+	MacGyverAgent.prototype.Signers = function() { return this.$val.Signers(); };
+	MacGyverAgent.ptr.prototype.Add = function(key) {
 		var $ptr, a, key;
 		key = $clone(key, agent.AddedKey);
 		a = this;
 		return $pkg.ErrUnsupported;
 	};
-	PlatformKeysAgent.prototype.Add = function(key) { return this.$val.Add(key); };
-	PlatformKeysAgent.ptr.prototype.Remove = function(key) {
+	MacGyverAgent.prototype.Add = function(key) { return this.$val.Add(key); };
+	MacGyverAgent.ptr.prototype.Remove = function(key) {
 		var $ptr, a, key;
 		a = this;
 		return $pkg.ErrUnsupported;
 	};
-	PlatformKeysAgent.prototype.Remove = function(key) { return this.$val.Remove(key); };
-	PlatformKeysAgent.ptr.prototype.RemoveAll = function() {
+	MacGyverAgent.prototype.Remove = function(key) { return this.$val.Remove(key); };
+	MacGyverAgent.ptr.prototype.RemoveAll = function() {
 		var $ptr, a;
 		a = this;
 		return $pkg.ErrUnsupported;
 	};
-	PlatformKeysAgent.prototype.RemoveAll = function() { return this.$val.RemoveAll(); };
-	PlatformKeysAgent.ptr.prototype.Lock = function(passphrase) {
+	MacGyverAgent.prototype.RemoveAll = function() { return this.$val.RemoveAll(); };
+	MacGyverAgent.ptr.prototype.Lock = function(passphrase) {
 		var $ptr, a, passphrase;
 		a = this;
 		return $pkg.ErrUnsupported;
 	};
-	PlatformKeysAgent.prototype.Lock = function(passphrase) { return this.$val.Lock(passphrase); };
-	PlatformKeysAgent.ptr.prototype.Unlock = function(passphrase) {
+	MacGyverAgent.prototype.Lock = function(passphrase) { return this.$val.Lock(passphrase); };
+	MacGyverAgent.ptr.prototype.Unlock = function(passphrase) {
 		var $ptr, a, passphrase;
 		a = this;
 		return $pkg.ErrUnsupported;
 	};
-	PlatformKeysAgent.prototype.Unlock = function(passphrase) { return this.$val.Unlock(passphrase); };
-	PlatformKeysAgent.ptr.prototype.listCertificates = function() {
+	MacGyverAgent.prototype.Unlock = function(passphrase) { return this.$val.Unlock(passphrase); };
+	MacGyverAgent.ptr.prototype.listCertificates = function() {
 		var $ptr, _i, _key$3, _key$4, _map$3, _map$4, _r$3, _r$4, _ref, _tuple, _tuple$1, a, cert, certs, err, err$1, m, matches, req, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _key$3 = $f._key$3; _key$4 = $f._key$4; _map$3 = $f._map$3; _map$4 = $f._map$4; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; a = $f.a; cert = $f.cert; certs = $f.certs; err = $f.err; err$1 = $f.err$1; m = $f.m; matches = $f.matches; req = $f.req; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
@@ -35481,9 +35481,9 @@ $packages["main"] = (function() {
 			_i++;
 		/* } */ $s = 2; continue; case 3:
 		return [certs, $ifaceNil];
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: PlatformKeysAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._i = _i; $f._key$3 = _key$3; $f._key$4 = _key$4; $f._map$3 = _map$3; $f._map$4 = _map$4; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.m = m; $f.matches = matches; $f.req = req; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: MacGyverAgent.ptr.prototype.listCertificates }; } $f.$ptr = $ptr; $f._i = _i; $f._key$3 = _key$3; $f._key$4 = _key$4; $f._map$3 = _map$3; $f._map$4 = _map$4; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.a = a; $f.cert = cert; $f.certs = certs; $f.err = err; $f.err$1 = err$1; $f.m = m; $f.matches = matches; $f.req = req; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	PlatformKeysAgent.prototype.listCertificates = function() { return this.$val.listCertificates(); };
+	MacGyverAgent.prototype.listCertificates = function() { return this.$val.listCertificates(); };
 	NewAgentPort = function(p) {
 		var $ptr, _tuple, _tuple$1, ap, ir, iw, or, ow, p;
 		_tuple = io.Pipe(); ir = _tuple[0]; iw = _tuple[1];
@@ -35621,7 +35621,7 @@ $packages["main"] = (function() {
 	AgentPort.prototype.Write = function(p) { return this.$val.Write(p); };
 	main = function() {
 		var $ptr, pka;
-		pka = NewPlatformKeysAgent();
+		pka = NewMacGyverAgent();
 		$global.agent = js.MakeWrapper(pka);
 		$global.chrome.runtime.onConnectExternal.addListener($externalize((function(port) {
 			var $ptr, port;
@@ -35820,7 +35820,7 @@ $packages["main"] = (function() {
 	ptrType$13.methods = [{prop: "OnDisconnect", name: "OnDisconnect", pkg: "", typ: $funcType([], [], false)}, {prop: "OnMessage", name: "OnMessage", pkg: "", typ: $funcType([js.M], [], false)}, {prop: "Read", name: "Read", pkg: "", typ: $funcType([sliceType], [$Int, $error], false)}, {prop: "SendMessages", name: "SendMessages", pkg: "", typ: $funcType([], [], false)}, {prop: "Write", name: "Write", pkg: "", typ: $funcType([sliceType], [$Int, $error], false)}];
 	ptrType.methods = [{prop: "SelectClientCertificates", name: "SelectClientCertificates", pkg: "", typ: $funcType([js.M], [sliceType$6, $error], false)}, {prop: "GetKeyPair", name: "GetKeyPair", pkg: "", typ: $funcType([sliceType, ptrType$7], [ptrType$6, ptrType$6, $error], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([ptrType$7, ptrType$6, sliceType], [sliceType, $error], false)}];
 	ptrType$14.methods = [{prop: "Public", name: "Public", pkg: "", typ: $funcType([], [crypto.PublicKey], false)}, {prop: "Sign", name: "Sign", pkg: "", typ: $funcType([io.Reader, sliceType, crypto.SignerOpts], [sliceType, $error], false)}];
-	PlatformKeysAgent.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType, tag: ""}]);
+	MacGyverAgent.init([{prop: "pk", name: "pk", pkg: "main", typ: ptrType, tag: ""}]);
 	AgentPort.init([{prop: "p", name: "p", pkg: "main", typ: ptrType$6, tag: ""}, {prop: "inReader", name: "inReader", pkg: "main", typ: ptrType$4, tag: ""}, {prop: "inWriter", name: "inWriter", pkg: "main", typ: ptrType$5, tag: ""}, {prop: "outReader", name: "outReader", pkg: "main", typ: ptrType$4, tag: ""}, {prop: "outWriter", name: "outWriter", pkg: "main", typ: ptrType$5, tag: ""}]);
 	PKHashAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$6, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}]);
 	PKKeyAlgorithm.init([{prop: "Object", name: "", pkg: "", typ: ptrType$6, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: "js:\"name\""}, {prop: "Hash", name: "Hash", pkg: "", typ: ptrType$11, tag: "js:\"hash\""}, {prop: "SaltLength", name: "SaltLength", pkg: "", typ: $Int, tag: "js:\"saltLength\""}, {prop: "NamedCurve", name: "NamedCurve", pkg: "", typ: $String, tag: "js:\"namedCurve\""}]);

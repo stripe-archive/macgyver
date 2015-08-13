@@ -15,19 +15,19 @@ import (
 var ErrUnsupported = errors.New("unsupported operation")
 var ErrNotFound = errors.New("not found")
 
-type PlatformKeysAgent struct {
+type MacGyverAgent struct {
 	// chrome.platformKeys
 	pk *PlatformKeys
 }
 
-func NewPlatformKeysAgent() *PlatformKeysAgent {
+func NewMacGyverAgent() *MacGyverAgent {
 	pk := js.Global.Get("chrome").Get("platformKeys")
-	return &PlatformKeysAgent{
+	return &MacGyverAgent{
 		pk: &PlatformKeys{pk},
 	}
 }
 
-func (a *PlatformKeysAgent) List() ([]*agent.Key, error) {
+func (a *MacGyverAgent) List() ([]*agent.Key, error) {
 	certs, err := a.listCertificates()
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (a *PlatformKeysAgent) List() ([]*agent.Key, error) {
 	return keys, nil
 }
 
-func (a *PlatformKeysAgent) Sign(key ssh.PublicKey, data []byte) (*ssh.Signature, error) {
+func (a *MacGyverAgent) Sign(key ssh.PublicKey, data []byte) (*ssh.Signature, error) {
 	wanted := key.Marshal()
 	signers, err := a.Signers()
 	if err != nil {
@@ -65,7 +65,7 @@ func (a *PlatformKeysAgent) Sign(key ssh.PublicKey, data []byte) (*ssh.Signature
 	return nil, ErrNotFound
 }
 
-func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
+func (a *MacGyverAgent) Signers() (signers []ssh.Signer, err error) {
 	certs, err := a.listCertificates()
 	if err != nil {
 		return nil, err
@@ -82,27 +82,27 @@ func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
 	return
 }
 
-func (a *PlatformKeysAgent) Add(key agent.AddedKey) error {
+func (a *MacGyverAgent) Add(key agent.AddedKey) error {
 	return ErrUnsupported
 }
 
-func (a *PlatformKeysAgent) Remove(key ssh.PublicKey) error {
+func (a *MacGyverAgent) Remove(key ssh.PublicKey) error {
 	return ErrUnsupported
 }
 
-func (a *PlatformKeysAgent) RemoveAll() error {
+func (a *MacGyverAgent) RemoveAll() error {
 	return ErrUnsupported
 }
 
-func (a *PlatformKeysAgent) Lock(passphrase []byte) error {
+func (a *MacGyverAgent) Lock(passphrase []byte) error {
 	return ErrUnsupported
 }
 
-func (a *PlatformKeysAgent) Unlock(passphrase []byte) error {
+func (a *MacGyverAgent) Unlock(passphrase []byte) error {
 	return ErrUnsupported
 }
 
-func (a *PlatformKeysAgent) listCertificates() ([]*x509.Certificate, error) {
+func (a *MacGyverAgent) listCertificates() ([]*x509.Certificate, error) {
 	req := js.M{
 		"request": js.M{
 			"certificateTypes":       []string{},

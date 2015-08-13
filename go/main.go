@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	pka := NewPlatformKeysAgent()
+	pka := NewMacGyverAgent()
 	js.Global.Set("agent", js.MakeWrapper(pka))
 
 	js.Global.Get("chrome").
