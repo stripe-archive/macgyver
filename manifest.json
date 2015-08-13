@@ -10,5 +10,13 @@
   },
   "permissions": [
     "platformKeys"
-  ]
+  ],
+  "externally_connectable": {
+    "ids": [
+      // Secure Shell
+      "pnhechapfaindjhompbnflcldabbghjo",
+      // Secure Shell (dev)
+      "okddffdblfhhnmhodogpojmfkjmhinfp"
+    ]
+  }
 }
