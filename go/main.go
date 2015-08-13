@@ -13,9 +13,7 @@ func main() {
 		Get("runtime").
 		Get("onConnectExternal").
 		Call("addListener", func(port *js.Object) {
-		go func() {
-			p := NewAgentPort(port)
-			agent.ServeAgent(mga, p)
-		}()
+		p := NewAgentPort(port)
+		go func() { agent.ServeAgent(mga, p) }()
 	})
 }
