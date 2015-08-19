@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"errors"
+	"log"
 
 	"github.com/gopherjs/gopherjs/js"
 	minissh "github.com/stripe/minitrue/ssh"
@@ -33,6 +34,8 @@ func (a *MacGyverAgent) List() ([]*agent.Key, error) {
 		return nil, err
 	}
 
+	log.Printf("Listing keys: count=%d", len(certs))
+
 	keys := make([]*agent.Key, 0, len(certs))
 	for _, cert := range certs {
 		pubkey, err := ssh.NewPublicKey(cert.PublicKey)
@@ -58,6 +61,7 @@ func (a *MacGyverAgent) Sign(key ssh.PublicKey, data []byte) (*ssh.Signature, er
 
 	for _, signer := range signers {
 		if bytes.Equal(signer.PublicKey().Marshal(), wanted) {
+			log.Printf("Signing message: key=%s", ssh.MarshalAuthorizedKey(signer.PublicKey()))
 			return signer.Sign(rand.Reader, data)
 		}
 	}
