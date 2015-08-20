@@ -1,12 +1,26 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gopherjs/gopherjs/js"
 	"golang.org/x/crypto/ssh/agent"
 )
 
 func main() {
-	mga := NewMacGyverAgent()
+	if (true) { // Set to false for debugging localStorage backend
+		launch(NewPlatformKeysAgent())
+	} else {
+		a, err := NewChromeStorageAgent()
+		if err != nil {
+			log.Printf("Failed to create ChromeStorageAgent: %v", err)
+			return
+		}
+		launch(a)
+	}
+}
+
+func launch(mga agent.Agent) {
 	js.Global.Set("agent", js.MakeWrapper(mga))
 
 	js.Global.Get("chrome").

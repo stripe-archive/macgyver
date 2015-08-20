@@ -38,3 +38,11 @@ extension.
 [Gopherjs]: http://www.gopherjs.org/
 [x/crypto]: https://godoc.org/golang.org/x/crypto
 [chrome.enterprise.platformKeys]: https://developer.chrome.com/extensions/enterprise_platformKeys
+
+## Hacking
+
+If you want to hack on this not on a Chromebook, there's a rough localStorage
+backend for keys that you can use instead of Chrome PlatformKeys.
+
+ * Create a localStorage item for the extension with key `privateKey`. An easy way to do this is to open the console and run `localStorage.privateKey = "-----BEGIN RSA PRIVATE KEY-----\nkey\nwith\nliteral\nnewlines\n-----END RSA PRIVATE KEY-----"`
+ * Edit main.go and change the branch to false.
