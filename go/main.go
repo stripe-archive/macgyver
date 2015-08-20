@@ -1,12 +1,17 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gopherjs/gopherjs/js"
 	"golang.org/x/crypto/ssh/agent"
 )
 
 func main() {
-	mga := NewMacGyverAgent()
+	launch(NewPlatformKeysAgent())
+}
+
+func launch(mga agent.Agent) {
 	js.Global.Set("agent", js.MakeWrapper(mga))
 
 	js.Global.Get("chrome").
