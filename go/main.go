@@ -8,7 +8,16 @@ import (
 )
 
 func main() {
-	launch(NewPlatformKeysAgent())
+	if (true) { // Set to false for debugging localStorage backend
+		launch(NewPlatformKeysAgent())
+	} else {
+		a, err := NewChromeStorageAgent()
+		if err != nil {
+			log.Printf("Failed to create ChromeStorageAgent: %v", err)
+			return
+		}
+		launch(a)
+	}
 }
 
 func launch(mga agent.Agent) {
