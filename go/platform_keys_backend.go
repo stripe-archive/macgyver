@@ -1,10 +1,7 @@
 package main
 
 import (
-	"bytes"
-	"crypto/rand"
 	"crypto/x509"
-	"errors"
 	"log"
 
 	"github.com/gopherjs/gopherjs/js"
@@ -13,21 +10,18 @@ import (
 	"golang.org/x/crypto/ssh/agent"
 )
 
-var ErrUnsupported = errors.New("unsupported operation")
-var ErrNotFound = errors.New("not found")
-
-type PlatformKeysAgent struct {
+type PlatformKeysBackend struct {
 	pk *PlatformKeys
 }
 
-func NewPlatformKeysAgent() *PlatformKeysAgent {
+func NewPlatformKeysBackend() *PlatformKeysBackend {
 	pk := js.Global.Get("chrome").Get("platformKeys")
-	return &PlatformKeysAgent{
+	return &PlatformKeysBackend{
 		pk: &PlatformKeys{pk},
 	}
 }
 
-func (a *PlatformKeysAgent) List() ([]*agent.Key, error) {
+func (a *PlatformKeysBackend) List() ([]*agent.Key, error) {
 	certs, err := a.listCertificates()
 	if err != nil {
 		return nil, err
@@ -51,24 +45,7 @@ func (a *PlatformKeysAgent) List() ([]*agent.Key, error) {
 	return keys, nil
 }
 
-func (a *PlatformKeysAgent) Sign(key ssh.PublicKey, data []byte) (*ssh.Signature, error) {
-	wanted := key.Marshal()
-	signers, err := a.Signers()
-	if err != nil {
-		return nil, err
-	}
-
-	for _, signer := range signers {
-		if bytes.Equal(signer.PublicKey().Marshal(), wanted) {
-			log.Printf("Signing message: key=%s", ssh.MarshalAuthorizedKey(signer.PublicKey()))
-			return signer.Sign(rand.Reader, data)
-		}
-	}
-
-	return nil, ErrNotFound
-}
-
-func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
+func (a *PlatformKeysBackend) Signers() (signers []ssh.Signer, err error) {
 	certs, err := a.listCertificates()
 	if err != nil {
 		return nil, err
@@ -85,27 +62,7 @@ func (a *PlatformKeysAgent) Signers() (signers []ssh.Signer, err error) {
 	return
 }
 
-func (a *PlatformKeysAgent) Add(key agent.AddedKey) error {
-	return ErrUnsupported
-}
-
-func (a *PlatformKeysAgent) Remove(key ssh.PublicKey) error {
-	return ErrUnsupported
-}
-
-func (a *PlatformKeysAgent) RemoveAll() error {
-	return ErrUnsupported
-}
-
-func (a *PlatformKeysAgent) Lock(passphrase []byte) error {
-	return ErrUnsupported
-}
-
-func (a *PlatformKeysAgent) Unlock(passphrase []byte) error {
-	return ErrUnsupported
-}
-
-func (a *PlatformKeysAgent) listCertificates() ([]*x509.Certificate, error) {
+func (a *PlatformKeysBackend) listCertificates() ([]*x509.Certificate, error) {
 	req := js.M{
 		"request": js.M{
 			"certificateTypes":       []string{},
