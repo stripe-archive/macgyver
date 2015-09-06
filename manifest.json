@@ -1,7 +1,7 @@
 {
   "name": "Agent MacGyver",
   "version": "0.0.1",
-  "description": "Using nothing more than a Swiss Army knife and a ball of string, glues together an SSH agent using the platformKey API",
+  "description": "Duct tapes together an SSH agent to the chrome.platformKey API",
   "manifest_version": 2,
   "background": {
     "scripts": [
