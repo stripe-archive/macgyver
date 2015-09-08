@@ -15,7 +15,7 @@ import (
 
 var ErrUnsupportedAlgorithm = errors.New("Public key is using an unknown algorithm")
 
-type wrappedSigner struct {
+type wrappedSSHSigner struct {
 	signer crypto.Signer
 	pubkey ssh.PublicKey
 }
@@ -26,17 +26,17 @@ func NewSSHSignerFromSigner(signer crypto.Signer) (ssh.Signer, error) {
 		return nil, err
 	}
 
-	return &wrappedSigner{
+	return &wrappedSSHSigner{
 		signer: signer,
 		pubkey: pubkey,
 	}, nil
 }
 
-func (s *wrappedSigner) PublicKey() ssh.PublicKey {
+func (s *wrappedSSHSigner) PublicKey() ssh.PublicKey {
 	return s.pubkey
 }
 
-func (s *wrappedSigner) Sign(rand io.Reader, data []byte) (*ssh.Signature, error) {
+func (s *wrappedSSHSigner) Sign(rand io.Reader, data []byte) (*ssh.Signature, error) {
 	// We need to hash the data first, and how we hash depends on
 	// the key (logic derived from
 	// https://github.com/golang/crypto/blob/master/ssh/keys.go)
