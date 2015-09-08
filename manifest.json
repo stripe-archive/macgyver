@@ -1,0 +1,26 @@
+{
+  "name": "SSH Agent MacGyver",
+  "version": "0.0.1",
+  "description": "Duct tapes together an SSH agent to the chrome.platformKey API",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "go/go.js"
+    ]
+  },
+  "options_ui": {
+    "page": "html/options.html",
+    "chrome_style": true
+  },
+  "permissions": [
+    "platformKeys"
+  ],
+  "externally_connectable": {
+    "ids": [
+      // Secure Shell
+      "pnhechapfaindjhompbnflcldabbghjo",
+      // Secure Shell (dev)
+      "okddffdblfhhnmhodogpojmfkjmhinfp"
+    ]
+  }
+}
