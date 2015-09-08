@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/gopherjs/gopherjs/js"
-	minissh "github.com/stripe/minitrue/ssh"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
 )
@@ -52,7 +51,7 @@ func (a *PlatformKeysBackend) Signers() (signers []ssh.Signer, err error) {
 	}
 
 	for _, cert := range certs {
-		signer, err := minissh.NewSignerFromSigner(NewPKSigner(a.pk, cert))
+		signer, err := NewSSHSignerFromSigner(NewPKSigner(a.pk, cert))
 		if err != nil {
 			return nil, err
 		}
