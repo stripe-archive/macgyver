@@ -46,7 +46,7 @@ func launch(mga *Agent) {
 			Get("onConnectExternal").
 			Call("addListener", func(port *js.Object) {
 			p := NewAgentPort(port)
-			go func() { agent.ServeAgent(mga, p) }()
+			agent.ServeAgent(mga, p)
 		})
 	} else if isOptionsPage() {
 		js.Global.Get("document").
