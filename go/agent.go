@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"errors"
 	"log"
+	"strings"
 
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
@@ -27,6 +28,25 @@ type Agent struct {
 
 func NewAgent(backend Backend) *Agent {
 	return &Agent{backend}
+}
+
+// PubKeys exports the list of public keys in authorized_keys format.
+//
+// Expected to be used directly from javascript, so panic (i.e. throw)
+// rather than returning an error object.
+func (a *Agent) PubKeys() string {
+	signers, err := a.Signers()
+	if err != nil {
+		panic(err)
+	}
+
+	var keys []byte
+	for _, signer := range signers {
+		keys = append(keys, ssh.MarshalAuthorizedKey(signer.PublicKey())...)
+		keys = append(keys, '\n')
+	}
+
+	return strings.TrimSpace(string(keys))
 }
 
 func (a *Agent) List() ([]*agent.Key, error) {

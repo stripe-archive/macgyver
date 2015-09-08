@@ -8,6 +8,10 @@
       "go/go.js"
     ]
   },
+  "options_ui": {
+    "page": "html/options.html",
+    "chrome_style": true
+  },
   "permissions": [
     "platformKeys"
   ],

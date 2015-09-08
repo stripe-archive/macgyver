@@ -9,7 +9,7 @@ import (
 
 func main() {
 	var backend Backend
-	if (false) { // Set to false for debugging localStorage backend
+	if false { // Set to false for debugging localStorage backend
 		backend = NewPlatformKeysBackend()
 	} else {
 		var err error
@@ -22,14 +22,46 @@ func main() {
 	launch(NewAgent(backend))
 }
 
-func launch(mga agent.Agent) {
+func isBackgroundPage() bool {
+	bg := js.Global.Get("chrome").
+		Get("extension").
+		Call("getBackgroundPage")
+	return js.Global == bg
+}
+
+func isOptionsPage() bool {
+	path := js.Global.Get("location").
+		Get("pathname").
+		String()
+	return path == "/html/options.html"
+}
+
+func launch(mga *Agent) {
 	js.Global.Set("agent", js.MakeWrapper(mga))
 
-	js.Global.Get("chrome").
-		Get("runtime").
-		Get("onConnectExternal").
-		Call("addListener", func(port *js.Object) {
-		p := NewAgentPort(port)
-		go func() { agent.ServeAgent(mga, p) }()
-	})
+	if isBackgroundPage() {
+		log.Printf("Starting agent")
+		js.Global.Get("chrome").
+			Get("runtime").
+			Get("onConnectExternal").
+			Call("addListener", func(port *js.Object) {
+			p := NewAgentPort(port)
+			go func() { agent.ServeAgent(mga, p) }()
+		})
+	} else if isOptionsPage() {
+		js.Global.Get("document").
+			Call("addEventListener", "DOMContentLoaded", func() {
+			go func() {
+				textarea := js.Global.Get("document").
+					Call("getElementById", "keys")
+				textarea.Set("textContent", mga.PubKeys())
+				textarea.Get("style").Set("height",
+					textarea.Get("scrollHeight").String()+"px")
+				textarea.Call("addEventListener", "click", func() {
+					textarea.Call("focus")
+					textarea.Call("select")
+				})
+			}()
+		})
+	}
 }
