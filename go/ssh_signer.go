@@ -1,5 +1,9 @@
 package main
 
+// We can drop this entirely once
+// https://go-review.googlesource.com/#/c/10953/ is merged into
+// x/crypto.
+
 import (
 	"crypto"
 	"crypto/dsa"
