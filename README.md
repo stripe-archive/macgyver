@@ -7,6 +7,24 @@ duct tapes an SSH agent to the the new [chrome.platformKeys][] API
 (which provides access to X.509 certificates stored in a Chromebook's
 TPM), exposing it to the Chrome [Secure Shell][] extension.
 
+## Background
+
+For some time, Chrome OS has included the ability to store X.509
+certificates in its [TPM][]. This allows certificates to be stored in
+such a way that the private keys can not be extracted. Chrome 45 added
+the new [chrome.platformKeys][] extension API, which allows extensions
+to use those certificates (subject to some permissions constraints)
+for signing data.
+
+Separately, the [Secure Shell][] extension for Chrome (which is an
+OpenSSH compiled for [NaCl][]) [supports][chromium-hterm ssh-agent]
+using an external extension as a stand-in for an SSH agent.
+
+MacGyver duct tapes these two developments together, allowing the
+[Secure Shell][] extension to utilize TPM-stored certificates (or,
+really, the public key in the certificates) and private keys via the
+SSH agent protocol and the [chrome.platformKeys][] API.
+
 ## Usage
 
 After installing, you can pass `--ssh-agent=extensionid` in the "relay
@@ -119,20 +137,22 @@ backend for keys that you can use instead of Chrome PlatformKeys.
 * Evan Broder
 * Dan Benamy
 
-[Secure Shell]: https://chrome.google.com/webstore/detail/secure-shell/pnhechapfaindjhompbnflcldabbghjo?hl=en
-[chrome.platformKeys]: https://developer.chrome.com/extensions/platformKeys
-[Go]: http://golang.org/
-[Gopherjs]: http://www.gopherjs.org/
-[x/crypto]: https://godoc.org/golang.org/x/crypto
-[chrome.enterprise.platformKeys]: https://developer.chrome.com/extensions/enterprise_platformKeys
-[KeyPermissions]: https://www.chromium.org/administrators/policy-list-3#KeyPermissions
 [Chromebook developer mode]: https://www.chromium.org/chromium-os/developer-information-for-chrome-os-devices
 [Chromebook rootfs]: https://www.chromium.org/chromium-os/poking-around-your-chrome-os-device#TOC-Making-changes-to-the-filesystem
+[Cross-extension messaging]: https://developer.chrome.com/extensions/messaging#external
+[Go]: http://golang.org/
+[Gopherjs]: http://www.gopherjs.org/
+[KeyPermissions]: https://www.chromium.org/administrators/policy-list-3#KeyPermissions
 [Linux policy file]: https://www.chromium.org/administrators/linux-quick-start
+[NaCl]: https://en.wikipedia.org/wiki/Google_Native_Client
+[Secure Shell]: https://chrome.google.com/webstore/detail/secure-shell/pnhechapfaindjhompbnflcldabbghjo?hl=en
+[TPM]: https://en.wikipedia.org/wiki/Trusted_Platform_Module
+[chrome.enterprise.platformKeys]: https://developer.chrome.com/extensions/enterprise_platformKeys
+[chrome.platformKeys]: https://developer.chrome.com/extensions/platformKeys
+[chrome.runtime.connect]: https://developer.chrome.com/extensions/runtime#method-connect
 [chromium-hterm ssh-agent]: https://groups.google.com/a/chromium.org/d/msg/chromium-hterm/iq-AuvRJsYw/QVJdCw2wSM0J
+[io.ReadWriter]: https://godoc.org/io#ReadWriter
 [nassh agent]: https://github.com/libapps/libapps-mirror/blob/master/nassh/js/nassh_stream_sshagent_relay.js
 [ssh-agent]: http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/PROTOCOL.agent?rev=HEAD
-[Cross-extension messaging]: https://developer.chrome.com/extensions/messaging#external
-[chrome.runtime.connect]: https://developer.chrome.com/extensions/runtime#method-connect
 [x/crypto/ssh/agent.ServeAgent]: https://godoc.org/golang.org/x/crypto/ssh/agent#ServeAgent
-[io.ReadWriter]: https://godoc.org/io#ReadWriter
+[x/crypto]: https://godoc.org/golang.org/x/crypto
