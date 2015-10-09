@@ -51,7 +51,7 @@ func (a *PlatformKeysBackend) Signers() (signers []ssh.Signer, err error) {
 	}
 
 	for _, cert := range certs {
-		signer, err := NewSSHSignerFromSigner(NewPKSigner(a.pk, cert))
+		signer, err := ssh.NewSignerFromSigner(NewPKSigner(a.pk, cert))
 		if err != nil {
 			return nil, err
 		}
