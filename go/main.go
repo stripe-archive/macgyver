@@ -49,23 +49,23 @@ func launch(mga *Agent) {
 			Get("runtime").
 			Get("onConnectExternal").
 			Call("addListener", func(port *js.Object) {
-			p := NewAgentPort(port)
-			go agent.ServeAgent(mga, p)
-		})
+				p := NewAgentPort(port)
+				go agent.ServeAgent(mga, p)
+			})
 	} else if isOptionsPage() {
 		js.Global.Get("document").
 			Call("addEventListener", "DOMContentLoaded", func() {
-			go func() {
-				textarea := js.Global.Get("document").
-					Call("getElementById", "keys")
-				textarea.Set("textContent", mga.PubKeys())
-				textarea.Get("style").Set("height",
-					textarea.Get("scrollHeight").String()+"px")
-				textarea.Call("addEventListener", "click", func() {
-					textarea.Call("focus")
-					textarea.Call("select")
-				})
-			}()
-		})
+				go func() {
+					textarea := js.Global.Get("document").
+						Call("getElementById", "keys")
+					textarea.Set("textContent", mga.PubKeys())
+					textarea.Get("style").Set("height",
+						textarea.Get("scrollHeight").String()+"px")
+					textarea.Call("addEventListener", "click", func() {
+						textarea.Call("focus")
+						textarea.Call("select")
+					})
+				}()
+			})
 	}
 }
