@@ -74,7 +74,9 @@ file should look something like this:
 ```json
 {
   "KeyPermissions": {
-    "monnheglpedplnifignjahmadpadlmgj": "allowCorporateKeyUsage"
+    "monnheglpedplnifignjahmadpadlmgj": {
+      "allowCorporateKeyUsage": true
+    }
   }
 }
 ```
