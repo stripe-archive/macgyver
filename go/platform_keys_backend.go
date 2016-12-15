@@ -67,7 +67,7 @@ func (a *PlatformKeysBackend) listCertificates() ([]*x509.Certificate, error) {
 			"certificateTypes":       []string{},
 			"certificateAuthorities": js.S{},
 		},
-		"interactive": false,
+		"interactive": true,
 	}
 
 	matches, err := a.pk.SelectClientCertificates(req)
