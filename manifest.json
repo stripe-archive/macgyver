@@ -1,6 +1,6 @@
 {
   "name": "SSH Agent MacGyver",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Duct tapes together an SSH agent to the chrome.platformKey API",
   "manifest_version": 2,
   "background": {
