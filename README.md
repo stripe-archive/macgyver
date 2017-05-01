@@ -1,6 +1,6 @@
 # MacGyver
 
-![Agent MacGyver](http://i.imgur.com/iwNSsNR.png ""If I had some duct tape, I could fix that"")
+![Agent MacGyver](http://i.imgur.com/iwNSsNR.png "&quot;If I had some duct tape, I could fix that&quot;")
 
 MacGyver is a Chrome extension for enterprise-managed Chromebooks. It
 duct tapes an SSH agent to the new [chrome.platformKeys][] API
